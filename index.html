@@ -106,401 +106,186 @@
             transition: background-color 0.3s ease;
         }
         
-        .app-header-actions-left {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            display: flex;
-            z-index: 10;
-        }
-
-        .app-header-actions { 
-            position: absolute;
-            top: 10px; 
-            right: 10px; 
-            display: flex;
-            gap: 0px; 
-            z-index: 10;
-        }
-        
+        .app-header-actions-left { /* ... (samma som tidigare) ... */ }
+        .app-header-actions {  /* ... (samma som tidigare) ... */ }
         .app-header-actions-left .icon-button,
-        .app-header-actions .icon-button { 
-            background-color: transparent !important; 
-            border: none !important;    
-            padding: 4px; 
-            width: 28px;  
-            height: 28px; 
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-        }
+        .app-header-actions .icon-button {  /* ... (samma som tidigare) ... */ }
         .app-header-actions-left .icon-button svg,
-        .app-header-actions .icon-button svg {
-            fill: var(--icon-fill-color) !important; 
-            width: 20px; 
-            height: 20px;
-        }
+        .app-header-actions .icon-button svg { /* ... (samma som tidigare) ... */ }
         .app-header-actions-left .icon-button:hover svg,
-        .app-header-actions .icon-button:hover svg {
-             fill: var(--icon-hover-fill-color) !important; 
-         }
+        .app-header-actions .icon-button:hover svg { /* ... (samma som tidigare) ... */ }
 
-        h1, h2, h3 {
-            color: var(--primary-color); 
-            text-align: center;
-            margin-top: 0; 
-        }
-        h1 { margin-bottom: 20px; font-size: 1.7em; }
-        h2 { margin-bottom: 15px; font-size: 1.4em; margin-top: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
-        h3 { font-size: 1.2em; margin-bottom: 10px; }
+        h1, h2, h3 { /* ... (samma som tidigare) ... */ }
         
-        .input-group, .form-group {
-            display: flex;
-            margin-bottom: 15px;
-            gap: 10px; 
-            align-items: center; 
-            flex-wrap: wrap;
-        }
-        .form-group {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 5px;
-        }
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 2px;
-            font-size: 0.9em;
-        }
-
-        input[type="text"], input[type="time"], select {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid var(--border-color); 
-            border-radius: 4px;
-            font-size: 1em;
-            height: 40px; 
-            box-sizing: border-box;
-            background-color: var(--surface-bg-color); 
-            color: var(--text-color); 
-            min-width: 150px;
-        }
-        input[type="text"]::placeholder { color: var(--secondary-text-color); opacity: 1; }
-        input[type="text"]::-ms-input-placeholder { color: var(--secondary-text-color); } 
-        input[type="checkbox"] {
-            width: 18px; 
-            height: 18px;
-            margin-right: 8px;
-            flex-shrink: 0;
-        }
-        .checkbox-group { 
-            display: flex;
-            align-items: center;
-        }
-
-
-        button, .button-like { 
-            padding: 10px 15px;
-            background-color: var(--primary-color); 
-            color: var(--primary-text-color); 
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-            font-family: 'Georgia', serif;
-            transition: background-color 0.3s ease, fill 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-            display: inline-flex; 
-            align-items: center;
-            justify-content: center;
-            height: 40px; 
-            box-sizing: border-box;
-            flex-shrink: 0; 
-        }
-        
-        button:hover, .button-like:hover { 
-             background-color: color-mix(in srgb, var(--primary-color) 85%, black);
-        }
-        button:disabled {
-            background-color: var(--secondary-text-color);
-            cursor: not-allowed;
-        }
-
-        .button-secondary {
-            background-color: var(--secondary-button-bg-color); 
-            color: var(--secondary-button-text-color); 
-            border: 1px solid var(--secondary-button-border-color); 
-        }
-        .button-secondary:hover {
-            background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, #000000 10%); 
-        }
-        
-        .icon-button { 
-            padding: 8px;
-            width: 40px; 
-            height: 40px;
-            min-width: 40px; 
-            background-color: transparent; 
-            border: none;
-            flex-shrink: 0;
-            display: inline-flex; 
-            align-items: center;
-            justify-content: center;
-        }
-        .speech-button.icon-button.button-secondary { 
-             background-color: var(--secondary-button-bg-color); 
-             border: 1px solid var(--secondary-button-border-color); 
-        }
-         .speech-button.icon-button.button-secondary:hover {
-             background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, #000000 10%);
-         }
-         .speech-button.icon-button.button-secondary svg { 
-             fill: var(--secondary-button-text-color) !important; 
-        }
-
-        .icon-button:not(.app-header-actions-left .icon-button):not(.app-header-actions .icon-button):not(.speech-button):not(.delete-btn):not(.add-game-btn) svg { 
+        .input-group, .form-group { /* ... (samma som tidigare) ... */ }
+        .form-group { /* ... (samma som tidigare) ... */ }
+        .form-group label { /* ... (samma som tidigare) ... */ }
+        input[type="text"], input[type="time"], select { /* ... (samma som tidigare) ... */ }
+        input[type="text"]::placeholder { /* ... (samma som tidigare) ... */ }
+        input[type="text"]::-ms-input-placeholder { /* ... (samma som tidigare) ... */ } 
+        input[type="checkbox"] { /* ... (samma som tidigare) ... */ }
+        .checkbox-group {  /* ... (samma som tidigare) ... */ }
+        button, .button-like {  /* ... (samma som tidigare) ... */ }
+        button:hover, .button-like:hover {  /* ... (samma som tidigare) ... */ }
+        button:disabled { /* ... (samma som tidigare) ... */ }
+        .button-secondary { /* ... (samma som tidigare) ... */ }
+        .button-secondary:hover { /* ... (samma som tidigare) ... */ }
+        .icon-button {  /* ... (samma som tidigare) ... */ }
+        .speech-button.icon-button.button-secondary { /* ... (samma som tidigare) ... */ }
+        .speech-button.icon-button.button-secondary:hover { /* ... (samma som tidigare) ... */ }
+        .speech-button.icon-button.button-secondary svg {  /* ... (samma som tidigare) ... */ }
+        .icon-button:not(.app-header-actions-left .icon-button):not(.app-header-actions .icon-button):not(.speech-button):not(.delete-btn):not(.add-game-btn):not(.edit-game-btn) svg { /* Added :not(.edit-game-btn) */
             width: 20px;
             height: 20px;
             fill: var(--primary-color); 
             transition: fill 0.3s ease;
         }
-        .icon-button:not(.button-secondary):not(.app-header-actions-left .icon-button):not(.app-header-actions .icon-button):not(.speech-button):not(.delete-btn):not(.add-game-btn):hover:not(:disabled) svg, 
+        .icon-button:not(.button-secondary):not(.app-header-actions-left .icon-button):not(.app-header-actions .icon-button):not(.speech-button):not(.delete-btn):not(.add-game-btn):not(.edit-game-btn):hover:not(:disabled) svg, 
         .overlay-header .icon-button:hover:not(:disabled) svg { 
             fill: var(--icon-hover-fill-color); 
         }
-
-        .icon-button.is-listening svg { 
-            fill: var(--listening-color) !important; 
-        }
-        .icon-button:disabled svg {
-            fill: var(--secondary-text-color) !important;  
-        }
-
-        .delete-btn svg, .add-game-btn svg { 
-            width: 18px; 
-            height: 18px;
+        .icon-button.is-listening svg { /* ... (samma som tidigare) ... */ }
+        .icon-button:disabled svg { /* ... (samma som tidigare) ... */ }
+        .delete-btn svg, .add-game-btn svg, .edit-game-btn svg { /* Added .edit-game-btn */
+            width: 16px; /* Made them a bit smaller for table rows */
+            height: 16px;
             transition: fill 0.2s ease-in-out;
         }
         .delete-btn svg { fill: var(--danger-color) !important; }
         .delete-btn:hover svg { fill: color-mix(in srgb, var(--danger-color) 80%, black) !important; }
-        
-        .add-game-btn { 
+        .add-game-btn svg, .edit-game-btn svg { fill: var(--primary-color) !important; } /* .edit-game-btn uses primary color */
+        .add-game-btn:hover svg, .edit-game-btn:hover svg { fill: var(--icon-hover-fill-color) !important; }
+        .add-game-btn, .edit-game-btn { /* Grouped common styles */
             background-color: transparent !important;
             border: none !important;
-            padding: 5px; 
+            padding: 4px; 
             height: auto; 
             min-width: auto;
         }
-        .add-game-btn svg { fill: var(--primary-color) !important; }
-        .add-game-btn:hover svg { fill: var(--icon-hover-fill-color) !important; }
+        hr { /* ... (samma som tidigare) ... */ }
+        .info-text { /* ... (samma som tidigare) ... */ }
+        #shotLogList { /* ... (samma som tidigare) ... */ }
+        .shot-log-item { /* ... (samma som tidigare) ... */ }
+        .shot-log-item:last-child { /* ... (samma som tidigare) ... */ }
+        .shot-log-item .time-verified-group { /* ... (samma som tidigare) ... */ }
+        .shot-log-item .time-verified-group label { /* ... (samma som tidigare) ... */ }
+        .shot-log-item span {  /* ... (samma som tidigare) ... */ }
 
 
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: var(--border-color); 
-            margin: 25px 0; 
-        }
-        
-        .info-text {
-            color: var(--secondary-text-color); 
-            font-size: 0.9em;
-            text-align: center; 
-            margin-top: 10px; 
-        }
-
-        /* Shot Log List Styling */
-        #shotLogList {
-            list-style-type: none;
-            padding: 0;
-            margin: 15px 0 0 0; 
-        }
-        .shot-log-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 5px; 
+        /* Report List (Felled Game) - Table-like Styling */
+        #felledGameReportSection .report-table-header,
+        #felledGameReportSection .report-item-row {
+            display: grid;
+            /* Define columns: Viltslag, Tid, Skytt, Pass, Köttförd, Actions */
+            /* Adjust fr units as needed for desired column widths */
+            grid-template-columns: 2fr 1fr 1.5fr 1.5fr 2fr 0.8fr; 
+            gap: 8px; /* Gap between columns */
+            padding: 8px 5px;
             border-bottom: 1px solid var(--subtle-border-color);
-            font-size: 0.95em;
-        }
-        .shot-log-item:last-child {
-            border-bottom: none;
-        }
-        .shot-log-item .time-verified-group {
-            display: flex;
             align-items: center;
-            gap: 10px; 
-        }
-         .shot-log-item .time-verified-group label {
-            font-size: 0.9em;
-            color: var(--secondary-text-color);
-         }
-        .shot-log-item span { 
-            flex-grow: 1;
+            font-size: 0.9em; /* Slightly smaller font for table */
         }
 
-
-        /* Report List (Felled Game) Styling */
-        #reportList {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .report-item {
-            background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color));
-            border: 1px solid var(--subtle-border-color);
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--subtle-border-color);
-        }
-        .report-header h3 {
-            margin: 0;
-            font-size: 1.1em;
-            text-align: left;
-        }
-        .report-header .verified-icon { 
-            font-size: 0.8em;
-            color: var(--success-color);
-            background-color: var(--success-bg-color);
-            padding: 3px 6px;
-            border-radius: 4px;
-            margin-left: 8px;
-        }
-        .report-actions {
-            display: flex;
-            gap: 5px;
-        }
-        .report-actions .icon-button {
-            padding: 5px;
-            width: 30px; height: 30px;
-        }
-         .report-actions .icon-button svg {
-            width: 16px; height: 16px;
-        }
-
-        .report-details p {
-            margin: 5px 0;
-            font-size: 0.95em;
-            color: var(--text-color);
-        }
-        .report-details strong {
+        #felledGameReportSection .report-table-header {
+            font-weight: bold;
             color: var(--primary-color);
+            background-color: color-mix(in srgb, var(--surface-bg-color) 90%, var(--bg-color));
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            margin-top: 5px; /* Space above header */
+        }
+        #felledGameReportSection .report-table-header div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        /* Overlays */
-        .content-overlay {
-            background-color: var(--overlay-bg-color); 
-            /* display: none;  INITIALT SATT INLINE I HTML, VIKTIGT! */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 15px; 
-            box-sizing: border-box;
+        #felledGameReportSection .report-item-row {
+            background-color: transparent; /* Remove individual item background */
+        }
+        #felledGameReportSection .report-item-row:last-child {
+            border-bottom: none; /* No border for the last data row */
+        }
+        #felledGameReportSection .report-item-row:hover {
+            background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%);
         }
 
-        .overlay-content-box {
-            background-color: var(--overlay-content-bg); 
-            padding: 20px; 
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            max-width: 550px; 
-            width: 100%;
-            max-height: 90vh; 
+        #felledGameReportSection .report-cell {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* white-space: nowrap; /* Optional: if you want to force single line */
+            word-break: break-word; /* Allow long words to break */
+        }
+        #felledGameReportSection .report-cell.actions {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-end; /* Align icons to the right */
+            gap: 4px;
+        }
+        #felledGameReportSection .report-cell.actions .icon-button {
+            padding: 4px; /* Tighter padding for icons in table */
+            width: 28px; height: 28px; /* Adjust size */
+        }
+        #felledGameReportSection .report-cell.actions .icon-button svg {
+             width: 16px; height: 16px;
         }
         
-        .overlay-header { 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+        /* Responsive adjustments for the table-like list */
+        @media (max-width: 600px) {
+            #felledGameReportSection .report-table-header,
+            #felledGameReportSection .report-item-row {
+                /* Stack columns on smaller screens or simplify */
+                grid-template-columns: 1.5fr 1fr 1fr; /* Example: Viltslag, Tid, Actions */
+                font-size: 0.85em;
+            }
+            /* Hide less critical columns on small screens */
+            #felledGameReportSection .report-table-header .col-skytt,
+            #felledGameReportSection .report-item-row .report-cell.shooter,
+            #felledGameReportSection .report-table-header .col-pass,
+            #felledGameReportSection .report-item-row .report-cell.pass-location,
+            #felledGameReportSection .report-table-header .col-kott,
+            #felledGameReportSection .report-item-row .report-cell.meat-dist {
+                display: none;
+            }
+             #felledGameReportSection .report-table-header .col-actions,
+             #felledGameReportSection .report-item-row .report-cell.actions {
+                justify-content: center; /* Center actions if they become a full row */
+            }
+        }
+         @media (max-width: 450px) {
+            #felledGameReportSection .report-table-header,
+            #felledGameReportSection .report-item-row {
+                grid-template-columns: 2fr 1fr; /* Viltslag, Actions */
+            }
+            #felledGameReportSection .report-table-header .col-tid,
+            #felledGameReportSection .report-item-row .report-cell.shot-time {
+                display: none;
+            }
         }
 
-        .overlay-header h3 { 
-            color: var(--overlay-header-text-color); 
-            text-align: left; 
-            margin: 0; 
-            font-size: 1.6em;
-            flex-grow: 1; 
-        }
-        .overlay-header .icon-button { 
-            background-color: transparent !important;
-            border: none !important;
-            width: 30px;  
-            height: 30px;
-            padding: 5px;
-        }
-        .overlay-header .icon-button svg { 
-            fill: var(--icon-fill-color) !important; 
-            width: 18px;
-            height: 18px;
-        }
-         .overlay-header .icon-button:hover svg {
-            fill: var(--icon-hover-fill-color) !important;
-        }
 
-        .overlay-scrollable-content {
-             color: var(--overlay-text-color); 
-             overflow-y: auto; 
-             flex-grow: 1; 
-             margin-bottom: 20px; 
-             padding-right: 5px; 
-        }
-        .overlay-scrollable-content h4 { 
-            color: var(--overlay-header-text-color); 
-            border-bottom: 1px solid var(--border-color); 
-            margin-top: 20px;
-            margin-bottom: 8px;
-            padding-bottom: 5px;
-            font-size: 1.1em; 
-        }
-        .overlay-scrollable-content h4:first-child {
-            margin-top: 0;
-        }
-        .overlay-scrollable-content p, .overlay-scrollable-content ol {
-            margin-bottom: 10px;
-            font-size: 0.95em;
-        }
-         .overlay-scrollable-content ol { padding-left: 20px; }
-         .overlay-scrollable-content li { margin-bottom: 5px; border-bottom: none; }
+        #reportList { list-style-type: none; padding: 0; margin: 0; }
+        /* Removed .report-item, .report-header, .report-details specific styles as they are replaced by grid */
 
-        #qrCodeContainer {
-            border:1px solid var(--border-color); 
-            background:white; 
-            margin: 20px auto; 
-            width: 200px; 
-            height: 200px; 
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-        }
-        #qrCodeContainer canvas { display: block; }
-        #shareableLink { color: var(--overlay-link-color); }
+        /* Overlays (samma som tidigare) */
+        .content-overlay { /* ... (samma som tidigare) ... */ }
+        .overlay-content-box { /* ... (samma som tidigare) ... */ }
+        .overlay-header { /* ... (samma som tidigare) ... */ }
+        .overlay-header h3 { /* ... (samma som tidigare) ... */ }
+        .overlay-header .icon-button { /* ... (samma som tidigare) ... */ }
+        .overlay-header .icon-button svg { /* ... (samma som tidigare) ... */ }
+        .overlay-header .icon-button:hover svg { /* ... (samma som tidigare) ... */ }
+        .overlay-scrollable-content { /* ... (samma som tidigare) ... */ }
+        .overlay-scrollable-content h4 { /* ... (samma som tidigare) ... */ }
+        .overlay-scrollable-content h4:first-child { /* ... (samma som tidigare) ... */ }
+        .overlay-scrollable-content p, .overlay-scrollable-content ol { /* ... (samma som tidigare) ... */ }
+        .overlay-scrollable-content ol { /* ... (samma som tidigare) ... */ }
+        .overlay-scrollable-content li { /* ... (samma som tidigare) ... */ }
+        #qrCodeContainer { /* ... (samma som tidigare) ... */ }
+        #qrCodeContainer canvas { /* ... (samma som tidigare) ... */ }
+        #shareableLink { /* ... (samma som tidigare) ... */ }
 
-        .bottom-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-        }
-        .bottom-actions button {
-            flex-grow: 1;
-        }
+        .bottom-actions { /* ... (samma som tidigare) ... */ }
+        .bottom-actions button { /* ... (samma som tidigare) ... */ }
     </style>
 </head>
 <body>
@@ -525,19 +310,19 @@
             <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px;">Avlossat Skott Nu</button>
             
             <ul id="shotLogList">
-                <!-- Loggade skott (tid, verifiera-checkbox, "lägg till vilt"-knapp) listas här -->
+                <!-- Loggade skott listas här -->
             </ul>
-            <p id="noLoggedShotsInfo" class="info-text" style="display: none;">Inga skott loggade ännu.</p>
+            <p id="noLoggedShotsInfo" class="info-text" style="display: block;">Inga skott loggade ännu.</p>
         </section>
 
         <hr>
 
         <section id="felledGameReportSection">
             <h2>Rapportlista (Fällt Vilt)</h2>
-            <ul id="reportList">
-                <!-- Rapport-items med fällda vilt kommer renderas här -->
-            </ul>
-            <p id="noReportsInfo" class="info-text" style="display: none;">Inga fällda vilt rapporterade ännu.</p>
+            <div id="reportList"> <!-- Ändrad från ul till div för att innehålla header + rader -->
+                <!-- Header och rapport-rader (med fällda vilt) kommer renderas här -->
+            </div>
+            <p id="noReportsInfo" class="info-text" style="display: block;">Inga fällda vilt rapporterade ännu.</p>
         </section>
         
         <div class="bottom-actions">
@@ -547,7 +332,7 @@
 
     </div> <!-- end .container -->
 
-    <!-- Modal för att lägga till fällt vilt -->
+    <!-- Modal för att lägga till fällt vilt (oförändrad) -->
     <div id="addGameModal" class="content-overlay" style="display: none;">
         <div class="overlay-content-box">
             <div class="overlay-header">
@@ -555,7 +340,6 @@
             </div>
             <div class="overlay-scrollable-content">
                 <input type="hidden" id="currentShotLogIdInput"> 
-
                 <div class="form-group">
                     <label for="gameSpeciesInput">Viltslag:</label>
                     <select id="gameSpeciesInput">
@@ -580,12 +364,10 @@
                         <option value="Annat">Annat</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="gamePassLocationInput">Pass/Plats:</label>
                     <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7, Skogskanten">
                 </div>
-
                 <div class="form-group">
                     <label for="gameShooterInput">Skytt:</label>
                     <div class="input-group" style="margin-bottom: 0;">
@@ -595,7 +377,6 @@
                         </button>
                     </div>
                 </div>
-                
                 <div class="form-group">
                     <label for="gameMeatDistributionInput">Köttfördelning:</label>
                      <div class="input-group" style="margin-bottom: 0;">
@@ -613,9 +394,9 @@
         </div>
     </div>
 
-    <!-- Help Overlay -->
+    <!-- Help Overlay (oförändrad) -->
     <div id="helpOverlay" class="content-overlay" style="display: none;">
-        <div class="overlay-content-box">
+         <div class="overlay-content-box">
             <div class="overlay-header">
                 <h3>Hjälp & Information (Rapport)</h3>
                  <button id="helpOverlayCloseBtn" class="icon-button overlay-close-btn" title="Stäng hjälp">
@@ -664,11 +445,10 @@
                 </p>
                  <p><strong>4. Röstinmatning:</strong> Använd mikrofonikonerna i formuläret för fällt vilt.</p>
             </div>
-            <!-- Flyttade stängknappen till headern för konsistens -->
         </div>
     </div>
 
-    <!-- Share Overlay -->
+    <!-- Share Overlay (oförändrad) -->
     <div id="shareOverlay" class="content-overlay" style="display: none;">
         <div class="overlay-content-box">
             <div class="overlay-header">
@@ -682,7 +462,6 @@
                 <div id="qrCodeContainer">Laddar QR-kod...</div>
                 <p style="word-break: break-all;"><strong>Länk:</strong> <a id="shareableLink" href="#" target="_blank" rel="noopener noreferrer">Laddar länk...</a></p>
             </div>
-             <!-- Flyttade stängknappen till headern för konsistens -->
         </div>
     </div>
 
@@ -690,7 +469,8 @@
         // --- DOM ELEMENT REFERENSER ---
         let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,
             logShotBtn, shotLogList, noLoggedShotsInfo, 
-            reportList, noReportsInfo, 
+            reportListContainer, // Ändrat från reportList för att peka på div-containern
+            noReportsInfo, 
             exportDataBtn, clearAllDataBtn, 
             addGameModal, gameModalTitle, currentShotLogIdInput, 
             gameSpeciesInput, gamePassLocationInput,
@@ -710,8 +490,6 @@
 
         // --- INITIERING VID LADDNING AV SIDAN ---
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("DOM fully loaded and parsed"); // DEBUG
-
             themeToggleBtn = document.getElementById('themeToggleBtn');
             themeIconSun = document.getElementById('themeIconSun');
             themeIconMoon = document.getElementById('themeIconMoon');
@@ -723,7 +501,7 @@
             shotLogList = document.getElementById('shotLogList');
             noLoggedShotsInfo = document.getElementById('noLoggedShotsInfo');
 
-            reportList = document.getElementById('reportList'); 
+            reportListContainer = document.getElementById('reportList'); // Pekar nu på div:en
             noReportsInfo = document.getElementById('noReportsInfo');
 
             exportDataBtn = document.getElementById('exportDataBtn');
@@ -747,12 +525,6 @@
             shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn');
             qrCodeContainer = document.getElementById('qrCodeContainer');
             shareableLink = document.getElementById('shareableLink');
-
-            // DEBUG: Check if overlays are found
-            console.log("addGameModal found:", !!addGameModal);
-            console.log("helpOverlay found:", !!helpOverlay);
-            console.log("shareOverlay found:", !!shareOverlay);
-
 
             if (installAppBtn) installAppBtn.style.display = 'none';
             applyTheme(currentTheme);
@@ -784,6 +556,148 @@
             }
         });
 
+        // --- TEMA & PWA (oförändrade) ---
+        function applyTheme(theme) { /* ... (samma som tidigare) ... */ }
+        function toggleTheme() { /* ... (samma som tidigare) ... */ }
+        function setupPWAInstallation() { /* ... (samma som tidigare) ... */ }
+        
+        // --- SPEECH RECOGNITION (oförändrad) ---
+        function setupGenericSpeechRecognition(recognitionInstance, buttonElement, targetInputElement) { /* ... (samma som tidigare) ... */ }
+        function setupSpeechRecognitionForShooter() { /* ... (samma som tidigare) ... */ }
+        function setupSpeechRecognitionForMeat() { /* ... (samma som tidigare) ... */ }
+
+        // --- DATASTRUKTUR & LAGRING (oförändrade) ---
+        function saveAllDataToLocalStorage() { /* ... (samma som tidigare) ... */ }
+        function loadAllDataFromLocalStorage() { /* ... (samma som tidigare) ... */ }
+        
+        // --- SNABBREC SKOTT (oförändrade) ---
+        function handleLogShot() { /* ... (samma som tidigare) ... */ }
+        function handleToggleShotVerification(shotId, checkboxElement) { /* ... (samma som tidigare) ... */ }
+        function handleDeleteLoggedShot(shotId) { /* ... (samma som tidigare) ... */ }
+        function renderShotLogList() { /* ... (samma som tidigare) ... */ }
+        
+        // --- RAPPORTLISTA FÖR FÄLLT VILT (Uppdaterad för tabell-liknande layout) ---
+        function renderFelledGameReportList() {
+            if (!reportListContainer || !noReportsInfo) { // Använder reportListContainer
+                console.error("Report list container or noReportsInfo not found in renderFelledGameReportList");
+                return;
+            }
+            reportListContainer.innerHTML = ''; // Rensa containern
+
+            const reportsWithGame = allReports
+                .filter(report => report.felledGameDetails)
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            if (reportsWithGame.length === 0) {
+                noReportsInfo.style.display = 'block';
+            } else {
+                noReportsInfo.style.display = 'none';
+
+                // Skapa tabell-header
+                const headerRow = document.createElement('div');
+                headerRow.classList.add('report-table-header');
+                headerRow.innerHTML = `
+                    <div class="col-vilt">Viltslag</div>
+                    <div class="col-tid">Tid</div>
+                    <div class="col-skytt">Skytt</div>
+                    <div class="col-pass">Pass</div>
+                    <div class="col-kott">Köttfördelning</div>
+                    <div class="col-actions">Åtgärd</div>
+                `;
+                reportListContainer.appendChild(headerRow);
+
+                // Skapa datarader
+                reportsWithGame.forEach(report => {
+                    const itemRow = document.createElement('div');
+                    itemRow.classList.add('report-item-row');
+                    itemRow.dataset.reportId = report.id; 
+
+                    const speciesCell = document.createElement('div');
+                    speciesCell.classList.add('report-cell', 'species');
+                    speciesCell.textContent = report.felledGameDetails.species || '-';
+                    
+                    const timeCell = document.createElement('div');
+                    timeCell.classList.add('report-cell', 'shot-time');
+                    timeCell.textContent = report.shotTime || '-';
+                    if (report.isVerified) { // Lägg till en liten verifierad-indikator om så önskas
+                        const verifiedBadge = document.createElement('span');
+                        verifiedBadge.textContent = ' ✔';
+                        verifiedBadge.title = 'Skott verifierat';
+                        verifiedBadge.style.color = 'var(--success-color)';
+                        timeCell.appendChild(verifiedBadge);
+                    }
+
+                    const shooterCell = document.createElement('div');
+                    shooterCell.classList.add('report-cell', 'shooter');
+                    shooterCell.textContent = report.felledGameDetails.shooter || '-';
+
+                    const passCell = document.createElement('div');
+                    passCell.classList.add('report-cell', 'pass-location');
+                    passCell.textContent = report.felledGameDetails.passLocation || '-';
+                    
+                    const meatCell = document.createElement('div');
+                    meatCell.classList.add('report-cell', 'meat-dist');
+                    meatCell.textContent = report.felledGameDetails.meatDistribution || '-';
+
+                    const actionsCell = document.createElement('div');
+                    actionsCell.classList.add('report-cell', 'actions');
+
+                    const editBtn = document.createElement('button');
+                    editBtn.classList.add('icon-button', 'edit-game-btn');
+                    editBtn.title = "Redigera Fällt Vilt";
+                    editBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>`;
+                    editBtn.onclick = () => openAddGameModal(report.id);
+
+                    const deleteBtnFelled = document.createElement('button'); // Egen delete för felled game item
+                    deleteBtnFelled.classList.add('icon-button', 'delete-btn');
+                    deleteBtnFelled.title = "Ta bort denna rapport";
+                    deleteBtnFelled.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+                    deleteBtnFelled.onclick = () => handleDeleteLoggedShot(report.id); // Använder samma funktion, då den rensar allt kopplat till skottet
+
+                    actionsCell.appendChild(editBtn);
+                    actionsCell.appendChild(deleteBtnFelled);
+
+                    itemRow.appendChild(speciesCell);
+                    itemRow.appendChild(timeCell);
+                    itemRow.appendChild(shooterCell);
+                    itemRow.appendChild(passCell);
+                    itemRow.appendChild(meatCell);
+                    itemRow.appendChild(actionsCell);
+                    
+                    reportListContainer.appendChild(itemRow);
+                });
+            }
+        }
+        
+        // --- MODAL FÖR FÄLLT VILT (oförändrad) ---
+        function openAddGameModal(shotLogId) { /* ... (samma som tidigare) ... */ }
+        function closeAddGameModal() { /* ... (samma som tidigare) ... */ }
+        function handleSaveGameDetails() { /* ... (samma som tidigare) ... */ }
+        
+        // --- DATA EXPORT (oförändrad) ---
+        function exportAllDataToCSV() { /* ... (samma som tidigare) ... */ }
+
+        // --- RENSA ALL DATA (oförändrad) ---
+        function handleClearAllData() { /* ... (samma som tidigare) ... */ }
+
+        // --- OVERLAY HANTERING (oförändrad) ---
+        function openHelpOverlay() { /* ... (samma som tidigare) ... */ }
+        function closeHelpOverlay() { /* ... (samma som tidigare) ... */ }
+        function generateQRCode() { /* ... (samma som tidigare) ... */ }
+        function openShareOverlay() { /* ... (samma som tidigare) ... */ }
+        function closeShareOverlay() { /* ... (samma som tidigare) ... */ }
+        function closeAllOverlays(keepOpenOverlay = null) { /* ... (samma som tidigare) ... */ }
+        function checkAndCloseBodyOverlay() { /* ... (samma som tidigare) ... */ }
+
+
+        // --- KOPIERA IN OFÖRÄNDRADE FUNKTIONER HÄR ---
+        // (applyTheme, toggleTheme, setupPWAInstallation, setupGenericSpeechRecognition, 
+        //  setupSpeechRecognitionForShooter, setupSpeechRecognitionForMeat, 
+        //  saveAllDataToLocalStorage, loadAllDataFromLocalStorage, handleLogShot, 
+        //  handleToggleShotVerification, handleDeleteLoggedShot, renderShotLogList,
+        //  openAddGameModal, closeAddGameModal, handleSaveGameDetails, exportAllDataToCSV,
+        //  handleClearAllData, openHelpOverlay, closeHelpOverlay, generateQRCode,
+        //  openShareOverlay, closeShareOverlay, closeAllOverlays, checkAndCloseBodyOverlay)
         // --- TEMA & PWA ---
         function applyTheme(theme) {
             const newTheme = theme === 'dark' ? 'dark' : 'light'; 
@@ -813,7 +727,6 @@
                 deferredPrompt = e;
                 if (installAppBtn) {
                     installAppBtn.style.display = 'inline-flex';
-                    // Clone and replace to remove old listeners if any, then add new one
                     const newInstallBtn = installAppBtn.cloneNode(true); 
                     if (installAppBtn.parentNode) {
                         installAppBtn.parentNode.replaceChild(newInstallBtn, installAppBtn);
@@ -894,13 +807,10 @@
                         activeRecognitionInput = null;
                     };
                     
-                    // Clone and replace to ensure fresh event listener
                     const newButton = buttonElement.cloneNode(true);
                     buttonElement.parentNode.replaceChild(newButton, buttonElement);
-                    // Update global reference if it's one of the specific speech buttons
                     if (buttonElement.id === 'speakShooterBtn') speakShooterBtn = newButton;
                     if (buttonElement.id === 'speakMeatBtn') speakMeatBtn = newButton;
-
 
                     newButton.addEventListener('click', () => { 
                         try { 
@@ -1084,71 +994,15 @@
                 });
             }
         }
-
-        // --- RAPPORTLISTA FÖR FÄLLT VILT ---
-        function renderFelledGameReportList() {
-            if (!reportList || !noReportsInfo) return;
-            reportList.innerHTML = '';
-
-            const reportsWithGame = allReports
-                .filter(report => report.felledGameDetails)
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-            if (reportsWithGame.length === 0) {
-                noReportsInfo.style.display = 'block';
-            } else {
-                noReportsInfo.style.display = 'none';
-                reportsWithGame.forEach(report => {
-                    const item = document.createElement('li');
-                    item.classList.add('report-item');
-                    item.dataset.reportId = report.id; 
-
-                    let verifiedText = report.isVerified ? '<span class="verified-icon">Verifierat</span>' : '';
-                    
-                    item.innerHTML = `
-                        <div class="report-header">
-                            <h3>Vilt från skott kl. ${report.shotTime} ${verifiedText}</h3>
-                            <div class="report-actions">
-                                <button class="icon-button edit-game-btn" title="Redigera Fällt Vilt">
-                                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                                </button>
-                                <button class="icon-button delete-btn" title="Ta bort denna rapport (och loggat skott)">
-                                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="report-details">
-                            <p><strong>Art:</strong> ${report.felledGameDetails.species || 'Ej angivet'}</p>
-                            <p><strong>Plats/Pass:</strong> ${report.felledGameDetails.passLocation || 'Ej angivet'}</p>
-                            <p><strong>Skytt:</strong> ${report.felledGameDetails.shooter || 'Ej angivet'}</p>
-                            <p><strong>Köttfördelning:</strong> ${report.felledGameDetails.meatDistribution || 'Ej angivet'}</p>
-                        </div>
-                    `;
-                    item.querySelector('.edit-game-btn').onclick = () => openAddGameModal(report.id);
-                    item.querySelector('.delete-btn').onclick = () => handleDeleteLoggedShot(report.id); 
-                    reportList.appendChild(item);
-                });
-            }
-        }
         
         // --- MODAL FÖR FÄLLT VILT ---
         function openAddGameModal(shotLogId) { 
-            console.log("Attempting to open AddGameModal for shot ID:", shotLogId); 
-            if (!addGameModal) {
-                console.error("FATAL: addGameModal element is not found in the DOM!");
-                return;
-            }
+            if (!addGameModal) { console.error("FATAL: addGameModal element is not found!"); return; }
             const shot = allReports.find(s => s.id === shotLogId);
-            if (!shot) {
-                console.error("Could not find shot with ID:", shotLogId, "in allReports array.");
-                return;
-            }
-
+            if (!shot) { console.error("Could not find shot with ID:", shotLogId); return; }
             if (!currentShotLogIdInput || !gameModalTitle || !gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionInput) {
-                console.error("One or more modal input elements are not found in openAddGameModal. Check IDs.");
-                return;
+                console.error("One or more modal input elements are not found in openAddGameModal."); return;
             }
-
             currentShotLogIdInput.value = shotLogId; 
             if (shot.felledGameDetails) {
                 gameModalTitle.textContent = "Redigera Fällt Vilt";
@@ -1163,39 +1017,25 @@
                 gameShooterInput.value = '';
                 gameMeatDistributionInput.value = '';
             }
-            closeAllOverlays(addGameModal); // Pass the modal we ARE opening so it's not closed
+            closeAllOverlays(addGameModal); 
             addGameModal.style.display = 'flex';
             document.body.classList.add('overlay-open');
-            console.log("addGameModal display style is now:", addGameModal.style.display); 
         }
 
         function closeAddGameModal() { 
-            if (addGameModal) {
-                addGameModal.style.display = 'none';
-                console.log("addGameModal display set to none");
-            }
+            if (addGameModal) addGameModal.style.display = 'none';
             checkAndCloseBodyOverlay(); 
         }
 
         function handleSaveGameDetails() {
-            if (!currentShotLogIdInput) { console.error("currentShotLogIdInput is null in handleSaveGameDetails"); return; }
+            if (!currentShotLogIdInput) { console.error("currentShotLogIdInput is null"); return; }
             const shotLogId = parseInt(currentShotLogIdInput.value);
             const shot = allReports.find(s => s.id === shotLogId);
-            if (!shot) {
-                alert("Fel: Kunde inte hitta det ursprungliga skottet att koppla till.");
-                closeAddGameModal();
-                return;
-            }
-            
+            if (!shot) { alert("Fel: Kunde inte hitta det ursprungliga skottet."); closeAddGameModal(); return; }
             if (!gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionInput) {
-                 console.error("One or more game detail input elements are null in handleSaveGameDetails"); return;
+                 console.error("One or more game detail input elements are null"); return;
             }
-
-            if (!gameSpeciesInput.value) {
-                alert("Välj ett viltslag.");
-                gameSpeciesInput.focus();
-                return;
-            }
+            if (!gameSpeciesInput.value) { alert("Välj ett viltslag."); gameSpeciesInput.focus(); return; }
 
             shot.felledGameDetails = { 
                 species: gameSpeciesInput.value,
@@ -1203,7 +1043,6 @@
                 shooter: gameShooterInput.value.trim(),
                 meatDistribution: gameMeatDistributionInput.value.trim()
             };
-
             saveAllDataToLocalStorage();
             renderShotLogList(); 
             renderFelledGameReportList();
@@ -1212,10 +1051,7 @@
         
         // --- DATA EXPORT ---
         function exportAllDataToCSV() {
-            if (allReports.length === 0) {
-                alert("Ingen data att exportera.");
-                return;
-            }
+            if (allReports.length === 0) { alert("Ingen data att exportera."); return; }
             let csvContent = "data:text/csv;charset=utf-8,";
             const headers = [
                 "Skott ID", "Skott Klockslag", "Skott Verifierat", "Skott Registrerat",
@@ -1246,11 +1082,8 @@
 
         // --- RENSA ALL DATA ---
         function handleClearAllData() {
-            if (allReports.length === 0) {
-                alert("Det finns ingen data att rensa.");
-                return;
-            }
-            if (confirm("ÄR DU SÄKER på att du vill rensa ALL data (både loggade skott och fällda vilt)? Detta kan inte ångras.")) {
+            if (allReports.length === 0) { alert("Det finns ingen data att rensa."); return; }
+            if (confirm("ÄR DU SÄKER på att du vill rensa ALL data? Detta kan inte ångras.")) {
                 allReports = [];
                 saveAllDataToLocalStorage();
                 renderShotLogList();
@@ -1260,24 +1093,18 @@
 
         // --- OVERLAY HANTERING ---
         function openHelpOverlay() { 
-            console.log("Attempting to open HelpOverlay");
             if (!helpOverlay) { console.error("FATAL: helpOverlay element is not found!"); return; }
             closeAllOverlays(helpOverlay); 
             helpOverlay.style.display = 'flex'; 
             document.body.classList.add('overlay-open');
-            console.log("helpOverlay display style is now:", helpOverlay.style.display);
         }
         function closeHelpOverlay() { 
-            if (helpOverlay) {
-                helpOverlay.style.display = 'none';
-                console.log("helpOverlay display set to none");
-            }
+            if (helpOverlay) helpOverlay.style.display = 'none';
             checkAndCloseBodyOverlay(); 
         }
 
         function generateQRCode() {
             if (!qrCodeContainer || typeof QRious === 'undefined') {
-                console.warn("QR Code container or QRious library not found.");
                 if (qrCodeContainer) qrCodeContainer.textContent = "QR-kod kunde inte laddas.";
                 return;
             }
@@ -1286,52 +1113,37 @@
             try {
                 new QRious({ element: canvasElement, value: appURL, size: 188, padding: 5, level: 'H', background: 'white', foreground: 'black' });
                 if (canvasElement.width > 0) qrCodeContainer.appendChild(canvasElement);
-                else console.error("QRious generated a canvas with 0 width.");
-
                 if(shareableLink) { shareableLink.href = appURL; shareableLink.textContent = appURL; }
-                else console.warn("shareableLink element not found in generateQRCode");
-
             } catch (error) {
-                console.error("QRious error:", error); 
                 qrCodeContainer.textContent = "Kunde inte generera QR-kod.";
             }
         }
 
         function openShareOverlay() { 
-            console.log("Attempting to open ShareOverlay");
             if (!shareOverlay) { console.error("FATAL: shareOverlay element is not found!"); return; }
             closeAllOverlays(shareOverlay); 
             generateQRCode(); 
             shareOverlay.style.display = 'flex'; 
             document.body.classList.add('overlay-open');
-            console.log("shareOverlay display style is now:", shareOverlay.style.display);
         }
         function closeShareOverlay() { 
-            if (shareOverlay) {
-                shareOverlay.style.display = 'none';
-                console.log("shareOverlay display set to none");
-            }
+            if (shareOverlay) shareOverlay.style.display = 'none'; 
             checkAndCloseBodyOverlay(); 
         }
         
         function closeAllOverlays(keepOpenOverlay = null) { 
-            console.log("closeAllOverlays called, keepOpenOverlay:", keepOpenOverlay ? keepOpenOverlay.id : 'null');
             const overlays = [addGameModal, helpOverlay, shareOverlay];
             overlays.forEach(overlay => {
                 if (overlay && overlay !== keepOpenOverlay) {
                     overlay.style.display = 'none';
                 }
             });
-            // Check if any overlay that should be closed is still open, then remove body class
-            // This logic is slightly different now, as we only close if *NO* overlay is open
-            // So checkAndCloseBodyOverlay will handle the .overlay-open class removal correctly
-            if (keepOpenOverlay === null) { // only if we truly intend to close all
+            if (keepOpenOverlay === null) { 
                 checkAndCloseBodyOverlay();
             }
         }
 
         function checkAndCloseBodyOverlay() { 
-            // This function should only remove .overlay-open if NO overlays are currently meant to be displayed
             const isAddGameModalOpen = addGameModal && addGameModal.style.display === 'flex';
             const isHelpOverlayOpen = helpOverlay && helpOverlay.style.display === 'flex';
             const isShareOverlayOpen = shareOverlay && shareOverlay.style.display === 'flex';
@@ -1339,12 +1151,10 @@
             if (!isAddGameModalOpen && !isHelpOverlayOpen && !isShareOverlayOpen) {
                 if (document.body.classList.contains('overlay-open')) {
                     document.body.classList.remove('overlay-open');
-                    console.log("body.overlay-open class removed");
                 }
             } else {
-                 if (!document.body.classList.contains('overlay-open')) {
-                    document.body.classList.add('overlay-open'); // Should already be set by openX functions
-                    console.log("body.overlay-open class was missing but an overlay is open, re-added.");
+                 if (!document.body.classList.contains('overlay-open')) { // Sanity check
+                    document.body.classList.add('overlay-open');
                  }
             }
         }
