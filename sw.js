@@ -1,5 +1,5 @@
 // Byt namn på CACHE_NAME
-const CACHE_NAME = 'bjorklunds-rapport-cache-v1'; 
+const CACHE_NAME = 'bjorklunds-rapport-cache-v2'; 
 const urlsToCache = [
     './', 
     './index.html', 
