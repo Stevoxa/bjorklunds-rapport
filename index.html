@@ -3,24 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport - Korrigerad Stacked List</title>
+    <title>Björklunds Rapport - Stacked List (Bas)</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
-        :root { /* ... (CSS-variabler som tidigare) ... */ }
-        body[data-theme="dark"] { /* ... (CSS-variabler som tidigare) ... */ }
+        :root {
+            --bg-color: #fdfcf7; --surface-bg-color: #fff; --text-color: #333;
+            --secondary-text-color: #777; --primary-color: #344a34;
+            --primary-color-rgb: 52, 74, 52; --primary-text-color: #f8f8f8;
+            --secondary-button-bg-color: #f0ead6; --secondary-button-text-color: var(--primary-color);
+            --secondary-button-border-color: var(--primary-color); --border-color: #ccc;
+            --subtle-border-color: #eee; --danger-color: #c0392b;
+            --danger-secondary-bg: #f8d7da; --danger-secondary-text-color: #721c24;
+            --listening-color: #FFC107; --icon-fill-color: var(--primary-color);
+            --icon-hover-fill-color: #000; --overlay-bg-color: rgba(var(--primary-color-rgb), 0.85);
+            --overlay-content-bg: var(--surface-bg-color); --overlay-header-text-color: var(--primary-color);
+            --overlay-text-color: var(--text-color); --overlay-subtle-text-color: var(--secondary-text-color);
+            --overlay-link-color: var(--primary-color); --success-color: #27ae60;
+            --success-bg-color: #e9f7ef;
+        }
+        body[data-theme="dark"] {
+            --bg-color: #121212; --surface-bg-color: #1e1e1e; --text-color: #e0e0e0;
+            --secondary-text-color: #a0a0a0; --primary-color: #76c776;
+            --primary-text-color: #121212; --secondary-button-bg-color: #333;
+            --secondary-button-text-color: var(--text-color); --secondary-button-border-color: #555;
+            --border-color: #3a3a3a; --subtle-border-color: #2c2c2c; --danger-color: #ff8a80;
+            --danger-secondary-bg: #5c2b2b; --danger-secondary-text-color: #ffcdd2;
+            --listening-color: #FFEB3B; --icon-fill-color: var(--text-color);
+            --icon-hover-fill-color: #fff; --overlay-bg-color: rgba(18, 18, 18, 0.9);
+            --overlay-header-text-color: var(--primary-color); --overlay-link-color: var(--primary-color);
+            --success-color: #66bb6a; --success-bg-color: #2e3c32;
+        }
         *, *::before, *::after { box-sizing: border-box; }
-        body { /* ... (Grundläggande body-stil som tidigare) ... */ }
+        body {
+            font-family: 'Georgia', serif; margin: 0; padding: 15px;
+            background-color: var(--bg-color); color: var(--text-color);
+            font-size: 16px; line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
         body.overlay-open { overflow: hidden; }
-        .container { /* ... (Container-stil som tidigare) ... */ }
-        /* ... (All annan fungerande CSS för knappar, inputs, header, shotLogList etc. ska finnas här) ... */
+        .container {
+            max-width: 700px; margin: 20px auto; background-color: var(--surface-bg-color);
+            padding: 20px; padding-top: 50px; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative;
+            transition: background-color 0.3s ease;
+        }
+        .app-header-actions-left, .app-header-actions {
+            position: absolute; top: 10px; display: flex; gap: 5px; z-index: 10;
+        }
+        .app-header-actions-left { left: 10px; }
+        .app-header-actions { right: 10px; }
+        .app-header-actions-left .icon-button, .app-header-actions .icon-button {
+            background-color: transparent !important; border: none !important; padding: 4px;
+            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+        }
+        .app-header-actions-left .icon-button svg, .app-header-actions .icon-button svg {
+            fill: var(--icon-fill-color) !important; width: 20px; height: 20px;
+        }
+        .app-header-actions-left .icon-button:hover svg, .app-header-actions .icon-button:hover svg {
+             fill: var(--icon-hover-fill-color) !important; 
+        }
         h1, h2 { color: var(--primary-color); text-align: center; margin-top: 0; }
         h1 { margin-bottom: 20px; font-size: 1.7em; }
         h2 { margin-bottom: 15px; font-size: 1.4em; margin-top: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
         hr { border: 0; height: 1px; background-color: var(--border-color); margin: 25px 0; }
         .info-text { color: var(--secondary-text-color); font-size: 0.9em; text-align: center; margin-top: 10px; }
+        
         button, .button-like {
             padding: 10px 15px; background-color: var(--primary-color); color: var(--primary-text-color); border: none;
             border-radius: 4px; cursor: pointer; font-size: 1em; font-family: inherit; 
@@ -34,17 +84,17 @@
         .button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
         #clearAllDataBtn.button-secondary { background-color: var(--danger-secondary-bg) !important; color: var(--danger-secondary-text-color) !important; border-color: var(--danger-color) !important; }
         #clearAllDataBtn.button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; }
+        
         input[type="text"], input[type="time"], select, textarea { flex-grow: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1em; font-family: inherit; box-sizing: border-box; background-color: var(--surface-bg-color); color: var(--text-color); min-width: 150px; }
         input[type="time"], select, textarea { height: 40px; }
         textarea { height: auto; min-height: 60px; }
         input[type="text"]::placeholder { color: var(--secondary-text-color); opacity: 1; }
         input[type="checkbox"] { width: 18px; height: 18px; margin-right: 8px; flex-shrink: 0; accent-color: var(--primary-color); }
+        
         .icon-button { background: transparent; border: none; padding: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 40px;  height: 40px; }
         .icon-button svg { width: 20px; height: 20px; fill: var(--icon-fill-color); transition: fill 0.2s ease; }
         .icon-button:hover:not(:disabled) svg { fill: var(--icon-hover-fill-color); }
         .icon-button:disabled svg { fill: var(--secondary-text-color) !important; opacity: 0.5; }
-        .app-header-actions-left .icon-button, .app-header-actions .icon-button { width: 28px; height: 28px; padding: 4px;}
-        .app-header-actions-left .icon-button svg, .app-header-actions .icon-button svg { width: 20px; height: 20px;}
         .delete-btn svg { fill: var(--danger-color) !important; }
         .delete-btn:hover:not(:disabled) svg { fill: color-mix(in srgb, var(--danger-color) 80%, black) !important; }
         .add-game-btn svg, .edit-game-btn svg { fill: var(--icon-fill-color) !important; width: 16px; height: 16px; } 
@@ -53,9 +103,11 @@
         .speech-button svg { fill: var(--secondary-button-text-color) !important; }
         .speech-button:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
         .speech-button.is-listening svg { fill: var(--listening-color) !important; }
+        
         .input-group, .form-group { display: flex; margin-bottom: 15px; gap: 10px; align-items: center; flex-wrap: wrap;}
         .form-group { flex-direction: column; align-items: stretch; gap: 5px;}
         .form-group label { font-weight: bold; margin-bottom: 2px; font-size: 0.9em;}
+        
         #shotLogList { list-style-type: none; padding: 0; margin: 15px 0 0 0; }
         .shot-log-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid var(--subtle-border-color); font-size: 0.95em; }
         .shot-log-item:last-child { border-bottom: none; }
@@ -66,123 +118,68 @@
         .shot-log-item .actions-container .icon-button { padding: 2px; width: 28px; height: 28px; }
         .shot-log-item .actions-container .icon-button svg { width: 16px; height: 16px; }
 
-        /* --- CSS FÖR RAPPORTLISTA (Fällt Vilt) - Responsiv Stacked --- */
-        #felledGameReportSection .report-list-header-desktop { display: none; }
+        /* --- CSS för Stacked List (Rapportlista Fällt Vilt) --- */
+        #felledGameReportSection .report-list-header-desktop { display: none; } /* Dölj gammal header */
         #reportList { list-style-type: none; padding: 0; margin: 0; }
 
-        .report-item-wrapper { 
-            border-bottom: 1px solid var(--subtle-border-color); 
-            /* Klickbarheten hanteras av JS på hela wrappern */
-        }
-        .report-item-wrapper:last-child { border-bottom: none; }
-        .report-item-wrapper:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%); }
-
-        .report-item-main-line { 
-            display: flex; 
-            align-items: center; /* Vertikal centrering av bild och textblock */
+        .report-item-stacked { 
+            display: flex;
+            align-items: center; 
+            gap: 12px; 
             padding: 12px 8px;
-            gap: 12px;
-            cursor: pointer; /* För hela klickbara ytan */
+            border: 1px solid var(--subtle-border-color); 
+            border-radius: 6px; 
+            margin-bottom: 10px; 
+            background-color: var(--surface-bg-color); 
+            cursor: pointer; 
+            transition: background-color 0.2s ease;
         }
-        .item-image-placeholder {
-            width: 45px; height: 45px; /* Lite mindre bild */
-            background-color: var(--subtle-border-color); 
-            border-radius: 4px; flex-shrink: 0; display: flex;
-            align-items: center; justify-content: center; font-size: 0.75em;
-            color: var(--secondary-text-color);
-        }
-        .item-image-placeholder::before { content: "Vilt"; }
+        .report-item-stacked:last-child { margin-bottom: 0; }
+        .report-item-stacked:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%); }
 
+        .item-image-placeholder {
+            width: 45px; height: 45px; 
+            background-color: var(--primary-color); 
+            border-radius: 4px; flex-shrink: 0; display: flex;
+            align-items: center; justify-content: center; font-size: 1.2em; 
+            color: var(--primary-text-color); font-weight: bold;
+        }
         .item-main-info { flex-grow: 1; display: flex; flex-direction: column; }
-        .item-main-info .species { font-size: 1.05em; font-weight: bold; color: var(--text-color); margin-bottom: 1px; }
-        .item-main-info .details { font-size: 0.8em; color: var(--secondary-text-color); line-height: 1.3; }
+        .item-main-info .species { font-size: 1.1em; font-weight: bold; color: var(--text-color); margin-bottom: 1px; }
+        .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.4; }
+        .item-main-info .details span { display: block; } 
 
         .item-status-actions { 
             display: flex; flex-direction: column; 
-            align-items: flex-end; gap: 6px; /* Lite mer space mellan status och knappar */
+            align-items: flex-end; gap: 6px;
             text-align: right; flex-shrink: 0;
+            margin-left: auto; 
         }
-        .item-status-actions .meat-status { font-size: 0.8em; display: flex; align-items: center; }
-        .item-status-actions .meat-status svg { width: 14px; height: 14px; margin-left: 4px; }
+        .item-status-actions .meat-status { font-size: 0.8em; display: flex; align-items: center; font-weight: bold; }
+        .item-status-actions .meat-status svg { width: 16px; height: 16px; margin-left: 5px; }
+        .item-status-actions .meat-status.fördelat { color: var(--success-color); }
         .item-status-actions .meat-status.fördelat svg { fill: var(--success-color); }
+        .item-status-actions .meat-status.ej-fördelat { color: var(--danger-color); }
         .item-status-actions .meat-status.ej-fördelat svg { fill: var(--danger-color); }
         
-        .item-status-actions .item-actions-and-toggle { display: flex; align-items: center; gap: 0px; } /* Toggle nära actions */
-        .item-status-actions .item-actions-inline { display: flex; gap: 0px; } /* Tätare actionknappar */
-        .item-status-actions .item-actions-inline .icon-button,
-        .item-status-actions .toggle-details-btn { 
-            padding: 4px; width: 30px; height: 30px; 
+        .item-status-actions .item-actions-inline { display: flex; gap: 6px; }
+        .item-status-actions .item-actions-inline .icon-button { padding: 3px; width: 26px; height: 26px; }
+        .item-status-actions .item-actions-inline .icon-button svg { width: 15px; height: 15px; }
+        
+        /* Ingen @media query för desktop-tabell i denna version */
+
+        /* Overlays */
+        .content-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--overlay-bg-color); z-index: 1000;
+            align-items: center; justify-content: center;
+            padding: 15px; box-sizing: border-box;
         }
-        .item-status-actions .item-actions-inline .icon-button svg,
-        .item-status-actions .toggle-details-btn svg { 
-            width: 16px; height: 16px; 
+        .overlay-content-box {
+            background-color: var(--overlay-content-bg); padding: 20px; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4); max-width: 550px; width: 100%;
+            max-height: 90vh; display: flex; flex-direction: column;
         }
-        .toggle-details-btn svg { transition: transform 0.3s ease; fill: var(--icon-fill-color); }
-        .toggle-details-btn.expanded svg { transform: rotate(180deg); }
-
-        .report-item-secondary-details {
-            display: none; padding: 10px 10px 10px 25px; /* Mer indrag */ 
-            font-size: 0.85em;
-            background-color: color-mix(in srgb, var(--surface-bg-color) 98%, var(--bg-color) 2%); /* Subtilare bakgrund */
-            border-top: 1px dashed var(--subtle-border-color);
-        }
-        .report-item-secondary-details.visible { display: block; }
-        .report-item-secondary-details p { margin: 6px 0; display: flex; }
-        .report-item-secondary-details strong { color: var(--primary-color); min-width: 100px; flex-shrink: 0; margin-right: 8px; }
-        .report-item-secondary-details span { word-break: break-word; }
-
-        /* Desktopvy (bredare skärmar) */
-        @media (min-width: 700px) { 
-            #felledGameReportSection .report-list-header-desktop { /* Visa desktop header */
-                display: grid;
-                grid-template-columns: 2fr 1fr 1.5fr 1.5fr 2fr 0.8fr; 
-                gap: 8px; padding: 10px 5px; font-weight: bold;
-                color: var(--primary-color);
-                background-color: color-mix(in srgb, var(--surface-bg-color) 90%, var(--bg-color) 10%);
-                border-top-left-radius: 4px; border-top-right-radius: 4px;
-                margin-top: 10px; font-size: 0.9em;
-            }
-            #felledGameReportSection .report-list-header-desktop > div {
-                 overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-            }
-
-            .report-item-wrapper { /* Blir en grid-rad */
-                display: grid;
-                grid-template-columns: 2fr 1fr 1.5fr 1.5fr 2fr 0.8fr; /* Samma som header */
-                gap: 8px; padding: 10px 5px; align-items: center;
-                cursor: default; /* Ingen handpekare för hela raden på desktop */
-            }
-             .report-item-wrapper:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%);}
-
-
-            .report-item-main-line { /* Inte längre flex, blir bara en behållare för första cellens innehåll */
-                display: block; /* Eller contents om det behövs för grid-justering, men block är enklare */
-                padding: 0; 
-                /* Denna div kommer nu att vara det första grid-itemet */
-            }
-            .item-image-placeholder { display: none; } /* Dölj mobilbilden */
-            .item-main-info .species { font-weight: normal; font-size: inherit; } /* Viltslag som vanlig text */
-            .item-main-info .details { display: none; } /* Dölj mobilskytt/pass-texten */
-            
-            /* Desktop-celler (måste skapas i JS och läggas till i .report-item-wrapper) */
-            .desktop-cell { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: inherit; }
-            .desktop-cell.meat-dist-cell { white-space: normal; word-break: break-word; }
-            
-            .item-status-actions { /* Blir sista grid-cellen */
-                flex-direction: row; /* Åtgärder på rad */
-                align-items: center;
-                justify-content: flex-end;
-                gap: 8px; /* Lite mer space mellan status och knappar */
-            }
-            .item-status-actions .meat-status { order: 1; } /* Om du vill ha statusen först */
-            .item-status-actions .item-actions-inline { order: 2; }
-            .item-status-actions .toggle-details-btn { display: none; } /* Dölj mobil-toggle */
-            .report-item-secondary-details { display: none !important; } /* Dölj mobil-expand */
-        }
-
-        /* Overlays (oförändrad) */
-        .content-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--overlay-bg-color); z-index: 1000; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; }
-        .overlay-content-box { background-color: var(--overlay-content-bg); padding: 20px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.4); max-width: 550px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; }
         .overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
         .overlay-header h3 { color: var(--overlay-header-text-color); text-align: left; margin: 0; font-size: 1.6em; flex-grow: 1;}
         .overlay-header .icon-button { width: 30px; height: 30px; padding: 5px;}
@@ -200,14 +197,13 @@
     </style>
 </head>
 <body>
-    <!-- HTML-struktur (Container, Header, QuickShotEntry, Overlays etc. är samma som i förra fullständiga versionen) -->
     <div class="container">
         <div class="app-header-actions-left"> <button id="themeToggleBtn" class="icon-button" title="Växla tema"> <svg id="themeIconMoon" viewBox="0 0 24 24" style="display: none;"><path d="M12 1.993C11.419 1.993 10.847 2.022 10.285 2.076C5.262 2.58 1.993 6.832 1.993 11.999C1.993 17.635 6.365 22 11.999 22C16.957 22 21.145 18.053 21.904 13.269C21.951 12.989 21.979 12.705 21.993 12.416C21.964 12.393 21.938 12.372 21.911 12.353C16.334 11.653 12.707 7.586 12.085 1.993H12Z"/></svg> <svg id="themeIconSun" viewBox="0 0 16 16" style="display: block;"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg> </button> </div>
         <div class="app-header-actions"> <button id="helpBtn" class="icon-button" title="Hjälp"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z"/></svg></button> <button id="shareBtn" class="icon-button" title="Dela appen"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.81C7.5 8.31 6.79 8 6 8c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg></button> <button id="installAppBtn" class="icon-button" title="Installera appen" style="display: none;"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></button> </div>
         <h1>Björklunds Rapport</h1>
         <section id="quickShotEntrySection"> <h2>Snabbregistrera Skott</h2> <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px;">Avlossat Skott Nu</button> <ul id="shotLogList"></ul> <p id="noLoggedShotsInfo" class="info-text" style="display: block;">Inga skott loggade ännu.</p> </section>
         <hr>
-        <section id="felledGameReportSection"> <h2>Rapportlista (Fällt Vilt)</h2> <div class="report-list-header-desktop"> <div>Viltslag</div> <div>Tid</div> <div>Skytt</div> <div>Pass</div> <div>Köttfördelning</div> <div>Åtgärd</div> </div> <ul id="reportList"> </ul> <p id="noReportsInfo" class="info-text" style="display: block;">Inga fällda vilt rapporterade ännu.</p> </section>
+        <section id="felledGameReportSection"> <h2>Rapportlista (Fällt Vilt)</h2> <ul id="reportList"> </ul> <p id="noReportsInfo" class="info-text" style="display: block;">Inga fällda vilt rapporterade ännu.</p> </section>
         <div class="bottom-actions"> <button id="exportDataBtn" class="button-secondary">Exportera Data (CSV)</button> <button id="clearAllDataBtn" class="button-secondary">Rensa All Data</button> </div>
     </div> 
     <div id="addGameModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="gameModalTitle">Fällt Vilt</h3> <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="currentShotLogIdInput">  <div class="form-group"> <label for="gameSpeciesInput">Viltslag:</label> <select id="gameSpeciesInput"> <option value="">-- Välj --</option><option value="Dovhjort kapital">Dovhjort kapital</option><option value="Dovhjort">Dovhjort</option> <option value="Dovhind">Dovhind</option><option value="Dovspets">Dovspets</option><option value="Dovkalv">Dovkalv</option><option value="Kronhjort kapital">Kronhjort kapital</option><option value="Kronhjort">Kronhjort</option><option value="Kronhind">Kronhind</option><option value="Kronspets">Kronspets</option><option value="Kronkalv">Kronkalv</option><option value="Rådjursbock">Rådjursbock</option><option value="Rådjur">Rådjur</option><option value="Vildsvin">Vildsvin</option><option value="Älgtjur">Älgtjur</option><option value="Älgko">Älgko</option><option value="Älgkalv">Älgkalv</option><option value="Räv">Räv</option><option value="Annat">Annat</option> </select> </div>  <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div>  <div class="form-group"> <label for="gameTimeInput">Tid för skott (ca.):</label> <input type="time" id="gameTimeInput"> </div>   <hr style="margin: 15px 0;"> <h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> <div class="form-group"> <label for="meatQuickChoiceSelect">Snabbval:</label> <select id="meatQuickChoiceSelect"> <option value="">-- Välj eller skriv fritt nedan --</option> <option value="tar hem kött och delar med granne.">...tar hem kött och delar med granne.</option> <option value="tar hem kött.">...tar hem kött.</option> <option value="lämnar till slakteri.">...lämnar till slakteri.</option> <option value="delas i jaktlaget.">...delas i jaktlaget.</option> </select> </div> <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Kalle Anka tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara</button> </div> </div> </div>
@@ -217,7 +213,6 @@
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
-        // (Dessa bör vara korrekta från din senaste fungerande version)
         let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,
             logShotBtn, shotLogList, noLoggedShotsInfo, 
             reportListContainer, noReportsInfo, 
@@ -294,7 +289,7 @@
             if (exportDataBtn) exportDataBtn.addEventListener('click', exportAllDataToCSV);
             if (clearAllDataBtn) clearAllDataBtn.addEventListener('click', handleClearAllData);
             if (saveGameDetailsBtn) saveGameDetailsBtn.addEventListener('click', handleSaveGameDetails);
-            if (cancelGameModalBtn) cancelGameModalBtn.addEventListener('click', closeAddGameModal); // Nu i modal header
+            if (cancelGameModalBtn) cancelGameModalBtn.addEventListener('click', closeAddGameModal);
             if (viewGameCloseBtn) viewGameCloseBtn.addEventListener('click', closeViewGameModal);
             if (viewGameEditBtn) viewGameEditBtn.addEventListener('click', handleEditFromViewModal);
             if (viewGameDeleteBtn) viewGameDeleteBtn.addEventListener('click', handleDeleteFromViewModal);
@@ -354,7 +349,6 @@
                     recognitionInstance.onend = () => { if (buttonElement) { buttonElement.classList.remove('is-listening'); buttonElement.disabled = false; buttonElement.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;};
                     const newBtn = buttonElement.cloneNode(true); buttonElement.parentNode.replaceChild(newBtn, buttonElement);
                     if (buttonElement.id === 'speakShooterBtn') speakShooterBtn = newBtn;
-                    // if (buttonElement.id === 'speakMeatBtn') speakMeatBtn = newBtn; // Om vi återinför
                     newBtn.addEventListener('click', () => { 
                         try { activeRecognitionInput = targetInputElement; if (recognitionInstance) recognitionInstance.start(); } 
                         catch (e) { if (newBtn) {newBtn.classList.remove('is-listening');newBtn.disabled = false;newBtn.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;}
@@ -411,36 +405,37 @@
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); 
             
             const headerDesktop = document.querySelector('#felledGameReportSection .report-list-header-desktop');
-            if (headerDesktop) headerDesktop.style.display = reportsWithGame.length > 0 && window.innerWidth >= 700 ? 'grid' : 'none';
+            if (headerDesktop) headerDesktop.style.display = 'none'; // Alltid dold
             noReportsInfo.style.display = reportsWithGame.length === 0 ? 'block' : 'none';
 
             if (reportsWithGame.length > 0) {
                 reportsWithGame.forEach(report => {
                     const li = document.createElement('li');
-                    li.classList.add('report-item-wrapper'); // Klassen som har grid på desktop
+                    li.classList.add('report-item-stacked'); 
                     li.dataset.reportId = report.id;
-                    
-                    // --- MOBILVY (default) ---
-                    // Huvudrad för mobil (alltid i DOM, men dess interna layout kan ändras för desktop)
-                    const mainLineDiv = document.createElement('div');
-                    mainLineDiv.classList.add('report-item-main-line');
+                    li.onclick = (event) => {
+                        if (event.target.closest('.item-actions-inline') || event.target.closest('.toggle-details-btn')) {
+                            return; 
+                        }
+                        handleReportItemClick(report.id);
+                    };
 
                     const placeholder = document.createElement('div');
                     placeholder.classList.add('item-image-placeholder');
-                    placeholder.textContent = report.felledGameDetails.species ? report.felledGameDetails.species.substring(0,1).toUpperCase() : "X";
-                    mainLineDiv.appendChild(placeholder);
-
+                    placeholder.textContent = report.felledGameDetails.species ? report.felledGameDetails.species.substring(0,1).toUpperCase() : "V";
+                    
                     const mainInfo = document.createElement('div');
                     mainInfo.classList.add('item-main-info');
                     const speciesDiv = document.createElement('div');
                     speciesDiv.classList.add('species');
                     speciesDiv.textContent = report.felledGameDetails.species || '-';
-                    const detailsDiv = document.createElement('div'); // För Skytt på mobil
+                    const detailsDiv = document.createElement('div'); 
                     detailsDiv.classList.add('details');
-                    detailsDiv.textContent = `Skytt: ${report.felledGameDetails.shooter || '-'}`;
+                    // Endast Skytt och Pass i den primära mobilvyn enligt din skiss
+                    detailsDiv.innerHTML = `<span>Skytt: ${report.felledGameDetails.shooter || '-'}</span>
+                                          <span>Pass: ${report.felledGameDetails.passLocation || '-'}</span>`;
                     mainInfo.appendChild(speciesDiv);
                     mainInfo.appendChild(detailsDiv);
-                    mainLineDiv.appendChild(mainInfo);
 
                     const statusActions = document.createElement('div');
                     statusActions.classList.add('item-status-actions');
@@ -455,7 +450,8 @@
                         meatStatusDiv.innerHTML += ` <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
                     }
                     statusActions.appendChild(meatStatusDiv);
-                    const itemActionsAndToggle = document.createElement('div'); // Ny wrapper för actions och toggle
+
+                    const itemActionsAndToggle = document.createElement('div'); 
                     itemActionsAndToggle.classList.add('item-actions-and-toggle');
                     const itemActionsInline = document.createElement('div'); itemActionsInline.classList.add('item-actions-inline');
                     const editBtn = document.createElement('button'); editBtn.className = 'icon-button edit-game-btn'; editBtn.title = "Redigera";
@@ -466,50 +462,15 @@
                     deleteBtn.onclick = (e) => { e.stopPropagation(); handleDeleteLoggedShot(report.id); };
                     itemActionsInline.append(editBtn, deleteBtn);
                     itemActionsAndToggle.appendChild(itemActionsInline);
-                    const toggleBtn = document.createElement('button'); toggleBtn.className = 'icon-button toggle-details-btn'; toggleBtn.setAttribute('aria-expanded', 'false');
-                    toggleBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>`;
-                    itemActionsAndToggle.appendChild(toggleBtn);
-                    statusActions.appendChild(itemActionsAndToggle);
-                    mainLineDiv.appendChild(statusActions);
-                    li.appendChild(mainLineDiv);
-
-                    // --- Desktop-specifika celler (dolda på mobil) ---
-                    // Dessa läggs till direkt i li (wrapperLi) för att bli grid items.
-                    const timeCellDesktop = document.createElement('div'); timeCellDesktop.className = 'desktop-cell time-cell';
-                    timeCellDesktop.textContent = report.shotTime || '-';
-                    if (report.isVerified) { const b = document.createElement('span'); b.textContent = ' ✔'; b.title = 'Verifierat'; b.style.color = 'var(--success-color)'; timeCellDesktop.appendChild(b); }
-                    li.appendChild(timeCellDesktop);
-
-                    const shooterCellDesktop = document.createElement('div'); shooterCellDesktop.className = 'desktop-cell shooter-cell';
-                    shooterCellDesktop.textContent = report.felledGameDetails.shooter || '-';
-                    li.appendChild(shooterCellDesktop);
-
-                    const passCellDesktop = document.createElement('div'); passCellDesktop.className = 'desktop-cell pass-cell';
-                    passCellDesktop.textContent = report.felledGameDetails.passLocation || '-';
-                    li.appendChild(passCellDesktop);
-
-                    const meatCellDesktop = document.createElement('div'); meatCellDesktop.className = 'desktop-cell meat-dist-cell';
-                    meatCellDesktop.textContent = report.felledGameDetails.meatDistribution || '-';
-                    li.appendChild(meatCellDesktop);
                     
-                    // --- Expanderbar info (för mobil) ---
-                    const secondaryDetailsDiv = document.createElement('div');
-                    secondaryDetailsDiv.classList.add('report-item-secondary-details');
-                    secondaryDetailsDiv.id = `secondary-info-${report.id}`;
-                    secondaryDetailsDiv.innerHTML = `
-                        <p><strong>Tid:</strong> <span>${report.shotTime || '-'}${report.isVerified ? ' (Verifierat ✔)' : ''}</span></p>
-                        <p><strong>Pass:</strong> <span>${report.felledGameDetails.passLocation || '-'}</span></p>
-                        <p><strong>Köttfördelning:</strong> <span>${report.felledGameDetails.meatDistribution || 'Ej angivet'}</span></p>
-                    `;
-                    li.appendChild(secondaryDetailsDiv);
-
-                    toggleBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-                        toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
-                        secondaryDetailsDiv.classList.toggle('visible');
-                        toggleBtn.classList.toggle('expanded');
-                    };
+                    // Ingen toggle-knapp i denna enklare stacked list-version just nu
+                    // const toggleBtn = document.createElement('button'); ...
+                    // itemActionsAndToggle.appendChild(toggleBtn);
+                    statusActions.appendChild(itemActionsAndToggle);
+                    
+                    li.appendChild(placeholder);
+                    li.appendChild(mainInfo);
+                    li.appendChild(statusActions);
                     
                     reportListContainer.appendChild(li);
                 });
