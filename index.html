@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport V4.11 - Prydlig Detaljvy</title>
+    <title>Björklunds Rapport V4.12 - Ikon i H4</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
-        /* --- Grundläggande Stilar (som i V4.0) --- */
+        /* --- Grundläggande Stilar (som i V4.0 / V4.8) --- */
         :root {
             --bg-color: #fdfcf7; --surface-bg-color: #fff; --text-color: #333;
             --secondary-text-color: #777; --primary-color: #344a34;
@@ -100,7 +100,7 @@
         #reportList { list-style-type: none; padding: 0; margin: 0; }
         .report-item-stacked {
             display: flex;
-            align-items: center; /* ÄNDRAD: Centrera D-ikonen med hela textblocket */
+            align-items: center; /* Centrera D-ikonen vertikalt med .item-main-info */
             gap: 12px;
             padding: 10px 8px;
             border: 1px solid var(--subtle-border-color);
@@ -118,15 +118,15 @@
         .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.3; }
         .item-main-info .details span { display: block; font-style: italic; }
 
-        /* KORRIGERAD CSS V4.10: Status text och ikon på samma rad, längst ner till höger */
+        /* Statusplacering: Text och ikon på samma rad, längst ner till höger. */
         .item-status-actions {
             display: flex;
             flex-direction: row;
             align-items: center;
             gap: 4px;
             margin-left: auto;
-            align-self: flex-end; /* Tryck ner statusblocket */
-            padding-bottom: 2px;  /* Finjustering för linjering */
+            align-self: flex-end;
+            padding-bottom: 2px;
         }
         .item-status-actions .meat-status-text {
             font-size: 0.8em;
@@ -137,12 +137,12 @@
             display: flex; align-items: center; justify-content: center;
         }
         .item-status-actions .meat-status-icon svg {
-            width: 0.9em; /* Storlek relativt till text */
+            width: 0.9em; /* Anpassa till textens höjd */
             height: 0.9em;
         }
         .item-status-actions .meat-status-text.fördelat { color: var(--success-color); }
         .item-status-actions .meat-status-icon.fördelat svg { fill: var(--success-color); }
-        .item-status-actions .meat-status-text.ej-fördelat { color: var(--danger-color); }
+        .item-status-actions .meat-status-text.ej-fördelat { color: var(--danger-color); } /* Röd text för "Ej fördelat" */
         .item-status-actions .meat-status-icon.ej-fördelat svg { fill: var(--danger-color); }
 
 
@@ -154,32 +154,36 @@
         .overlay-header .icon-button { width: 30px; height: 30px; padding: 5px;}
         .overlay-header .icon-button svg { width: 18px; height: 18px;}
         .overlay-scrollable-content { color: var(--overlay-text-color); overflow-y: auto; flex-grow: 1; margin-bottom: 20px; padding-right: 5px;}
+        
         /* Justeringar för viewGameModal */
         #viewGameDetailsContent .detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 7px 0; /* Ökad padding */
+            padding: 7px 0;
             border-bottom: 1px solid var(--subtle-border-color);
             align-items: baseline;
         }
-        #viewGameDetailsContent .detail-row:last-of-type { /* Ta bort linje för sista detaljraden i gruppen */
-             /* Appliceras nu på den specifika sista raden i HTML */
+        #viewGameDetailsContent .detail-row:last-of-type {
+             /* Ingen border-bottom på sista raden AV DETALJERNA */
+        }
+        #viewGameDetailsContent .detail-row[style*="border-bottom: none;"] { /* Mer specifik för att ta bort för sista tid-raden */
+            border-bottom: none !important;
         }
         #viewGameDetailsContent .detail-label {
             font-weight: bold;
             color: var(--secondary-text-color);
-            margin-right: 15px; /* Ökat avstånd */
+            margin-right: 15px;
             flex-shrink: 0;
-            min-width: 100px; /* Ge etiketterna en minsta bredd för linjering */
+            min-width: 100px;
         }
         #viewGameDetailsContent .detail-value {
             text-align: right;
             word-break: break-word;
-            color: var(--text-color); /* Se till att värdet har standard textfärg */
+            color: var(--text-color);
         }
-        #viewGameDetailsContent h4 {
+        #viewGameDetailsContent h4 { /* Gäller Köttfördelning & Kopplade Skott rubriker */
             border-bottom: none;
-            margin-top: 25px; /* Mer luft ovanför sektionsrubriker */
+            margin-top: 25px;
             margin-bottom: 12px;
             padding-bottom: 0;
             font-size: 1.2em;
@@ -187,13 +191,13 @@
         }
         #viewGameDetailsContent #viewMeatDistributionSection,
         #viewGameDetailsContent #viewLinkedShotsSection {
-            border-top: 1px solid var(--border-color);
-            padding-top: 12px; /* Lite mer padding ovanför innehållet i sektionen */
-            margin-top: 20px; /* Säkerställ marginal om föregående element inte har det */
+            border-top: 1px solid var(--border-color); /* Linje OVANFÖR dessa sektioner */
+            padding-top: 12px;
+            margin-top: 20px;
         }
         #viewGameDetailsContent #viewMeatDistributionSection p,
         #viewGameDetailsContent #viewLinkedShotsSection ul {
-            margin-top: 8px; /* Lite mer luft under rubrik till innehåll */
+            margin-top: 8px;
         }
 
         #qrCodeContainer { border:1px solid var(--border-color); background:white; margin: 20px auto; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; }
@@ -252,12 +256,12 @@
                     <span class="detail-label">Pass/Plats:</span>
                     <span class="detail-value" data-field="passLocation"></span>
                 </div>
-                <div class="detail-row" style="border-bottom: none;">
+                <div class="detail-row" style="border-bottom: none;"> <!-- Sista detaljraden, ingen linje -->
                     <span class="detail-label">Tid för rapport:</span>
                     <span class="detail-value" data-field="reportTime"></span>
                 </div>
 
-                <div id="viewMeatDistributionSection">
+                <div id="viewMeatDistributionSection"> <!-- Behåll befintlig struktur härifrån -->
                     <h4>Köttfördelning <span id="viewMeatStatusIcon" style="vertical-align: middle;"></span></h4>
                     <p id="viewMeatDistributionText" style="margin-top: 5px;"></p>
                 </div>
@@ -334,7 +338,7 @@
                         statusTextSpan.textContent = 'Kött ej fördelat'; statusTextSpan.classList.add('ej-fördelat');
                         statusIconDiv.classList.add('ej-fördelat'); statusIconDiv.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
                     }
-                    // DOM-ORDNING: IKON FÖRE TEXT för att flexbox ska placera ikonen överst
+                    // DOM-ORDNING: IKON FÖRE TEXT (för flexbox column + space-between)
                     statusActions.appendChild(statusIconDiv); 
                     statusActions.appendChild(statusTextSpan);
 
@@ -345,7 +349,7 @@
         }
 
         // --- Visa Detaljer (View Modal) ---
-        function openViewGameModal(gameReportId) { const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report || !viewGameModal) return; viewGameModalTitle.textContent = report.felledGameDetails.species || 'Detaljer Fällt Vilt'; viewGameDetailsContent.querySelector('[data-field="species"]').textContent = report.felledGameDetails.species || '-'; viewGameDetailsContent.querySelector('[data-field="shooter"]').textContent = report.felledGameDetails.shooter || '-'; viewGameDetailsContent.querySelector('[data-field="passLocation"]').textContent = report.felledGameDetails.passLocation || '-'; viewGameDetailsContent.querySelector('[data-field="reportTime"]').textContent = report.felledGameDetails.reportTime || '-'; const meatStatusIconEl = viewGameDetailsContent.querySelector('#viewMeatStatusIcon'); const meatTextEl = viewGameDetailsContent.querySelector('#viewMeatDistributionText'); const meatSectionEl = viewGameDetailsContent.querySelector('#viewMeatDistributionSection'); if (report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '') { meatSectionEl.style.display = 'block'; meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24" style="width:1em; height:1em; vertical-align: middle; fill:var(--success-color);"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`; meatTextEl.textContent = report.felledGameDetails.meatDistribution; } else { meatSectionEl.style.display = 'block'; meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24" style="width:1em; height:1em; vertical-align: middle; fill:var(--danger-color);"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`; meatTextEl.textContent = "Ej fördelat"; } if (!viewLinkedShotsList) { console.error("Element #viewLinkedShotsList saknas i viewGameModal"); } else { viewLinkedShotsList.innerHTML = ''; const linkedShotIds = report.felledGameDetails.linkedShotIds || []; if (linkedShotIds.length === 0) { viewLinkedShotsList.innerHTML = '<li class="info-text">Inga skott kopplade.</li>'; } else { linkedShotIds.forEach(shotId => { const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId); const li = document.createElement('li'); if (shot) { li.textContent = `Skott kl. ${shot.shotTime}${shot.isVerified ? ' (Verifierat ✔)' : ''}`; } else { li.textContent = `Skott ID: ${shotId} (Data saknas?)`; li.style.color = 'var(--danger-color)'; } viewLinkedShotsList.appendChild(li); }); } } viewGameEditBtn.dataset.reportId = gameReportId; viewGameDeleteBtn.dataset.reportId = gameReportId; closeAllOverlays(viewGameModal); viewGameModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
+        function openViewGameModal(gameReportId) { const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report || !viewGameModal) return; viewGameModalTitle.textContent = report.felledGameDetails.species || 'Detaljer Fällt Vilt'; viewGameDetailsContent.querySelector('[data-field="species"]').textContent = report.felledGameDetails.species || '-'; viewGameDetailsContent.querySelector('[data-field="shooter"]').textContent = report.felledGameDetails.shooter || '-'; viewGameDetailsContent.querySelector('[data-field="passLocation"]').textContent = report.felledGameDetails.passLocation || '-'; viewGameDetailsContent.querySelector('[data-field="reportTime"]').textContent = report.felledGameDetails.reportTime || '-'; const meatStatusIconEl = viewGameDetailsContent.querySelector('#viewMeatStatusIcon'); const meatTextEl = viewGameDetailsContent.querySelector('#viewMeatDistributionText'); const meatSectionEl = viewGameDetailsContent.querySelector('#viewMeatDistributionSection'); if (report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '') { meatSectionEl.style.display = 'block'; meatStatusIconEl.innerHTML = ` <svg viewBox="0 0 24 24" style="width:1em; height:1em; vertical-align: middle; fill:var(--success-color); margin-left: 5px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`; meatTextEl.textContent = report.felledGameDetails.meatDistribution; meatTextEl.style.color = ''; } else { meatSectionEl.style.display = 'block'; meatStatusIconEl.innerHTML = ` <svg viewBox="0 0 24 24" style="width:1em; height:1em; vertical-align: middle; fill:var(--danger-color); margin-left: 5px;"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`; meatTextEl.textContent = "Ej fördelat"; meatTextEl.style.color = 'var(--danger-color)'; } if (!viewLinkedShotsList) { console.error("Element #viewLinkedShotsList saknas i viewGameModal"); } else { viewLinkedShotsList.innerHTML = ''; const linkedShotIds = report.felledGameDetails.linkedShotIds || []; if (linkedShotIds.length === 0) { viewLinkedShotsList.innerHTML = '<li class="info-text">Inga skott kopplade.</li>'; } else { linkedShotIds.forEach(shotId => { const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId); const li = document.createElement('li'); if (shot) { li.textContent = `Skott kl. ${shot.shotTime}${shot.isVerified ? ' (Verifierat ✔)' : ''}`; } else { li.textContent = `Skott ID: ${shotId} (Data saknas?)`; li.style.color = 'var(--danger-color)'; } viewLinkedShotsList.appendChild(li); }); } } viewGameEditBtn.dataset.reportId = gameReportId; viewGameDeleteBtn.dataset.reportId = gameReportId; closeAllOverlays(viewGameModal); viewGameModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
         function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
         function handleEditFromViewModal() { const gameReportId = parseInt(this.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); }
         function handleDeleteFromViewModal() { const gameReportId = parseInt(this.dataset.reportId); closeViewGameModal(); handleDeleteItem(gameReportId, 'game'); }
