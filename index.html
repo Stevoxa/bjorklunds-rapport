@@ -3,24 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport - Stacked List</title>
+    <title>Björklunds Rapport - Stacked List v2</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
-        :root { /* ... (CSS-variabler som tidigare) ... */ }
-        body[data-theme="dark"] { /* ... (CSS-variabler som tidigare) ... */ }
+        :root {
+            --bg-color: #fdfcf7; --surface-bg-color: #fff; --text-color: #333;
+            --secondary-text-color: #777; --primary-color: #344a34;
+            --primary-color-rgb: 52, 74, 52; --primary-text-color: #f8f8f8;
+            --secondary-button-bg-color: #f0ead6; --secondary-button-text-color: var(--primary-color);
+            --secondary-button-border-color: var(--primary-color); --border-color: #ccc;
+            --subtle-border-color: #eee; --danger-color: #c0392b;
+            --danger-secondary-bg: #f8d7da; --danger-secondary-text-color: #721c24;
+            --listening-color: #FFC107; --icon-fill-color: var(--primary-color);
+            --icon-hover-fill-color: #000; --overlay-bg-color: rgba(var(--primary-color-rgb), 0.85);
+            --overlay-content-bg: var(--surface-bg-color); --overlay-header-text-color: var(--primary-color);
+            --overlay-text-color: var(--text-color); --overlay-subtle-text-color: var(--secondary-text-color);
+            --overlay-link-color: var(--primary-color); --success-color: #27ae60;
+            --success-bg-color: #e9f7ef;
+        }
+        body[data-theme="dark"] {
+            --bg-color: #121212; --surface-bg-color: #1e1e1e; --text-color: #e0e0e0;
+            --secondary-text-color: #a0a0a0; --primary-color: #76c776;
+            --primary-text-color: #121212; --secondary-button-bg-color: #333;
+            --secondary-button-text-color: var(--text-color); --secondary-button-border-color: #555;
+            --border-color: #3a3a3a; --subtle-border-color: #2c2c2c; --danger-color: #ff8a80;
+            --danger-secondary-bg: #5c2b2b; --danger-secondary-text-color: #ffcdd2;
+            --listening-color: #FFEB3B; --icon-fill-color: var(--text-color);
+            --icon-hover-fill-color: #fff; --overlay-bg-color: rgba(18, 18, 18, 0.9);
+            --overlay-header-text-color: var(--primary-color); --overlay-link-color: var(--primary-color);
+            --success-color: #66bb6a; --success-bg-color: #2e3c32;
+        }
         *, *::before, *::after { box-sizing: border-box; }
-        body { /* ... (Grundläggande body-stil som tidigare) ... */ }
+        body {
+            font-family: 'Georgia', serif; margin: 0; padding: 15px;
+            background-color: var(--bg-color); color: var(--text-color);
+            font-size: 16px; line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
         body.overlay-open { overflow: hidden; }
-        .container { /* ... (Container-stil som tidigare) ... */ }
-        /* ... (All annan fungerande CSS för knappar, inputs, header, shotLogList etc. ska finnas här) ... */
-         h1, h2 { color: var(--primary-color); text-align: center; margin-top: 0; }
+        .container {
+            max-width: 700px; margin: 20px auto; background-color: var(--surface-bg-color);
+            padding: 20px; padding-top: 50px; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative;
+            transition: background-color 0.3s ease;
+        }
+        .app-header-actions-left, .app-header-actions {
+            position: absolute; top: 10px; display: flex; gap: 5px; z-index: 10;
+        }
+        .app-header-actions-left { left: 10px; }
+        .app-header-actions { right: 10px; }
+        .app-header-actions-left .icon-button, .app-header-actions .icon-button {
+            background-color: transparent !important; border: none !important; padding: 4px;
+            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+        }
+        .app-header-actions-left .icon-button svg, .app-header-actions .icon-button svg {
+            fill: var(--icon-fill-color) !important; width: 20px; height: 20px;
+        }
+        .app-header-actions-left .icon-button:hover svg, .app-header-actions .icon-button:hover svg {
+             fill: var(--icon-hover-fill-color) !important; 
+        }
+        h1, h2 { color: var(--primary-color); text-align: center; margin-top: 0; }
         h1 { margin-bottom: 20px; font-size: 1.7em; }
         h2 { margin-bottom: 15px; font-size: 1.4em; margin-top: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
         hr { border: 0; height: 1px; background-color: var(--border-color); margin: 25px 0; }
         .info-text { color: var(--secondary-text-color); font-size: 0.9em; text-align: center; margin-top: 10px; }
+        
         button, .button-like {
             padding: 10px 15px; background-color: var(--primary-color); color: var(--primary-text-color); border: none;
             border-radius: 4px; cursor: pointer; font-size: 1em; font-family: inherit; 
@@ -34,15 +84,17 @@
         .button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
         #clearAllDataBtn.button-secondary { background-color: var(--danger-secondary-bg) !important; color: var(--danger-secondary-text-color) !important; border-color: var(--danger-color) !important; }
         #clearAllDataBtn.button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; }
-        input[type="text"], input[type="time"], select { flex-grow: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1em; font-family: inherit; height: 40px; box-sizing: border-box; background-color: var(--surface-bg-color); color: var(--text-color); min-width: 150px; }
+        
+        input[type="text"], input[type="time"], select, textarea { flex-grow: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1em; font-family: inherit; box-sizing: border-box; background-color: var(--surface-bg-color); color: var(--text-color); min-width: 150px; }
+        input[type="time"], select, textarea { height: 40px; }
+        textarea { height: auto; min-height: 60px; }
         input[type="text"]::placeholder { color: var(--secondary-text-color); opacity: 1; }
         input[type="checkbox"] { width: 18px; height: 18px; margin-right: 8px; flex-shrink: 0; accent-color: var(--primary-color); }
+        
         .icon-button { background: transparent; border: none; padding: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 40px;  height: 40px; }
         .icon-button svg { width: 20px; height: 20px; fill: var(--icon-fill-color); transition: fill 0.2s ease; }
         .icon-button:hover:not(:disabled) svg { fill: var(--icon-hover-fill-color); }
         .icon-button:disabled svg { fill: var(--secondary-text-color) !important; opacity: 0.5; }
-        .app-header-actions-left .icon-button, .app-header-actions .icon-button { width: 28px; height: 28px; padding: 4px;}
-        .app-header-actions-left .icon-button svg, .app-header-actions .icon-button svg { width: 20px; height: 20px;}
         .delete-btn svg { fill: var(--danger-color) !important; }
         .delete-btn:hover:not(:disabled) svg { fill: color-mix(in srgb, var(--danger-color) 80%, black) !important; }
         .add-game-btn svg, .edit-game-btn svg { fill: var(--icon-fill-color) !important; width: 16px; height: 16px; } 
@@ -51,9 +103,11 @@
         .speech-button svg { fill: var(--secondary-button-text-color) !important; }
         .speech-button:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
         .speech-button.is-listening svg { fill: var(--listening-color) !important; }
+        
         .input-group, .form-group { display: flex; margin-bottom: 15px; gap: 10px; align-items: center; flex-wrap: wrap;}
         .form-group { flex-direction: column; align-items: stretch; gap: 5px;}
         .form-group label { font-weight: bold; margin-bottom: 2px; font-size: 0.9em;}
+        
         #shotLogList { list-style-type: none; padding: 0; margin: 15px 0 0 0; }
         .shot-log-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid var(--subtle-border-color); font-size: 0.95em; }
         .shot-log-item:last-child { border-bottom: none; }
@@ -63,107 +117,52 @@
         .shot-log-item .actions-container { display: flex; gap: 5px; }
         .shot-log-item .actions-container .icon-button { padding: 2px; width: 28px; height: 28px; }
         .shot-log-item .actions-container .icon-button svg { width: 16px; height: 16px; }
-        
 
         /* --- Ny CSS för Stacked List --- */
-        #felledGameReportSection .report-list-header-desktop { /* Den gamla desktop-headern */
-            display: none; /* Dölj denna helt, vi bygger nytt */
-        }
-        #reportList { /* ul-elementet */
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .report-item-stacked { /* li-elementet, varje "kort" */
-            display: flex;
-            align-items: center; /* Centrera vertikalt */
-            gap: 12px; /* Mellanrum mellan bild, info, status */
-            padding: 12px 8px;
-            border-bottom: 1px solid var(--subtle-border-color);
-            background-color: var(--surface-bg-color); /* För att onklick ska kännas på hela ytan */
-            cursor: pointer; /* Indikerar klickbarhet */
+        #felledGameReportSection .report-list-header-desktop { display: none; }
+        #reportList { list-style-type: none; padding: 0; margin: 0; }
+        .report-item-stacked { 
+            display: flex; align-items: center; gap: 12px; 
+            padding: 12px 8px; border-bottom: 1px solid var(--subtle-border-color);
+            background-color: var(--surface-bg-color); cursor: pointer;
             transition: background-color 0.2s ease;
         }
-        .report-item-stacked:last-child {
-            border-bottom: none;
-        }
-        .report-item-stacked:hover {
-            background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%);
-        }
+        .report-item-stacked:last-child { border-bottom: none; }
+        .report-item-stacked:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%); }
 
         .item-image-placeholder {
-            width: 50px; /* Justera storlek efter behov */
-            height: 50px;
-            background-color: var(--subtle-border-color); /* Placeholder-färg */
-            border-radius: 4px;
-            flex-shrink: 0;
-            /* TODO: Lägg till en ikon eller text här senare om du vill */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8em;
+            width: 50px; height: 50px; background-color: var(--subtle-border-color); 
+            border-radius: 4px; flex-shrink: 0; display: flex;
+            align-items: center; justify-content: center; font-size: 0.8em;
             color: var(--secondary-text-color);
         }
-        .item-image-placeholder::before { /* Enkel platshållartext */
-            content: "Bild"; 
-        }
+        .item-image-placeholder::before { content: "Vilt"; }
 
-        .item-main-info {
-            flex-grow: 1; /* Tar upp mest plats */
-            display: flex;
-            flex-direction: column;
-        }
-        .item-main-info .species {
-            font-size: 1.1em; /* Större text för viltslag */
-            font-weight: bold;
-            color: var(--text-color);
-            margin-bottom: 2px;
-        }
-        .item-main-info .details { /* Skytt och Pass */
-            font-size: 0.85em;
-            color: var(--secondary-text-color);
-            line-height: 1.3;
-        }
+        .item-main-info { flex-grow: 1; display: flex; flex-direction: column; }
+        .item-main-info .species { font-size: 1.1em; font-weight: bold; color: var(--text-color); margin-bottom: 2px; }
+        .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.3; }
 
-        .item-status-actions {
-            display: flex;
-            flex-direction: column; /* Status över actions på mobil */
-            align-items: flex-end; /* Justera till höger */
-            gap: 5px;
-            text-align: right;
-            flex-shrink: 0;
-        }
-        .item-status-actions .meat-status {
-            font-size: 0.8em;
-            display: flex;
-            align-items: center;
-        }
-        .item-status-actions .meat-status svg {
-            width: 14px;
-            height: 14px;
-            margin-left: 4px; /* Ikon efter texten */
-        }
-        .item-status-actions .meat-status.fördelat svg {
-            fill: var(--success-color);
-        }
-        .item-status-actions .meat-status.ej-fördelat svg {
-            fill: var(--danger-color);
-        }
-        .item-status-actions .item-actions-inline { /* För att ha redigera/ta bort på samma rad */
-            display: flex;
-            gap: 5px;
-        }
-        .item-status-actions .item-actions-inline .icon-button {
-            padding: 4px; /* Mindre padding för mindre knappar */
-            width: 28px; height: 28px;
-        }
-        .item-status-actions .item-actions-inline .icon-button svg {
-            width: 16px; height: 16px;
-        }
+        .item-status-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; text-align: right; flex-shrink: 0; }
+        .item-status-actions .meat-status { font-size: 0.8em; display: flex; align-items: center; }
+        .item-status-actions .meat-status svg { width: 14px; height: 14px; margin-left: 4px; }
+        .item-status-actions .meat-status.fördelat svg { fill: var(--success-color); }
+        .item-status-actions .meat-status.ej-fördelat svg { fill: var(--danger-color); }
+        .item-status-actions .item-actions-inline { display: flex; gap: 5px; }
+        .item-status-actions .item-actions-inline .icon-button { padding: 4px; width: 28px; height: 28px; }
+        .item-status-actions .item-actions-inline .icon-button svg { width: 16px; height: 16px; }
         
-        /* Overlays (Bör vara oförändrad från din fungerande version) */
-        .content-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--overlay-bg-color); z-index: 1000; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; }
-        .overlay-content-box { background-color: var(--overlay-content-bg); padding: 20px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.4); max-width: 550px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; }
+        /* Overlays */
+        .content-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--overlay-bg-color); z-index: 1000;
+            align-items: center; justify-content: center;
+            padding: 15px; box-sizing: border-box;
+        }
+        .overlay-content-box {
+            background-color: var(--overlay-content-bg); padding: 20px; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4); max-width: 550px; width: 100%;
+            max-height: 90vh; display: flex; flex-direction: column;
+        }
         .overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
         .overlay-header h3 { color: var(--overlay-header-text-color); text-align: left; margin: 0; font-size: 1.6em; flex-grow: 1;}
         .overlay-header .icon-button { width: 30px; height: 30px; padding: 5px;}
@@ -206,7 +205,7 @@
         <hr>
         <section id="felledGameReportSection">
             <h2>Rapportlista (Fällt Vilt)</h2>
-            <!-- Den gamla desktop-headern tas bort helt för "Stacked List"-designen -->
+            <!-- Ingen fast header för stacked list här -->
             <ul id="reportList"> 
                 <!-- Rapport-items (li.report-item-stacked) kommer renderas här av JS -->
             </ul>
@@ -218,11 +217,14 @@
         </div>
     </div> 
 
-    <!-- Modal för att lägga till/redigera fällt vilt (MODIFIERAS) -->
+    <!-- Modal för att lägga till/redigera fällt vilt (MODIFIERAD) -->
     <div id="addGameModal" class="content-overlay" style="display: none;"> 
         <div class="overlay-content-box"> 
             <div class="overlay-header"> 
                 <h3 id="gameModalTitle">Fällt Vilt</h3> 
+                 <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <!-- Flyttad hit & ändrad till ikon -->
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
             </div> 
             <div class="overlay-scrollable-content"> 
                 <input type="hidden" id="currentShotLogIdInput"> 
@@ -240,23 +242,22 @@
                 <div class="form-group">
                     <label for="meatQuickChoiceSelect">Snabbval:</label>
                     <select id="meatQuickChoiceSelect">
-                        <option value="">-- Välj snabbval --</option>
-                        <option value="tar hem kött och delar med granne.">tar hem kött och delar med granne.</option>
-                        <option value="tar hem kött.">tar hem kött.</option>
-                        <option value="lämnar till slakteri.">lämnar till slakteri.</option>
-                        <option value="delas i jaktlaget.">delas i jaktlaget.</option>
-                        <!-- Fler snabbval kan läggas till -->
+                        <option value="">-- Välj eller skriv fritt nedan --</option>
+                        <option value="tar hem kött och delar med granne.">...tar hem kött och delar med granne.</option>
+                        <option value="tar hem kött.">...tar hem kött.</option>
+                        <option value="lämnar till slakteri.">...lämnar till slakteri.</option>
+                        <option value="delas i jaktlaget.">...delas i jaktlaget.</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label>
                     <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Kalle Anka tar hem kött och delar med Stina"></textarea>
                 </div>
-                 <input type="hidden" id="isMeatDistributedCheckbox" value="false"> <!-- Dold, sätts av JS -->
-
-
             </div> 
-            <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara</button> <button id="cancelGameModalBtn" class="button-secondary" style="flex-grow:1;">Avbryt</button> </div> 
+            <div style="display:flex; gap:10px; margin-top:15px;"> 
+                <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara</button> 
+                <!-- Avbryt-knapp togs bort, stängs via X i header -->
+            </div> 
         </div> 
     </div>
 
@@ -270,14 +271,13 @@
                 </button>
             </div>
             <div class="overlay-scrollable-content" id="viewGameDetailsContent">
-                <!-- Innehåll fylls av JavaScript -->
                 <p><strong>Viltslag:</strong> <span data-field="species"></span></p>
                 <p><strong>Skytt:</strong> <span data-field="shooter"></span></p>
                 <p><strong>Pass/Plats:</strong> <span data-field="passLocation"></span></p>
                 <p><strong>Tid för skott:</strong> <span data-field="shotTime"></span></p>
-                <div id="viewMeatDistributionSection">
-                    <h4>Köttfördelning <span id="viewMeatStatusIcon"></span></h4>
-                    <p id="viewMeatDistributionText"></p>
+                <div id="viewMeatDistributionSection" style="margin-top:10px;">
+                    <h4>Köttfördelning <span id="viewMeatStatusIcon" style="vertical-align: middle;"></span></h4>
+                    <p id="viewMeatDistributionText" style="margin-top: 5px;"></p>
                 </div>
             </div>
             <div style="display:flex; gap:10px; margin-top:15px;">
@@ -287,19 +287,35 @@
         </div>
     </div>
 
-    <div id="helpOverlay" class="content-overlay" style="display: none;"> <!-- ... (Som tidigare) ... --> </div>
-    <div id="shareOverlay" class="content-overlay" style="display: none;"> <!-- ... (Som tidigare) ... --> </div>
+    <div id="helpOverlay" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3>Hjälp & Information</h3> <button id="helpOverlayCloseBtn" class="icon-button" title="Stäng"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button> </div> <div class="overlay-scrollable-content"> <!-- Fyll i Hjälptext här --> </div> </div> </div>
+    <div id="shareOverlay" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3>Dela Appen</h3> <button id="shareOverlayCloseBtn" class="icon-button" title="Stäng"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button> </div> <div class="overlay-scrollable-content" style="text-align: center;"> <div id="qrCodeContainer"></div> <p><a id="shareableLink" href="#" target="_blank"></a></p> </div> </div> </div>
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
-        // (Se till att alla dessa är ifyllda från din tidigare fungerande version)
-        // Lägg till nya för viewGameModal och dess interna delar
-        let viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn, viewGameEditBtn, viewGameDeleteBtn,
-            meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea, isMeatDistributedCheckbox; // Nya för köttfördelning i modal
+        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,
+            logShotBtn, shotLogList, noLoggedShotsInfo, 
+            reportListContainer, noReportsInfo, 
+            exportDataBtn, clearAllDataBtn, 
+            addGameModal, gameModalTitle, currentShotLogIdInput, 
+            gameSpeciesInput, gamePassLocationInput, gameTimeInput,
+            gameShooterInput, speakShooterBtn, 
+            meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,
+            saveGameDetailsBtn, cancelGameModalBtn,
+            viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn, 
+            viewGameEditBtn, viewGameDeleteBtn,
+            helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn, 
+            qrCodeContainer, shareableLink;
 
-        // --- INITIERING VID LADDNING AV SIDAN ---
+        // --- GLOBALA VARIABLER ---
+        let allReports = []; 
+        let currentTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        let deferredPrompt;
+        const appURL = window.location.href; 
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let shooterRecognition; // Ta bort meatRecognition tills vidare
+        let activeRecognitionInput = null; 
+
         document.addEventListener('DOMContentLoaded', () => {
-            // ... (alla dina tidigare DOM-element tilldelningar) ...
             themeToggleBtn = document.getElementById('themeToggleBtn'); 
             themeIconSun = document.getElementById('themeIconSun');
             themeIconMoon = document.getElementById('themeIconMoon');
@@ -318,33 +334,26 @@
             currentShotLogIdInput = document.getElementById('currentShotLogIdInput');
             gameSpeciesInput = document.getElementById('gameSpeciesInput');
             gamePassLocationInput = document.getElementById('gamePassLocationInput');
-            gameTimeInput = document.getElementById('gameTimeInput'); // Lades till i modalen
+            gameTimeInput = document.getElementById('gameTimeInput');
             gameShooterInput = document.getElementById('gameShooterInput');
             speakShooterBtn = document.getElementById('speakShooterBtn');
-            // Köttfördelning i addGameModal
             meatRecipientNameInput = document.getElementById('meatRecipientNameInput');
             meatQuickChoiceSelect = document.getElementById('meatQuickChoiceSelect');
             gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea');
-            isMeatDistributedCheckbox = document.getElementById('isMeatDistributedCheckbox'); // Dold input
-
             saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn');
             cancelGameModalBtn = document.getElementById('cancelGameModalBtn');
-            
-            // View Modal
             viewGameModal = document.getElementById('viewGameModal');
             viewGameModalTitle = document.getElementById('viewGameModalTitle');
             viewGameDetailsContent = document.getElementById('viewGameDetailsContent');
             viewGameCloseBtn = document.getElementById('viewGameCloseBtn');
             viewGameEditBtn = document.getElementById('viewGameEditBtn');
             viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn');
-
-            helpOverlay = document.getElementById('helpOverlay'); /* ... etc ... */
-            shareOverlay = document.getElementById('shareOverlay'); /* ... etc ... */
+            helpOverlay = document.getElementById('helpOverlay'); 
             helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn');
+            shareOverlay = document.getElementById('shareOverlay'); 
             shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn');
             qrCodeContainer = document.getElementById('qrCodeContainer');
             shareableLink = document.getElementById('shareableLink');
-
 
             if (installAppBtn) installAppBtn.style.display = 'none';
             applyTheme(currentTheme);
@@ -352,15 +361,6 @@
             renderShotLogList();
             renderFelledGameReportList();
 
-            // ... (alla dina tidigare event listeners) ...
-            if (viewGameCloseBtn) viewGameCloseBtn.addEventListener('click', closeViewGameModal);
-            if (viewGameEditBtn) viewGameEditBtn.addEventListener('click', handleEditFromViewModal);
-            if (viewGameDeleteBtn) viewGameDeleteBtn.addEventListener('click', handleDeleteFromViewModal);
-
-            // Lyssna på ändringar i köttfördelningsfälten för att uppdatera textarea
-            if(meatRecipientNameInput) meatRecipientNameInput.addEventListener('input', updateMeatDistributionTextarea);
-            if(meatQuickChoiceSelect) meatQuickChoiceSelect.addEventListener('change', updateMeatDistributionTextarea);
-            
             if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
             if (helpBtn) helpBtn.addEventListener('click', openHelpOverlay);
             if (shareBtn) shareBtn.addEventListener('click', openShareOverlay);
@@ -369,38 +369,116 @@
             if (clearAllDataBtn) clearAllDataBtn.addEventListener('click', handleClearAllData);
             if (saveGameDetailsBtn) saveGameDetailsBtn.addEventListener('click', handleSaveGameDetails);
             if (cancelGameModalBtn) cancelGameModalBtn.addEventListener('click', closeAddGameModal);
+            if (viewGameCloseBtn) viewGameCloseBtn.addEventListener('click', closeViewGameModal);
+            if (viewGameEditBtn) viewGameEditBtn.addEventListener('click', handleEditFromViewModal);
+            if (viewGameDeleteBtn) viewGameDeleteBtn.addEventListener('click', handleDeleteFromViewModal);
             if (helpOverlayCloseBtn) helpOverlayCloseBtn.addEventListener('click', closeHelpOverlay);
             if (shareOverlayCloseBtn) shareOverlayCloseBtn.addEventListener('click', closeShareOverlay);
+            if(meatRecipientNameInput) meatRecipientNameInput.addEventListener('input', updateMeatDistributionTextarea);
+            if(meatQuickChoiceSelect) meatQuickChoiceSelect.addEventListener('change', updateMeatDistributionTextarea);
             
             setupSpeechRecognitionForShooter();
-            // setupSpeechRecognitionForMeat(); // Vi har ingen mic-knapp för den nya textarea än
             setupPWAInstallation();
 
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => console.log('SW registered scope:', registration.scope))
-                    .catch(error => console.log('SW registration failed:', error));
+                navigator.serviceWorker.register('sw.js').catch(err => console.error('SW reg failed:', err));
             }
         });
 
-        // --- (Alla andra JS-funktioner utom renderFelledGameReportList och de som rör den nya modalen) ---
-        // --- de ska kopieras in från din fungerande version ---
-
+        function applyTheme(theme) {
+            const newTheme = theme === 'dark' ? 'dark' : 'light'; 
+            document.body.setAttribute('data-theme', newTheme);
+            if (themeIconSun) themeIconSun.style.display = newTheme === 'dark' ? 'block' : 'none';
+            if (themeIconMoon) themeIconMoon.style.display = newTheme === 'light' ? 'block' : 'none';
+            localStorage.setItem('theme', newTheme);
+            if (themeToggleBtn) themeToggleBtn.title = newTheme === 'dark' ? "Växla till ljust tema" : "Växla till mörkt tema";
+            const metaThemeColor = document.querySelector("meta[name=theme-color]");
+            if (metaThemeColor) {
+                const rootStyle = getComputedStyle(document.documentElement); 
+                let colorValue = rootStyle.getPropertyValue('--primary-color').trim();
+                if (!colorValue) colorValue = (newTheme === 'dark') ? '#76c776' : '#344a34';
+                metaThemeColor.setAttribute("content", colorValue);
+            }
+        }
+        function toggleTheme() { currentTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(currentTheme); }
+        function setupPWAInstallation() {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault(); deferredPrompt = e;
+                if (installAppBtn) {
+                    installAppBtn.style.display = 'inline-flex';
+                    const newInstallBtn = installAppBtn.cloneNode(true); 
+                    if(installAppBtn.parentNode) installAppBtn.parentNode.replaceChild(newInstallBtn, installAppBtn);
+                    installAppBtn = newInstallBtn; 
+                    installAppBtn.onclick = async () => { 
+                        if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; if(installAppBtn) installAppBtn.style.display = 'none'; }
+                        else { const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; if (isIOS) alert("På iOS: Dela -> Lägg till på hemskärmen."); else if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) alert("Appen är redan installerad!"); else alert("Installationsprompt ej tillgänglig.");}
+                    };
+                }
+            });
+            window.addEventListener('appinstalled', () => { if (installAppBtn) installAppBtn.style.display = 'none'; deferredPrompt = null; });
+        }
+        function setupGenericSpeechRecognition(recognitionInstance, buttonElement, targetInputElement) {
+            if (SpeechRecognition && buttonElement && targetInputElement) { 
+                 if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {}
+                try {
+                    recognitionInstance.lang = 'sv-SE'; recognitionInstance.continuous = false; recognitionInstance.interimResults = false;
+                    recognitionInstance.onresult = (event) => { const txt = event.results[0][0].transcript.trim(); if (activeRecognitionInput) activeRecognitionInput.value = txt; };
+                    recognitionInstance.onerror = (event) => { if (buttonElement) { buttonElement.title = "Fel: " + event.error; buttonElement.classList.remove('is-listening'); buttonElement.disabled = false; } activeRecognitionInput = null; };
+                    recognitionInstance.onstart = () => { if (buttonElement) { buttonElement.classList.add('is-listening'); buttonElement.disabled = true; buttonElement.title = "Lyssnar..."; }};
+                    recognitionInstance.onend = () => { if (buttonElement) { buttonElement.classList.remove('is-listening'); buttonElement.disabled = false; buttonElement.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;};
+                    const newBtn = buttonElement.cloneNode(true); buttonElement.parentNode.replaceChild(newBtn, buttonElement);
+                    if (buttonElement.id === 'speakShooterBtn') speakShooterBtn = newBtn;
+                    newBtn.addEventListener('click', () => { 
+                        try { activeRecognitionInput = targetInputElement; if (recognitionInstance) recognitionInstance.start(); } 
+                        catch (e) { if (newBtn) {newBtn.classList.remove('is-listening');newBtn.disabled = false;newBtn.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;}
+                    });
+                } catch(e) { if (buttonElement) { buttonElement.disabled = true; buttonElement.title = 'Röstinitiering misslyckades.'; }}
+            } else { if (buttonElement) { buttonElement.disabled = true; buttonElement.title = SpeechRecognition ? 'Målelement saknas.' : 'Röstinmatning stöds ej.'; }}
+        }
+        function setupSpeechRecognitionForShooter() { if (SpeechRecognition && speakShooterBtn && gameShooterInput) { shooterRecognition = new SpeechRecognition(); setupGenericSpeechRecognition(shooterRecognition, speakShooterBtn, gameShooterInput); } else if(speakShooterBtn) { speakShooterBtn.disabled = true; speakShooterBtn.title = 'Röstinmatning stöds ej.';}}
+        
+        function saveAllDataToLocalStorage() { try { localStorage.setItem('bjorklundsAllRapporter_v2', JSON.stringify(allReports));} catch (e) { alert("Fel: Kunde inte spara data."); }}
+        function loadAllDataFromLocalStorage() { const d = localStorage.getItem('bjorklundsAllRapporter_v2'); if (d) { try { allReports = JSON.parse(d);} catch (e) { allReports = [];}} else { allReports = []; }}
+        function handleLogShot() { const n = new Date(), h = String(n.getHours()).padStart(2, '0'), m = String(n.getMinutes()).padStart(2, '0'); const s = { id: Date.now(), shotTime: `${h}:${m}`, isVerified: false, createdAt: n.toISOString(), felledGameDetails: null }; allReports.unshift(s); saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); }
+        function handleToggleShotVerification(id, el) { const s = allReports.find(r => r.id === id); if (s) { s.isVerified = el.checked; saveAllDataToLocalStorage(); renderFelledGameReportList(); }}
+        function handleDeleteLoggedShot(id) { const s = allReports.find(r => r.id === id); let msg = "Ta bort loggat skott?"; if (s && s.felledGameDetails) msg = "Detta skott har fällt vilt. Ta bort allt?"; if (confirm(msg)) { allReports = allReports.filter(r => r.id !== id); saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); }}
+        function renderShotLogList() {
+            if (!shotLogList || !noLoggedShotsInfo) return; shotLogList.innerHTML = '';
+            const shots = allReports.slice().sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+            noLoggedShotsInfo.style.display = shots.length === 0 ? 'block' : 'none';
+            shots.forEach(s => {
+                const li = document.createElement('li'); li.className = 'shot-log-item'; li.dataset.shotId = s.id;
+                const time = document.createElement('span'); time.textContent = `Skott kl. ${s.shotTime}`;
+                const vg = document.createElement('div'); vg.className = 'time-verified-group';
+                const cb = document.createElement('input'); cb.type = 'checkbox'; cb.id = `verify-${s.id}`; cb.checked = s.isVerified; cb.onchange = () => handleToggleShotVerification(s.id, cb);
+                const lbl = document.createElement('label'); lbl.htmlFor = cb.id; lbl.textContent = "Verifierat";
+                vg.append(cb, lbl);
+                const acts = document.createElement('div'); acts.className = 'actions-container';
+                const addBtn = document.createElement('button'); addBtn.className = 'icon-button add-game-btn';
+                addBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="${s.felledGameDetails ? "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" : "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"}"/></svg>`;
+                addBtn.title = s.felledGameDetails ? "Redigera Vilt" : "Lägg till Vilt"; addBtn.onclick = () => openAddGameModal(s.id);
+                const delBtn = document.createElement('button'); delBtn.className = 'icon-button delete-btn';
+                delBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+                delBtn.title = "Ta bort skott"; delBtn.onclick = () => handleDeleteLoggedShot(s.id);
+                acts.append(addBtn, delBtn); li.append(time, vg, acts); shotLogList.appendChild(li);
+            });
+        }
+        
         function updateMeatDistributionTextarea() {
+            if (!meatRecipientNameInput || !meatQuickChoiceSelect || !gameMeatDistributionTextarea) return;
             const recipient = meatRecipientNameInput.value.trim();
             const quickChoice = meatQuickChoiceSelect.value;
-            let fullText = "";
+            let fullText = gameMeatDistributionTextarea.value; // Behåll manuell input om inget väljs
 
             if (recipient && quickChoice) {
                 fullText = `${recipient} ${quickChoice}`;
-            } else if (quickChoice) {
-                fullText = quickChoice.charAt(0).toUpperCase() + quickChoice.slice(1); // Stor bokstav om bara snabbval
-            } else if (recipient) {
-                fullText = recipient; // Om bara namn angetts, kanske de vill skriva resten manuellt
+            } else if (quickChoice && !recipient) { // Bara snabbval
+                fullText = quickChoice.charAt(0).toUpperCase() + quickChoice.slice(1);
+            } else if (recipient && !quickChoice) { // Bara namn, låt användaren skriva resten
+                fullText = recipient + " "; // Lägg till space för enklare fortsättning
             }
             gameMeatDistributionTextarea.value = fullText;
         }
-
 
         function renderFelledGameReportList() {
             if (!reportListContainer || !noReportsInfo) return;
@@ -409,22 +487,18 @@
             const reportsWithGame = allReports
                 .filter(report => report.felledGameDetails)
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); 
+            
+            const desktopHeader = document.querySelector('#felledGameReportSection .report-list-header-desktop');
+            if (desktopHeader) desktopHeader.style.display = reportsWithGame.length > 0 ? 'grid' : 'none';
+            noReportsInfo.style.display = reportsWithGame.length === 0 ? 'block' : 'none';
 
-            // Dölj desktop-headern helt för denna "stacked list"-design
-            const headerDesktop = document.querySelector('#felledGameReportSection .report-list-header-desktop');
-            if (headerDesktop) headerDesktop.style.display = 'none';
-
-            if (reportsWithGame.length === 0) {
-                noReportsInfo.style.display = 'block';
-            } else {
-                noReportsInfo.style.display = 'none';
+            if (reportsWithGame.length > 0) {
                 reportsWithGame.forEach(report => {
                     const li = document.createElement('li');
                     li.classList.add('report-item-stacked');
                     li.dataset.reportId = report.id;
                     li.onclick = (event) => {
-                        // Förhindra att klick på action-knappar triggar "visa vy"
-                        if (event.target.closest('.item-actions-inline')) {
+                        if (event.target.closest('.item-actions-inline') || event.target.closest('.toggle-details-btn')) {
                             return;
                         }
                         handleReportItemClick(report.id);
@@ -432,7 +506,7 @@
 
                     const placeholder = document.createElement('div');
                     placeholder.classList.add('item-image-placeholder');
-                    // placeholder.textContent = report.felledGameDetails.species.substring(0,1).toUpperCase(); // T.ex. första bokstaven
+                    placeholder.textContent = report.felledGameDetails.species ? report.felledGameDetails.species.substring(0,1).toUpperCase() : "X";
 
                     const mainInfo = document.createElement('div');
                     mainInfo.classList.add('item-main-info');
@@ -441,7 +515,7 @@
                     speciesDiv.textContent = report.felledGameDetails.species || '-';
                     const detailsDiv = document.createElement('div');
                     detailsDiv.classList.add('details');
-                    detailsDiv.textContent = `Skytt: ${report.felledGameDetails.shooter || '-'}, Pass: ${report.felledGameDetails.passLocation || '-'}`;
+                    detailsDiv.textContent = `Skytt: ${report.felledGameDetails.shooter || '-'}`; // Pass tas bort från denna primära mobilvy
                     mainInfo.appendChild(speciesDiv);
                     mainInfo.appendChild(detailsDiv);
 
@@ -452,13 +526,13 @@
                     meatStatusDiv.classList.add('meat-status');
                     const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
                     if (isDistributed) {
-                        meatStatusDiv.textContent = 'Köttet är fördelat';
+                        meatStatusDiv.textContent = 'Kött fördelat';
                         meatStatusDiv.classList.add('fördelat');
-                        meatStatusDiv.innerHTML += ` <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`; // Checkmark
+                        meatStatusDiv.innerHTML += ` <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
                     } else {
-                        meatStatusDiv.textContent = 'Köttet ej fördelat';
+                        meatStatusDiv.textContent = 'Kött ej fördelat';
                         meatStatusDiv.classList.add('ej-fördelat');
-                        meatStatusDiv.innerHTML += ` <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`; // Warning triangle
+                        meatStatusDiv.innerHTML += ` <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
                     }
                     statusActions.appendChild(meatStatusDiv);
 
@@ -467,17 +541,43 @@
                     const editBtn = document.createElement('button');
                     editBtn.classList.add('icon-button', 'edit-game-btn'); editBtn.title = "Redigera";
                     editBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>`;
-                    editBtn.onclick = (e) => { e.stopPropagation(); openAddGameModal(report.id); }; // Stoppa propagering
+                    editBtn.onclick = (e) => { e.stopPropagation(); openAddGameModal(report.id); };
                     const deleteBtn = document.createElement('button'); 
                     deleteBtn.classList.add('icon-button', 'delete-btn'); deleteBtn.title = "Ta bort";
                     deleteBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
-                    deleteBtn.onclick = (e) => { e.stopPropagation(); handleDeleteLoggedShot(report.id); }; // Stoppa propagering
+                    deleteBtn.onclick = (e) => { e.stopPropagation(); handleDeleteLoggedShot(report.id); };
                     itemActionsInline.appendChild(editBtn); itemActionsInline.appendChild(deleteBtn);
+                    
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.classList.add('icon-button', 'toggle-details-btn');
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                    toggleBtn.setAttribute('aria-controls', `secondary-info-${report.id}`);
+                    toggleBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>`;
+                    
                     statusActions.appendChild(itemActionsInline);
+                    statusActions.appendChild(toggleBtn); // Toggle-knappen under actions
 
                     li.appendChild(placeholder);
                     li.appendChild(mainInfo);
                     li.appendChild(statusActions);
+
+                    const secondaryDetailsDiv = document.createElement('div');
+                    secondaryDetailsDiv.classList.add('report-item-secondary-details');
+                    secondaryDetailsDiv.id = `secondary-info-${report.id}`;
+                    secondaryDetailsDiv.innerHTML = `
+                        <p><strong>Tid:</strong> <span>${report.shotTime || '-'}${report.isVerified ? ' (Verifierat ✔)' : ''}</span></p>
+                        <p><strong>Pass:</strong> <span>${report.felledGameDetails.passLocation || '-'}</span></p>
+                        <p><strong>Köttfördelning:</strong> <span>${report.felledGameDetails.meatDistribution || 'Ej angivet'}</span></p>
+                    `;
+                    li.appendChild(secondaryDetailsDiv);
+
+                    toggleBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                        toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+                        secondaryDetailsDiv.classList.toggle('visible');
+                        toggleBtn.classList.toggle('expanded');
+                    };
                     reportListContainer.appendChild(li);
                 });
             }
@@ -486,61 +586,37 @@
         function handleReportItemClick(reportId) {
             const report = allReports.find(r => r.id === reportId && r.felledGameDetails);
             if (!report) return;
-
             const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
-            if (isDistributed) {
-                openViewGameModal(reportId);
-            } else {
-                openAddGameModal(reportId); // Öppna redigeringsvyn direkt
-            }
+            if (isDistributed) openViewGameModal(reportId);
+            else openAddGameModal(reportId);
         }
 
         function openViewGameModal(reportId) {
             const report = allReports.find(r => r.id === reportId && r.felledGameDetails);
             if (!report || !viewGameModal) return;
-
             viewGameModalTitle.textContent = report.felledGameDetails.species || 'Detaljer';
             viewGameDetailsContent.querySelector('[data-field="species"]').textContent = report.felledGameDetails.species || '-';
             viewGameDetailsContent.querySelector('[data-field="shooter"]').textContent = report.felledGameDetails.shooter || '-';
             viewGameDetailsContent.querySelector('[data-field="passLocation"]').textContent = report.felledGameDetails.passLocation || '-';
             viewGameDetailsContent.querySelector('[data-field="shotTime"]').textContent = `${report.shotTime}${report.isVerified ? ' (Verifierat ✔)' : ''}`;
-            
-            const meatStatusIcon = viewGameDetailsContent.querySelector('#viewMeatStatusIcon');
-            const meatText = viewGameDetailsContent.querySelector('#viewMeatDistributionText');
-            const meatSection = viewGameDetailsContent.querySelector('#viewMeatDistributionSection');
-
+            const meatStatusIconEl = viewGameDetailsContent.querySelector('#viewMeatStatusIcon');
+            const meatTextEl = viewGameDetailsContent.querySelector('#viewMeatDistributionText');
+            const meatSectionEl = viewGameDetailsContent.querySelector('#viewMeatDistributionSection');
             if (report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '') {
-                meatSection.style.display = 'block';
-                meatStatusIcon.innerHTML = `<svg viewBox="0 0 24 24" style="width:1em; height:1em; vertical-align:middle; fill:var(--success-color);"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
-                meatText.textContent = report.felledGameDetails.meatDistribution;
+                meatSectionEl.style.display = 'block';
+                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
+                meatTextEl.textContent = report.felledGameDetails.meatDistribution;
             } else {
-                meatSection.style.display = 'none'; // Dölj hela köttsektionen om ingen info
+                meatSectionEl.style.display = 'block'; // Visa sektionen men indikera att det inte är fördelat
+                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
+                meatTextEl.textContent = "Ej fördelat";
             }
-            
-            // Sätt ID för redigera/ta bort knappar i view-modalen
-            viewGameEditBtn.dataset.reportId = reportId;
-            viewGameDeleteBtn.dataset.reportId = reportId;
-
-            closeAllOverlays(viewGameModal);
-            viewGameModal.style.display = 'flex';
-            document.body.classList.add('overlay-open');
+            viewGameEditBtn.dataset.reportId = reportId; viewGameDeleteBtn.dataset.reportId = reportId;
+            closeAllOverlays(viewGameModal); viewGameModal.style.display = 'flex'; document.body.classList.add('overlay-open');
         }
-
-        function closeViewGameModal() {
-            if(viewGameModal) viewGameModal.style.display = 'none';
-            checkAndCloseBodyOverlay();
-        }
-        function handleEditFromViewModal() {
-            const reportId = parseInt(this.dataset.reportId);
-            closeViewGameModal();
-            openAddGameModal(reportId);
-        }
-        function handleDeleteFromViewModal() {
-            const reportId = parseInt(this.dataset.reportId);
-            closeViewGameModal();
-            handleDeleteLoggedShot(reportId); // Samma funktion som tidigare
-        }
-
+        function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
+        function handleEditFromViewModal() { const rId = parseInt(this.dataset.reportId); closeViewGameModal(); openAddGameModal(rId); }
+        function handleDeleteFromViewModal() { const rId = parseInt(this.dataset.reportId); closeViewGameModal(); handleDeleteLoggedShot(rId); }
 
         function handleSaveGameDetails() {
             if (!currentShotLogIdInput) return; 
@@ -554,33 +630,19 @@
                 species: gameSpeciesInput.value, 
                 passLocation: gamePassLocationInput.value.trim(), 
                 shooter: gameShooterInput.value.trim(), 
-                meatDistribution: gameMeatDistributionTextarea.value.trim() // Använd textarea
-                // Tid för skottet sparas redan på report-objektet (report.shotTime)
-                // Men om man vill kunna ändra det specifikt för "Fällt vilt"-delen:
-                // shotTimeOverride: gameTimeInput.value // Nytt fält
+                meatDistribution: gameMeatDistributionTextarea.value.trim()
             };
-            // Uppdatera huvudskottets tid om den ändrats i modalen
-            if (gameTimeInput.value) {
-                report.shotTime = gameTimeInput.value;
-            }
+            if (gameTimeInput.value) report.shotTime = gameTimeInput.value;
 
-            // Sätt isMeatDistributed baserat på om text finns
-            const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
-            // Vi behöver inte spara en separat isMeatDistributedCheckbox.value, vi kollar bara textarean.
-
-            saveAllDataToLocalStorage(); 
-            renderShotLogList(); 
-            renderFelledGameReportList(); 
-            closeAddGameModal();
+            saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); closeAddGameModal();
         }
-
         function openAddGameModal(shotLogId) { 
             if (!addGameModal) return; 
             const report = allReports.find(s => s.id === shotLogId); 
             if (!report) return;
             
             currentShotLogIdInput.value = shotLogId; 
-            gameTimeInput.value = report.shotTime; // Sätt tiden från ursprungsskotttet
+            gameTimeInput.value = report.shotTime; 
 
             if (report.felledGameDetails) {
                 gameModalTitle.textContent = "Redigera Fällt Vilt"; 
@@ -588,27 +650,14 @@
                 gamePassLocationInput.value = report.felledGameDetails.passLocation || ''; 
                 gameShooterInput.value = report.felledGameDetails.shooter || ''; 
                 gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || '';
-                // Rensa namn och snabbval då textarean är master
-                meatRecipientNameInput.value = '';
-                meatQuickChoiceSelect.value = '';
-
+                meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = '';
             } else {
                 gameModalTitle.textContent = "Lägg till Fällt Vilt"; 
-                gameSpeciesInput.value = ''; 
-                gamePassLocationInput.value = ''; 
-                gameShooterInput.value = ''; 
-                gameMeatDistributionTextarea.value = '';
-                meatRecipientNameInput.value = '';
-                meatQuickChoiceSelect.value = '';
+                gameSpeciesInput.value = ''; gamePassLocationInput.value = ''; gameShooterInput.value = ''; 
+                gameMeatDistributionTextarea.value = ''; meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = '';
             }
-            closeAllOverlays(addGameModal); 
-            addGameModal.style.display = 'flex'; 
-            document.body.classList.add('overlay-open');
+            closeAllOverlays(addGameModal); addGameModal.style.display = 'flex'; document.body.classList.add('overlay-open');
         }
-
-
-        // --- (Resten av dina fungerande JS-funktioner: closeAddGameModal, export, clear, help/share overlays, etc.) ---
-        // Se till att dessa är kompletta och korrekta.
         function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
         function exportAllDataToCSV() {
             if(allReports.length===0){alert("Ingen data att exportera.");return}let e="data:text/csv;charset=utf-8,",t=["Skott ID","Skott Klockslag","Skott Verifierat","Skott Registrerat","Viltslag","Pass/Plats (Vilt)","Skytt (Vilt)","Köttfördelning (Vilt)"];e+=t.join(",")+"\r\n",allReports.slice().sort((o,a)=>new Date(o.createdAt)-new Date(a.createdAt)).forEach(o=>{let a=o.isVerified?"Ja":"Nej",i=new Date(o.createdAt).toLocaleString("sv-SE"),l=[o.id,o.shotTime,a,i,o.felledGameDetails?o.felledGameDetails.species||"":"",o.felledGameDetails?o.felledGameDetails.passLocation||"":"",o.felledGameDetails?o.felledGameDetails.shooter||"":"",o.felledGameDetails?o.felledGameDetails.meatDistribution||"":""];e+=l.map(r=>`"${String(r).replace(/"/g,'""')}"`).join(",")+"\r\n"});let n=encodeURI(e),s=document.createElement("a");s.setAttribute("href",n),s.setAttribute("download",`bjorklunds_rapport_v2_${new Date().toISOString().slice(0,10).replace(/-/g,"")}.csv`),document.body.appendChild(s),s.click(),document.body.removeChild(s);
@@ -628,14 +677,10 @@
             if (keepOpenOverlay === null) checkAndCloseBodyOverlay();
         }
         function checkAndCloseBodyOverlay() { 
-            const anyOpen = (addGameModal && addGameModal.style.display === 'flex') || 
-                            (helpOverlay && helpOverlay.style.display === 'flex') || 
-                            (shareOverlay && shareOverlay.style.display === 'flex') ||
-                            (viewGameModal && viewGameModal.style.display === 'flex');
+            const anyOpen = (addGameModal && addGameModal.style.display === 'flex') || (helpOverlay && helpOverlay.style.display === 'flex') || (shareOverlay && shareOverlay.style.display === 'flex') || (viewGameModal && viewGameModal.style.display === 'flex');
             if (!anyOpen && document.body.classList.contains('overlay-open')) document.body.classList.remove('overlay-open');
             else if (anyOpen && !document.body.classList.contains('overlay-open')) document.body.classList.add('overlay-open');
         }
-
     </script>
 </body>
 </html>
