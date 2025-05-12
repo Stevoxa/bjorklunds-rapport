@@ -113,28 +113,44 @@
         .report-item-stacked:last-child { margin-bottom: 0; }
         .report-item-stacked:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%); }
         .item-image-placeholder { width: 40px; height: 40px; background-color: var(--primary-color); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.1em; color: var(--primary-text-color); font-weight: bold; }
-        .item-main-info { flex-grow: 1; display: flex; flex-direction: column; gap: 1px; }
+        .item-main-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            min-width: 0; /* Viktigt för att tillåta text-overflow inom flex item */
+        }
         .item-main-info .species { font-size: 1.05em; font-weight: bold; color: var(--text-color); }
         .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.3; }
         .item-main-info .details span { display: block; font-style: italic; }
-
+        /* Lägg till regler för textklippning */
+        .item-main-info .species,
+        .item-main-info .details span {
+            white-space: nowrap;      /* Förhindra radbrytning */
+            overflow: hidden;         /* Göm överflödig text */
+            text-overflow: ellipsis;  /* Visa ... för klippt text */
+            display: block;           /* Nödvändigt för text-overflow */
+        }
         /* Statusplacering: Text och ikon på samma rad, längst ner till höger. */
         .item-status-actions {
             display: flex;
             flex-direction: row;
             align-items: center;
             gap: 4px;
-            margin-left: auto;
-            align-self: flex-end;
-            padding-bottom: 2px;
+            margin-left: auto; /* Flytta till höger */
+            align-self: flex-end; /* Vertikalt i botten av flex-containern */
+            padding-bottom: 2px; /* Justera vertikal position lite */
+            flex-shrink: 0; /* Förhindra att denna del krymper */
         }
         .item-status-actions .meat-status-text {
             font-size: 0.8em;
             font-weight: bold;
             line-height: 1;
+            white-space: nowrap; /* Förhindra att "Ej fördelat" radbryts */
         }
         .item-status-actions .meat-status-icon {
             display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; /* Ikonen ska inte krympa */
         }
         .item-status-actions .meat-status-icon svg {
             width: 0.9em; /* Anpassa till textens höjd */
@@ -154,11 +170,11 @@
         .overlay-header .icon-button { width: 30px; height: 30px; padding: 5px;}
         .overlay-header .icon-button svg { width: 18px; height: 18px;}
         .overlay-scrollable-content { color: var(--overlay-text-color); overflow-y: auto; flex-grow: 1; margin-bottom: 20px; padding-right: 5px;}
-        
+
         /* Justeringar för viewGameModal */
         #viewGameDetailsContent .detail-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Behålls */
             padding: 7px 0;
             border-bottom: 1px solid var(--subtle-border-color);
             align-items: baseline;
@@ -181,6 +197,25 @@
             word-break: break-word;
             color: var(--text-color);
         }
+        /* För modal-titeln med ikon */
+        #viewGameModal .overlay-header h3 {
+            display: flex; /* Använd flex för att placera ikon och text */
+            align-items: center; /* Centrera vertikalt */
+            gap: 10px; /* Avstånd mellan ikon och text */
+        }
+        #viewGameModal .modal-title-icon {
+            display: inline-flex; /* Så att den beter sig som en ikon */
+            align-items: center;
+            justify-content: center;
+            width: 40px; /* Samma som .item-image-placeholder */
+            height: 40px; /* Samma som .item-image-placeholder */
+            background-color: var(--primary-color); /* Samma färg som list-ikonen */
+            color: var(--primary-text-color); /* Samma textfärg som list-ikonen */
+            border-radius: 4px; /* Samma radie */
+            font-size: 1.1em; /* Samma som .item-image-placeholder */
+            font-weight: bold;
+            flex-shrink: 0; /* Förhindra att den krymper */
+        }
         #viewGameDetailsContent h4 { /* Gäller Köttfördelning & Kopplade Skott rubriker */
             border-bottom: none;
             margin-top: 25px;
@@ -195,9 +230,19 @@
             padding-top: 12px;
             margin-top: 20px;
         }
-        #viewGameDetailsContent #viewMeatDistributionSection p,
+        #viewGameDetailsContent #viewMeatDistributionSection .meat-status-line, /* Styles for the status line */
         #viewGameDetailsContent #viewLinkedShotsSection ul {
-            margin-top: 8px;
+            margin-top: 8px; /* Applies to ul now */
+        }
+        /* Styling för den nya raden med ikon+text i Visa Detaljer-modalen */
+        #viewGameModal .meat-status-line {
+            display: flex; /* Placera ikon och text bredvid varandra */
+            align-items: center; /* Centrera dem vertikalt */
+            gap: 6px; /* Lite luft mellan ikon och text */
+            margin-top: 5px; /* Avstånd från H4-rubriken */
+        }
+        #viewGameModal #viewMeatStatusIcon svg { /* Säkerställ ikonstorlek i modalen */
+             width: 1.1em; height: 1.1em; display: block; /* Förhindrar extra utrymme */
         }
 
         #qrCodeContainer { border:1px solid var(--border-color); background:white; margin: 20px auto; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; }
@@ -235,12 +280,15 @@
     <div id="addGameModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="gameModalTitle">Fällt Vilt</h3> <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="currentShotLogIdInput"> <input type="hidden" id="triggeringShotIdInput"> <div class="form-group"> <label for="gameSpeciesInput">Viltslag:</label> <select id="gameSpeciesInput"> <option value="">-- Välj --</option><option value="Dovhjort kapital">Dovhjort kapital</option><option value="Dovhjort">Dovhjort</option> <option value="Dovhind">Dovhind</option><option value="Dovspets">Dovspets</option><option value="Dovkalv">Dovkalv</option><option value="Kronhjort kapital">Kronhjort kapital</option><option value="Kronhjort">Kronhjort</option><option value="Kronhind">Kronhind</option><option value="Kronspets">Kronspets</option><option value="Kronkalv">Kronkalv</option><option value="Rådjursbock">Rådjursbock</option><option value="Rådjur">Rådjur</option><option value="Vildsvin">Vildsvin</option><option value="Älgtjur">Älgtjur</option><option value="Älgko">Älgko</option><option value="Älgkalv">Älgkalv</option><option value="Räv">Räv</option><option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> <hr style="margin: 15px 0;"><h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> <div class="form-group"> <label for="meatQuickChoiceSelect">Snabbval:</label> <select id="meatQuickChoiceSelect"> <option value="">-- Välj eller skriv fritt nedan --</option> <option value="tar hem kött och delar med granne.">...tar hem kött och delar med granne.</option> <option value="tar hem kött.">...tar hem kött.</option> <option value="lämnar till slakteri.">...lämnar till slakteri.</option> <option value="delas i jaktlaget.">...delas i jaktlaget.</option> </select> </div> <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Kalle Anka tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara Viltrapport</button> </div> </div> </div>
     <!-- Modal för att koppla Skott till Vilt -->
     <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Koppla Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att koppla till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att koppla skottet.</p> </div> <div class="modal-actions"> <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till Fällt Vilt & Koppla</button> <button id="unlinkShotBtn" class="button-secondary">Ta bort koppling / Ingen koppling</button> </div> </div> </div>
-    
+
     <!-- Modal för att visa detaljer om Fällt Vilt (NY HTML-STRUKTUR FÖR DETALJER) -->
     <div id="viewGameModal" class="content-overlay" style="display: none;">
         <div class="overlay-content-box">
             <div class="overlay-header">
-                <h3 id="viewGameModalTitle">Detaljer Fällt Vilt</h3>
+                <h3 id="viewGameModalTitle">
+                    <span class="modal-title-icon"></span> <!-- Ny span för ikonen -->
+                    <span class="modal-title-text">Detaljer Fällt Vilt</span> <!-- Texten får en egen span -->
+                </h3>
                 <button id="viewGameCloseBtn" class="icon-button" title="Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button>
             </div>
             <div class="overlay-scrollable-content" id="viewGameDetailsContent">
@@ -261,9 +309,12 @@
                     <span class="detail-value" data-field="reportTime"></span>
                 </div>
 
-                <div id="viewMeatDistributionSection"> <!-- Behåll befintlig struktur härifrån -->
-                    <h4>Köttfördelning <span id="viewMeatStatusIcon" style="vertical-align: middle;"></span></h4>
-                    <p id="viewMeatDistributionText" style="margin-top: 5px;"></p>
+                <div id="viewMeatDistributionSection"> <!-- Ändrad struktur här -->
+                    <h4>Köttfördelning</h4>
+                    <div class="meat-status-line"> <!-- Ny wrapper för ikon och text -->
+                        <span id="viewMeatStatusIcon"></span> <!-- Ikon flyttad hit -->
+                        <span id="viewMeatDistributionText"></span> <!-- Ändrad från P till SPAN, ID kvar -->
+                    </div>
                 </div>
                 <div id="viewLinkedShotsSection">
                     <h4>Kopplade Skott</h4>
@@ -271,8 +322,8 @@
                 </div>
             </div>
             <div style="display:flex; gap:10px; margin-top:15px;">
-                <button id="viewGameEditBtn" class="button-secondary" style="flex-grow:1;">Redigera Viltrapport</button>
-                <button id="viewGameDeleteBtn" class="button-secondary" style="flex-grow:1; background-color: var(--danger-secondary-bg); color: var(--danger-secondary-text-color); border-color: var(--danger-color);">Ta bort Viltrapport</button>
+                <button id="viewGameDeleteBtn" class="button-secondary" style="flex-grow:1; background-color: var(--danger-secondary-bg); color: var(--danger-secondary-text-color); border-color: var(--danger-color);">Ta bort</button> <!-- Byt plats & text -->
+                <button id="viewGameEditBtn" class="button-secondary" style="flex-grow:1;">Redigera</button> <!-- Byt plats & text -->
             </div>
         </div>
     </div>
@@ -312,10 +363,10 @@
         function linkShotToGame(shotId, gameReportId, closeModal = true) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); const game = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!shot || !game) { console.error(`Kunde inte hitta skott ${shotId} eller vilt ${gameReportId} för länkning.`); alert("Kunde inte utföra kopplingen."); return; } if (shot.linkedGameReportId && shot.linkedGameReportId !== gameReportId) { const oldGame = allReports.find(r => r.itemType === 'game' && r.id === shot.linkedGameReportId); if (oldGame && oldGame.felledGameDetails.linkedShotIds) { oldGame.felledGameDetails.linkedShotIds = oldGame.felledGameDetails.linkedShotIds.filter(id => id !== shotId); } } allReports.forEach(g => { if(g.itemType === 'game' && g.id !== gameReportId && g.felledGameDetails.linkedShotIds?.includes(shotId)) { g.felledGameDetails.linkedShotIds = g.felledGameDetails.linkedShotIds.filter(id => id !== shotId); } }); shot.linkedGameReportId = gameReportId; if (!game.felledGameDetails.linkedShotIds) { game.felledGameDetails.linkedShotIds = []; } if (!game.felledGameDetails.linkedShotIds.includes(shotId)) { game.felledGameDetails.linkedShotIds.push(shotId); } console.log(`Kopplade skott ${shotId} till vilt ${gameReportId}`); saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); if (closeModal) closeLinkShotModal(); }
         function unlinkShotFromGame(shotId, closeModal = true) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); if (!shot) { console.error(`Kunde inte hitta skott ${shotId} för avkoppling.`); return; } const linkedGameId = shot.linkedGameReportId; shot.linkedGameReportId = null; if (linkedGameId) { const game = allReports.find(r => r.itemType === 'game' && r.id === linkedGameId); if (game && game.felledGameDetails.linkedShotIds) { game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== shotId); } } console.log(`Kopplade bort skott ${shotId}`); saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); if (closeModal) closeLinkShotModal(); }
 
-        // --- Rendering av Listor ---
+        // --- Rendering av Listor --- (Ändrade texter i renderFelledGameReportList)
         function renderShotLogList() { if (!shotLogList || !noLoggedShotsInfo) return; shotLogList.innerHTML = ''; const shots = allReports.filter(r => r.itemType === 'shot').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); noLoggedShotsInfo.style.display = shots.length === 0 ? 'block' : 'none'; shots.forEach(shot => { const li = document.createElement('li'); li.className = 'shot-log-item'; li.dataset.shotId = shot.id; const shotInfoDiv = document.createElement('div'); shotInfoDiv.className = 'shot-info'; shotInfoDiv.title = 'Klicka för att koppla/ändra koppling'; shotInfoDiv.onclick = () => { const gameReportsExist = allReports.some(r => r.itemType === 'game'); if (gameReportsExist) { openLinkShotModal(shot.id); } else { openAddGameModal(null, shot.id); } }; const timeSpan = document.createElement('span'); timeSpan.className = 'shot-time'; timeSpan.textContent = `Skott kl. ${shot.shotTime}`; shotInfoDiv.appendChild(timeSpan); const linkStatusSpan = document.createElement('span'); linkStatusSpan.className = 'shot-link-status'; let linkText = "Ej kopplad"; if (shot.linkedGameReportId) { const linkedGame = allReports.find(g => g.itemType === 'game' && g.id === shot.linkedGameReportId); if (linkedGame) { const species = linkedGame.felledGameDetails.species || 'Okänt Vilt'; const location = linkedGame.felledGameDetails.passLocation || ''; linkStatusSpan.innerHTML = `${species}<br><span style="font-size: 0.9em;">${location}</span>`; } else { linkStatusSpan.textContent = "Kopplad (vilt saknas?)"; } } else { linkStatusSpan.textContent = "Ej kopplad"; } shotInfoDiv.appendChild(linkStatusSpan); const shotActionsDiv = document.createElement('div'); shotActionsDiv.className = 'shot-actions'; const vg = document.createElement('div'); vg.className = 'time-verified-group'; const cb = document.createElement('input'); cb.type = 'checkbox'; cb.id = `verify-${shot.id}`; cb.checked = shot.isVerified; cb.onchange = () => handleToggleShotVerification(shot.id, cb); const lbl = document.createElement('label'); lbl.htmlFor = cb.id; lbl.textContent = "Verifierat"; vg.append(cb, lbl); shotActionsDiv.appendChild(vg); const delBtn = document.createElement('button'); delBtn.className = 'icon-button delete-btn'; delBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`; delBtn.title = "Ta bort skott"; delBtn.onclick = (e) => { e.stopPropagation(); handleDeleteItem(shot.id, 'shot'); }; shotActionsDiv.appendChild(delBtn); li.appendChild(shotInfoDiv); li.appendChild(shotActionsDiv); shotLogList.appendChild(li); }); }
-        
-        function renderFelledGameReportList() { // KORREKT DOM-ORDNING: IKON FÖRE TEXT
+
+        function renderFelledGameReportList() { // KORREKT DOM-ORDNING: IKON FÖRE TEXT + KORTARE TEXTER
             if (!reportListContainer || !noReportsInfo) return; reportListContainer.innerHTML = '';
             const gameReports = allReports.filter(report => report.itemType === 'game').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             noReportsInfo.style.display = gameReports.length === 0 ? 'block' : 'none';
@@ -325,21 +376,21 @@
                     li.onclick = () => { openViewGameModal(report.id); };
                     const placeholder = document.createElement('div'); placeholder.classList.add('item-image-placeholder'); placeholder.textContent = report.felledGameDetails.species ? report.felledGameDetails.species.substring(0,1).toUpperCase() : "V";
                     const mainInfo = document.createElement('div'); mainInfo.classList.add('item-main-info'); const speciesDiv = document.createElement('div'); speciesDiv.classList.add('species'); speciesDiv.textContent = report.felledGameDetails.species || '-'; const detailsDiv = document.createElement('div'); detailsDiv.classList.add('details'); detailsDiv.innerHTML = `<span>${report.felledGameDetails.shooter || '-'}</span><span>${report.felledGameDetails.passLocation || '-'}</span>`; mainInfo.appendChild(speciesDiv); mainInfo.appendChild(detailsDiv);
-                    
+
                     const statusActions = document.createElement('div'); statusActions.classList.add('item-status-actions');
-                    const statusIconDiv = document.createElement('div'); statusIconDiv.classList.add('meat-status-icon'); 
+                    const statusIconDiv = document.createElement('div'); statusIconDiv.classList.add('meat-status-icon');
                     const statusTextSpan = document.createElement('span'); statusTextSpan.classList.add('meat-status-text');
 
                     const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
                     if (isDistributed) {
-                        statusTextSpan.textContent = 'Kött fördelat'; statusTextSpan.classList.add('fördelat');
+                        statusTextSpan.textContent = 'Fördelat'; statusTextSpan.classList.add('fördelat'); // ÄNDRAD TEXT
                         statusIconDiv.classList.add('fördelat'); statusIconDiv.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
                     } else {
-                        statusTextSpan.textContent = 'Kött ej fördelat'; statusTextSpan.classList.add('ej-fördelat');
+                        statusTextSpan.textContent = 'Ej fördelat'; statusTextSpan.classList.add('ej-fördelat'); // ÄNDRAD TEXT
                         statusIconDiv.classList.add('ej-fördelat'); statusIconDiv.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
                     }
                     // DOM-ORDNING: IKON FÖRE TEXT (för flexbox column + space-between)
-                    statusActions.appendChild(statusIconDiv); 
+                    statusActions.appendChild(statusIconDiv);
                     statusActions.appendChild(statusTextSpan);
 
                     li.appendChild(placeholder); li.appendChild(mainInfo); li.appendChild(statusActions);
@@ -348,8 +399,80 @@
             }
         }
 
-        // --- Visa Detaljer (View Modal) ---
-        function openViewGameModal(gameReportId) { const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report || !viewGameModal) return; viewGameModalTitle.textContent = report.felledGameDetails.species || 'Detaljer Fällt Vilt'; viewGameDetailsContent.querySelector('[data-field="species"]').textContent = report.felledGameDetails.species || '-'; viewGameDetailsContent.querySelector('[data-field="shooter"]').textContent = report.felledGameDetails.shooter || '-'; viewGameDetailsContent.querySelector('[data-field="passLocation"]').textContent = report.felledGameDetails.passLocation || '-'; viewGameDetailsContent.querySelector('[data-field="reportTime"]').textContent = report.felledGameDetails.reportTime || '-'; const meatStatusIconEl = viewGameDetailsContent.querySelector('#viewMeatStatusIcon'); const meatTextEl = viewGameDetailsContent.querySelector('#viewMeatDistributionText'); const meatSectionEl = viewGameDetailsContent.querySelector('#viewMeatDistributionSection'); if (report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '') { meatSectionEl.style.display = 'block'; meatStatusIconEl.innerHTML = ` <svg viewBox="0 0 24 24" style="width:1em; height:1em; vertical-align: middle; fill:var(--success-color); margin-left: 5px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`; meatTextEl.textContent = report.felledGameDetails.meatDistribution; meatTextEl.style.color = ''; } else { meatSectionEl.style.display = 'block'; meatStatusIconEl.innerHTML = ` <svg viewBox="0 0 24 24" style="width:1em; height:1em; vertical-align: middle; fill:var(--danger-color); margin-left: 5px;"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`; meatTextEl.textContent = "Ej fördelat"; meatTextEl.style.color = 'var(--danger-color)'; } if (!viewLinkedShotsList) { console.error("Element #viewLinkedShotsList saknas i viewGameModal"); } else { viewLinkedShotsList.innerHTML = ''; const linkedShotIds = report.felledGameDetails.linkedShotIds || []; if (linkedShotIds.length === 0) { viewLinkedShotsList.innerHTML = '<li class="info-text">Inga skott kopplade.</li>'; } else { linkedShotIds.forEach(shotId => { const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId); const li = document.createElement('li'); if (shot) { li.textContent = `Skott kl. ${shot.shotTime}${shot.isVerified ? ' (Verifierat ✔)' : ''}`; } else { li.textContent = `Skott ID: ${shotId} (Data saknas?)`; li.style.color = 'var(--danger-color)'; } viewLinkedShotsList.appendChild(li); }); } } viewGameEditBtn.dataset.reportId = gameReportId; viewGameDeleteBtn.dataset.reportId = gameReportId; closeAllOverlays(viewGameModal); viewGameModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
+        // --- Visa Detaljer (View Modal) --- (ÄNDRAD FUNKTION för ikon i titel)
+        function openViewGameModal(gameReportId) {
+            const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId);
+            if (!report || !viewGameModal) return;
+
+            // Sätt ikon och text i modal-titeln
+            const modalTitleIcon = viewGameModalTitle.querySelector('.modal-title-icon');
+            const modalTitleText = viewGameModalTitle.querySelector('.modal-title-text');
+            const speciesName = report.felledGameDetails.species || 'Okänt Vilt';
+            if (modalTitleIcon) modalTitleIcon.textContent = speciesName ? speciesName.substring(0,1).toUpperCase() : "V";
+            if (modalTitleText) modalTitleText.textContent = speciesName;
+
+            viewGameDetailsContent.querySelector('[data-field="species"]').textContent = report.felledGameDetails.species || '-';
+            viewGameDetailsContent.querySelector('[data-field="shooter"]').textContent = report.felledGameDetails.shooter || '-';
+            viewGameDetailsContent.querySelector('[data-field="passLocation"]').textContent = report.felledGameDetails.passLocation || '-';
+            viewGameDetailsContent.querySelector('[data-field="reportTime"]').textContent = report.felledGameDetails.reportTime || '-';
+
+            const meatStatusIconEl = viewGameDetailsContent.querySelector('#viewMeatStatusIcon');
+            const meatTextEl = viewGameDetailsContent.querySelector('#viewMeatDistributionText'); // Now a span
+            const meatSectionEl = viewGameDetailsContent.querySelector('#viewMeatDistributionSection');
+
+            const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
+
+            if (isDistributed) {
+                meatSectionEl.style.display = 'block';
+                // Set icon SVG (without inline styles for fill/margin)
+                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
+                // Set text content and color
+                meatTextEl.textContent = report.felledGameDetails.meatDistribution;
+                meatTextEl.style.color = 'var(--success-color)'; // Match icon color
+                // Set icon color via JS after inserting SVG
+                const iconSvg = meatStatusIconEl.querySelector('svg');
+                if (iconSvg) iconSvg.style.fill = 'var(--success-color)';
+            } else {
+                meatSectionEl.style.display = 'block';
+                // Set icon SVG (without inline styles for fill/margin)
+                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
+                // Set text content and color
+                meatTextEl.textContent = "Ej fördelat"; // Uses the shorter text from renderFelledGameReportList logic if needed, but full text is better here. Let's keep "Ej fördelat" for consistency with list.
+                meatTextEl.style.color = 'var(--danger-color)'; // Match icon color
+                // Set icon color via JS after inserting SVG
+                const iconSvg = meatStatusIconEl.querySelector('svg');
+                if (iconSvg) iconSvg.style.fill = 'var(--danger-color)';
+            }
+
+            // Linked shots rendering (remains the same)
+            if (!viewLinkedShotsList) { console.error("Element #viewLinkedShotsList saknas i viewGameModal"); }
+            else {
+                viewLinkedShotsList.innerHTML = '';
+                const linkedShotIds = report.felledGameDetails.linkedShotIds || [];
+                if (linkedShotIds.length === 0) {
+                    viewLinkedShotsList.innerHTML = '<li class="info-text">Inga skott kopplade.</li>';
+                } else {
+                    linkedShotIds.forEach(shotId => {
+                        const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
+                        const li = document.createElement('li');
+                        if (shot) {
+                            li.textContent = `Skott kl. ${shot.shotTime}${shot.isVerified ? ' (Verifierat ✔)' : ''}`;
+                        } else {
+                            li.textContent = `Skott ID: ${shotId} (Data saknas?)`;
+                            li.style.color = 'var(--danger-color)';
+                        }
+                        viewLinkedShotsList.appendChild(li);
+                    });
+                }
+            }
+
+            // Buttons and modal display (remains the same)
+            viewGameEditBtn.dataset.reportId = gameReportId;
+            viewGameDeleteBtn.dataset.reportId = gameReportId;
+            closeAllOverlays(viewGameModal);
+            viewGameModal.style.display = 'flex';
+            document.body.classList.add('overlay-open');
+        }
         function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
         function handleEditFromViewModal() { const gameReportId = parseInt(this.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); }
         function handleDeleteFromViewModal() { const gameReportId = parseInt(this.dataset.reportId); closeViewGameModal(); handleDeleteItem(gameReportId, 'game'); }
@@ -358,7 +481,7 @@
         // --- Övriga Funktioner (Export, Clear, Modalkontroll, Hjälp, Dela) ---
         function exportAllDataToCSV() { if(allReports.length===0){alert("Ingen data att exportera.");return} let csvContent="data:text/csv;charset=utf-8,"; const headers=["ID","Typ","Skapat Datum","Skott Tid","Skott Verifierat","Vilt Rapporttid","Vilt Art","Vilt Skytt","Vilt Pass/Plats","Vilt Köttfördelning","Kopplat Vilt ID (för skott)","Kopplade Skott ID (för vilt)"]; csvContent+=headers.join(",")+"\r\n"; const sortedReports = allReports.slice().sort((a,b)=>new Date(a.createdAt)-new Date(b.createdAt)); sortedReports.forEach(report=>{ const id = report.id; const type = report.itemType === 'shot' ? "Skott" : "Fällt Vilt"; const created = new Date(report.createdAt).toLocaleString("sv-SE"); const shotTime = report.itemType === 'shot' ? report.shotTime : ""; const verified = report.itemType === 'shot' ? (report.isVerified ? "Ja" : "Nej") : ""; const linkedGameId = report.itemType === 'shot' ? (report.linkedGameReportId || "") : ""; const reportTime = report.itemType === 'game' ? (report.felledGameDetails.reportTime || "") : ""; const species = report.itemType === 'game' ? (report.felledGameDetails.species || "") : ""; const shooter = report.itemType === 'game' ? (report.felledGameDetails.shooter || "") : ""; const location = report.itemType === 'game' ? (report.felledGameDetails.passLocation || "") : ""; const meat = report.itemType === 'game' ? (report.felledGameDetails.meatDistribution || "") : ""; const linkedShotIds = report.itemType === 'game' ? ((report.felledGameDetails.linkedShotIds || []).join(';') || "") : ""; let row = [ id, type, created, shotTime, verified, reportTime, species, shooter, location, meat, linkedGameId, linkedShotIds ]; csvContent += row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(",") + "\r\n"; }); let encodedUri=encodeURI(csvContent); let link=document.createElement("a"); link.setAttribute("href",encodedUri); link.setAttribute("download",`bjorklunds_rapport_v3_${new Date().toISOString().slice(0,10).replace(/-/g,"")}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
         function handleClearAllData() { if(allReports.length===0){alert("Det finns ingen data att rensa.");return} if(confirm("ÄR DU SÄKER på att du vill rensa ALL data? Detta kan inte ångras.")){ allReports=[]; saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); } }
-        function openHelpOverlay() { if (!helpOverlay) return; const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); if (helpContent) { helpContent.innerHTML = `<h4>Grundläggande Användning (V4.8)</h4><p>Appen hanterar nu <strong>Skott</strong> och <strong>Fällda Vilt</strong> som separata händelser, men de kan kopplas ihop.</p><ol><li><strong>Avlossat Skott:</strong> Loggar tidpunkten för ett skott.</li><li><strong>Skottlistan:</strong> Visar alla loggade skott.<ul><li><strong>Klicka på texten (Skott kl...):</strong> Öppnar en vy för att koppla skottet till ett befintligt fällt vilt (visar art, skytt och plats i kopplingsvyn), eller skapa ett nytt vilt att koppla till. Du kan också ta bort kopplingen härifrån.</li><li><strong>Verifierat:</strong> Bocka i när skottet är bekräftat. Ligger nu före papperskorgen.</li><li><strong>Papperskorg:</strong> Tar bort skottet (och dess koppling om den finns).</li></ul></li><li><strong>Lägg till Fällt Vilt (knapp):</strong> Skapar en ny rapport för ett fällt vilt utan att vara kopplad till ett specifikt skott från början.</li><li><strong>Rapportlista (Fällt Vilt):</strong> Visar alla rapporterade fällda vilt. Köttfördelningsstatus visas nu med <strong>ikonen överst</strong> och <strong>texten nederst</strong> i högra hörnet av varje post. Ikonen är också lite större. "D"-ikonen ska nu linjera bättre med viltarten. Klicka på raden för att se detaljer, redigera, eller se vilka skott som är kopplade.</li><li><strong>Köttfördelning:</strong> Anges när du skapar/redigerar en viltrapport.</li><li><strong>Exportera/Rensa/Övrigt:</strong> Som tidigare.</li></ol><h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare (localStorage). Ingen data skickas till någon server.</p>`; } closeAllOverlays(helpOverlay); helpOverlay.style.display = 'flex'; document.body.classList.add('overlay-open'); }
+        function openHelpOverlay() { if (!helpOverlay) return; const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); if (helpContent) { helpContent.innerHTML = `<h4>Grundläggande Användning (V4.17 - Ikonmatchning)</h4><p>Appen hanterar <strong>Skott</strong> och <strong>Fällda Vilt</strong> som separata händelser, men de kan kopplas ihop.</p><ol><li><strong>Avlossat Skott:</strong> Loggar tidpunkten för ett skott.</li><li><strong>Skottlistan:</strong> Visar alla loggade skott.<ul><li><strong>Klicka på texten (Skott kl...):</strong> Öppnar en vy för att koppla skottet.</li><li><strong>Verifierat:</strong> Bocka i när skottet är bekräftat.</li><li><strong>Papperskorg:</strong> Tar bort skottet.</li></ul></li><li><strong>Lägg till Fällt Vilt (knapp):</strong> Skapar en ny rapport för ett fällt vilt.</li><li><strong>Rapportlista (Fällt Vilt):</strong> Visar alla rapporterade fällda vilt. Status för kött är "Fördelat" / "Ej fördelat". Långa texter klipps av (...). Klicka på raden för att se detaljer.</li><li><strong>Visa Detaljer (modal):</strong> När du öppnar detaljvyn för ett fällt vilt visas nu en ikon (första bokstaven i art, matchar listans ikon) före viltslagets namn i rubriken. Köttfördelningsstatus visas med ikonen <strong>före</strong> texten. Knapparna längst ner heter nu "Ta bort" och "Redigera".</li><li><strong>Köttfördelning:</strong> Anges när du skapar/redigerar en viltrapport.</li><li><strong>Exportera/Rensa/Övrigt:</strong> Som tidigare.</li></ol><h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare (localStorage). Ingen data skickas till någon server.</p>`; } closeAllOverlays(helpOverlay); helpOverlay.style.display = 'flex'; document.body.classList.add('overlay-open'); }
         function closeHelpOverlay() { if (helpOverlay) helpOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
         function generateQRCode() { if(!qrCodeContainer||"undefined"==typeof QRious)return void(qrCodeContainer&&(qrCodeContainer.textContent="QR-kod kunde inte laddas.")); qrCodeContainer.innerHTML=""; let canvas=document.createElement("canvas"); try{ new QRious({element:canvas,value:appURL,size:188,padding:5,level:"H",background:"white",foreground:"black"}); if(canvas.width>0) qrCodeContainer.appendChild(canvas); else qrCodeContainer.textContent="Fel vid QR-generering."; if(shareableLink){shareableLink.href=appURL;shareableLink.textContent=appURL} }catch(t){qrCodeContainer.textContent="Kunde inte generera QR-kod."} }
         function openShareOverlay() { if (!shareOverlay) return; closeAllOverlays(shareOverlay); generateQRCode(); shareOverlay.style.display = 'flex'; document.body.classList.add('overlay-open');}
