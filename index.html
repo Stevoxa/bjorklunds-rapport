@@ -3,24 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport - Justerad Lista</title>
+    <title>Björklunds Rapport - Stacked List Baseline</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
-        :root { /* ... (CSS-variabler som tidigare) ... */ }
-        body[data-theme="dark"] { /* ... (CSS-variabler som tidigare) ... */ }
+        :root {
+            --bg-color: #fdfcf7; --surface-bg-color: #fff; --text-color: #333;
+            --secondary-text-color: #777; --primary-color: #344a34;
+            --primary-color-rgb: 52, 74, 52; --primary-text-color: #f8f8f8;
+            --secondary-button-bg-color: #f0ead6; --secondary-button-text-color: var(--primary-color);
+            --secondary-button-border-color: var(--primary-color); --border-color: #ccc;
+            --subtle-border-color: #eee; --danger-color: #c0392b;
+            --danger-secondary-bg: #f8d7da; --danger-secondary-text-color: #721c24;
+            --listening-color: #FFC107; --icon-fill-color: var(--primary-color);
+            --icon-hover-fill-color: #000; --overlay-bg-color: rgba(var(--primary-color-rgb), 0.85);
+            --overlay-content-bg: var(--surface-bg-color); --overlay-header-text-color: var(--primary-color);
+            --overlay-text-color: var(--text-color); --overlay-subtle-text-color: var(--secondary-text-color);
+            --overlay-link-color: var(--primary-color); --success-color: #27ae60;
+            --success-bg-color: #e9f7ef;
+        }
+        body[data-theme="dark"] {
+            --bg-color: #121212; --surface-bg-color: #1e1e1e; --text-color: #e0e0e0;
+            --secondary-text-color: #a0a0a0; --primary-color: #76c776;
+            --primary-text-color: #121212; --secondary-button-bg-color: #333;
+            --secondary-button-text-color: var(--text-color); --secondary-button-border-color: #555;
+            --border-color: #3a3a3a; --subtle-border-color: #2c2c2c; --danger-color: #ff8a80;
+            --danger-secondary-bg: #5c2b2b; --danger-secondary-text-color: #ffcdd2;
+            --listening-color: #FFEB3B; --icon-fill-color: var(--text-color);
+            --icon-hover-fill-color: #fff; --overlay-bg-color: rgba(18, 18, 18, 0.9);
+            --overlay-header-text-color: var(--primary-color); --overlay-link-color: var(--primary-color);
+            --success-color: #66bb6a; --success-bg-color: #2e3c32;
+        }
         *, *::before, *::after { box-sizing: border-box; }
-        body { /* ... (Grundläggande body-stil som tidigare) ... */ }
+        body {
+            font-family: 'Georgia', serif; margin: 0; padding: 15px;
+            background-color: var(--bg-color); color: var(--text-color);
+            font-size: 16px; line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
         body.overlay-open { overflow: hidden; }
-        .container { /* ... (Container-stil som tidigare) ... */ }
-        /* ... (All annan fungerande CSS för knappar, inputs, header, shotLogList etc. ska finnas här) ... */
+        .container {
+            max-width: 700px; margin: 20px auto; background-color: var(--surface-bg-color);
+            padding: 20px; padding-top: 50px; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative;
+            transition: background-color 0.3s ease;
+        }
+        .app-header-actions-left, .app-header-actions {
+            position: absolute; top: 10px; display: flex; gap: 5px; z-index: 10;
+        }
+        .app-header-actions-left { left: 10px; }
+        .app-header-actions { right: 10px; }
+        .app-header-actions-left .icon-button, .app-header-actions .icon-button {
+            background-color: transparent !important; border: none !important; padding: 4px;
+            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+        }
+        .app-header-actions-left .icon-button svg, .app-header-actions .icon-button svg {
+            fill: var(--icon-fill-color) !important; width: 20px; height: 20px;
+        }
+        .app-header-actions-left .icon-button:hover svg, .app-header-actions .icon-button:hover svg {
+             fill: var(--icon-hover-fill-color) !important; 
+        }
         h1, h2 { color: var(--primary-color); text-align: center; margin-top: 0; }
         h1 { margin-bottom: 20px; font-size: 1.7em; }
         h2 { margin-bottom: 15px; font-size: 1.4em; margin-top: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
         hr { border: 0; height: 1px; background-color: var(--border-color); margin: 25px 0; }
         .info-text { color: var(--secondary-text-color); font-size: 0.9em; text-align: center; margin-top: 10px; }
+        
         button, .button-like {
             padding: 10px 15px; background-color: var(--primary-color); color: var(--primary-text-color); border: none;
             border-radius: 4px; cursor: pointer; font-size: 1em; font-family: inherit; 
@@ -34,28 +84,30 @@
         .button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
         #clearAllDataBtn.button-secondary { background-color: var(--danger-secondary-bg) !important; color: var(--danger-secondary-text-color) !important; border-color: var(--danger-color) !important; }
         #clearAllDataBtn.button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; }
+        
         input[type="text"], input[type="time"], select, textarea { flex-grow: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1em; font-family: inherit; box-sizing: border-box; background-color: var(--surface-bg-color); color: var(--text-color); min-width: 150px; }
         input[type="time"], select, textarea { height: 40px; }
         textarea { height: auto; min-height: 60px; }
         input[type="text"]::placeholder { color: var(--secondary-text-color); opacity: 1; }
         input[type="checkbox"] { width: 18px; height: 18px; margin-right: 8px; flex-shrink: 0; accent-color: var(--primary-color); }
+        
         .icon-button { background: transparent; border: none; padding: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 40px;  height: 40px; }
         .icon-button svg { width: 20px; height: 20px; fill: var(--icon-fill-color); transition: fill 0.2s ease; }
         .icon-button:hover:not(:disabled) svg { fill: var(--icon-hover-fill-color); }
         .icon-button:disabled svg { fill: var(--secondary-text-color) !important; opacity: 0.5; }
-        .app-header-actions-left .icon-button, .app-header-actions .icon-button { width: 28px; height: 28px; padding: 4px;}
-        .app-header-actions-left .icon-button svg, .app-header-actions .icon-button svg { width: 20px; height: 20px;}
-        .delete-btn svg { fill: var(--danger-color) !important; } /* Gäller nu bara i overlays */
+        .delete-btn svg { fill: var(--danger-color) !important; } 
         .delete-btn:hover:not(:disabled) svg { fill: color-mix(in srgb, var(--danger-color) 80%, black) !important; }
-        .edit-game-btn svg { fill: var(--icon-fill-color) !important; } /* Används i overlays */
-        .edit-game-btn:hover:not(:disabled) svg { fill: var(--icon-hover-fill-color) !important; }
+        .add-game-btn svg, .edit-game-btn svg { fill: var(--icon-fill-color) !important; width: 16px; height: 16px; } 
+        .add-game-btn:hover:not(:disabled) svg, .edit-game-btn:hover:not(:disabled) svg { fill: var(--icon-hover-fill-color) !important; }
         .speech-button { border: 1px solid var(--secondary-button-border-color); background-color: var(--secondary-button-bg-color); }
         .speech-button svg { fill: var(--secondary-button-text-color) !important; }
         .speech-button:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
         .speech-button.is-listening svg { fill: var(--listening-color) !important; }
+        
         .input-group, .form-group { display: flex; margin-bottom: 15px; gap: 10px; align-items: center; flex-wrap: wrap;}
         .form-group { flex-direction: column; align-items: stretch; gap: 5px;}
         .form-group label { font-weight: bold; margin-bottom: 2px; font-size: 0.9em;}
+        
         #shotLogList { list-style-type: none; padding: 0; margin: 15px 0 0 0; }
         .shot-log-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid var(--subtle-border-color); font-size: 0.95em; }
         .shot-log-item:last-child { border-bottom: none; }
@@ -66,12 +118,13 @@
         .shot-log-item .actions-container .icon-button { padding: 2px; width: 28px; height: 28px; }
         .shot-log-item .actions-container .icon-button svg { width: 16px; height: 16px; }
 
-        /* --- CSS för Stacked List (Rapportlista Fällt Vilt) --- */
-        #felledGameReportSection .report-list-header-desktop { display: none; }
+        /* --- CSS FÖR RAPPORTLISTA (Stacked List Design - Baseline) --- */
+        #felledGameReportSection .report-list-header-desktop { display: none; } 
         #reportList { list-style-type: none; padding: 0; margin: 0; }
+
         .report-item-stacked { 
             display: flex; align-items: center; gap: 12px; 
-            padding: 12px 8px; border: 1px solid var(--subtle-border-color); 
+            padding: 10px 8px; border: 1px solid var(--subtle-border-color); 
             border-radius: 6px; margin-bottom: 10px; 
             background-color: var(--surface-bg-color); cursor: pointer;
             transition: background-color 0.2s ease;
@@ -80,38 +133,61 @@
         .report-item-stacked:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%); }
 
         .item-image-placeholder {
-            width: 45px; height: 45px; background-color: var(--primary-color); 
+            width: 40px; height: 40px; background-color: var(--primary-color); 
             border-radius: 4px; flex-shrink: 0; display: flex;
-            align-items: center; justify-content: center; font-size: 1.2em; 
+            align-items: center; justify-content: center; font-size: 1.1em; 
             color: var(--primary-text-color); font-weight: bold;
         }
-        .item-main-info { flex-grow: 1; display: flex; flex-direction: column; }
-        .item-main-info .species { font-size: 1.1em; font-weight: bold; color: var(--text-color); margin-bottom: 1px; }
-        .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.4; }
-        .item-main-info .details span { display: block; font-style: italic; } /* Kursiv och på egen rad */
+        .item-main-info { flex-grow: 1; display: flex; flex-direction: column; gap: 1px; }
+        .item-main-info .species { font-size: 1.05em; font-weight: bold; color: var(--text-color); }
+        .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.3; }
+        .item-main-info .details span { display: block; font-style: italic; } 
 
         .item-status-actions { 
             display: flex; flex-direction: column; 
-            align-items: flex-end; gap: 6px;
+            align-items: flex-end; gap: 5px; 
             text-align: right; flex-shrink: 0;
             margin-left: auto; 
         }
-        .item-status-actions .meat-status { font-size: 0.8em; display: flex; align-items: center; font-weight: bold; }
-        .item-status-actions .meat-status svg { width: 16px; height: 16px; margin-left: 5px; }
+        .item-status-actions .meat-status { font-size: 0.75em; display: flex; align-items: center; font-weight: bold; }
+        .item-status-actions .meat-status svg { width: 14px; height: 14px; margin-left: 4px; }
         .item-status-actions .meat-status.fördelat { color: var(--success-color); }
         .item-status-actions .meat-status.fördelat svg { fill: var(--success-color); }
         .item-status-actions .meat-status.ej-fördelat { color: var(--danger-color); }
         .item-status-actions .meat-status.ej-fördelat svg { fill: var(--danger-color); }
         
-        /* Dölj .item-actions-inline på huvudlistan helt nu */
+        /* Åtgärdsikoner i listan (Redigera/Ta bort) är borttagna som önskat */
         .item-status-actions .item-actions-inline { 
             display: none; 
         }
         
-        /* Overlays (Samma som tidigare) */
-        .content-overlay { /* ... */ }
-        .overlay-content-box { /* ... */ }
-        /* ... etc. ... */
+        /* Overlays (Samma som tidigare, antas vara korrekta) */
+        .content-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--overlay-bg-color); z-index: 1000;
+            align-items: center; justify-content: center;
+            padding: 15px; box-sizing: border-box;
+        }
+        .overlay-content-box {
+            background-color: var(--overlay-content-bg); padding: 20px; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4); max-width: 550px; width: 100%;
+            max-height: 90vh; display: flex; flex-direction: column;
+        }
+        .overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
+        .overlay-header h3 { color: var(--overlay-header-text-color); text-align: left; margin: 0; font-size: 1.6em; flex-grow: 1;}
+        .overlay-header .icon-button { width: 30px; height: 30px; padding: 5px;}
+        .overlay-header .icon-button svg { width: 18px; height: 18px;}
+        .overlay-scrollable-content { color: var(--overlay-text-color); overflow-y: auto; flex-grow: 1; margin-bottom: 20px; padding-right: 5px;}
+        .overlay-scrollable-content h4 { color: var(--overlay-header-text-color); border-bottom: 1px solid var(--border-color); margin-top: 20px; margin-bottom: 8px; padding-bottom: 5px; font-size: 1.1em;}
+        .overlay-scrollable-content h4:first-child { margin-top: 0; }
+        .overlay-scrollable-content p, .overlay-scrollable-content ol { margin-bottom: 10px; font-size: 0.95em; }
+        .overlay-scrollable-content ol { padding-left: 20px; }
+        #qrCodeContainer { border:1px solid var(--border-color); background:white; margin: 20px auto; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; }
+        #qrCodeContainer canvas { display: block; }
+        #shareableLink { color: var(--overlay-link-color); }
+        .bottom-actions { margin-top: 20px; display: flex; gap: 10px; justify-content: space-between; }
+        .bottom-actions button { flex-grow: 1; }
+
     </style>
 </head>
 <body>
@@ -131,6 +207,7 @@
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
+        // (Dessa är ifyllda med de ID:n vi har använt)
         let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,
             logShotBtn, shotLogList, noLoggedShotsInfo, 
             reportListContainer, noReportsInfo, 
@@ -154,6 +231,7 @@
         let shooterRecognition;
         let activeRecognitionInput = null; 
 
+        // --- INITIERING VID LADDNING AV SIDAN ---
         document.addEventListener('DOMContentLoaded', () => {
             themeToggleBtn = document.getElementById('themeToggleBtn'); 
             themeIconSun = document.getElementById('themeIconSun');
@@ -308,9 +386,9 @@
             const recipient = meatRecipientNameInput.value.trim();
             const quickChoice = meatQuickChoiceSelect.value;
             let fullText = gameMeatDistributionTextarea.value; 
-            if (recipient && quickChoice) { fullText = `${recipient} ${quickChoice}`; }
-            else if (quickChoice && !recipient) { fullText = quickChoice.charAt(0).toUpperCase() + quickChoice.slice(1); }
-            else if (recipient && !quickChoice) { fullText = recipient + " "; }
+            if (recipient && quickChoice) fullText = `${recipient} ${quickChoice}`;
+            else if (quickChoice && !recipient) fullText = quickChoice.charAt(0).toUpperCase() + quickChoice.slice(1);
+            else if (recipient && !quickChoice) fullText = recipient + " ";
             gameMeatDistributionTextarea.value = fullText;
         }
 
@@ -322,9 +400,9 @@
                 .filter(report => report.felledGameDetails)
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); 
             
-            const headerDesktop = document.querySelector('#felledGameReportSection .report-list-header-desktop');
-            if (headerDesktop) headerDesktop.style.display = 'none'; // Alltid dold för stacked list
             noReportsInfo.style.display = reportsWithGame.length === 0 ? 'block' : 'none';
+            const headerDesktop = document.querySelector('#felledGameReportSection .report-list-header-desktop');
+            if(headerDesktop) headerDesktop.style.display = 'none'; 
 
             if (reportsWithGame.length > 0) {
                 reportsWithGame.forEach(report => {
@@ -332,7 +410,6 @@
                     li.classList.add('report-item-stacked'); 
                     li.dataset.reportId = report.id;
                     li.onclick = (event) => {
-                        // Klicka bara om man inte klickar på en knapp inuti .item-status-actions
                         if (event.target.closest('.item-status-actions')) { 
                             return; 
                         }
@@ -350,7 +427,6 @@
                     speciesDiv.textContent = report.felledGameDetails.species || '-';
                     const detailsDiv = document.createElement('div'); 
                     detailsDiv.classList.add('details');
-                    // Korrigerad visning av Skytt och Pass
                     detailsDiv.innerHTML = `<span>${report.felledGameDetails.shooter || '-'}</span>
                                           <span>${report.felledGameDetails.passLocation || '-'}</span>`;
                     mainInfo.appendChild(speciesDiv);
@@ -369,13 +445,10 @@
                         meatStatusDiv.innerHTML += ` <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
                     }
                     statusActions.appendChild(meatStatusDiv);
-                    
-                    // Ta bort item-actions-inline och toggle-btn från denna vy
-                    // Åtgärder nås via Visa/Redigera-overlay
-                    
+                                        
                     li.appendChild(placeholder);
                     li.appendChild(mainInfo);
-                    li.appendChild(statusActions); // Endast status visas direkt i listan nu
+                    li.appendChild(statusActions); 
                                         
                     reportListContainer.appendChild(li);
                 });
@@ -385,13 +458,12 @@
         function handleReportItemClick(reportId) {
             const report = allReports.find(r => r.id === reportId && r.felledGameDetails);
             if (!report) return;
-            // Om kött är fördelat, visa info. Annars, gå till redigera för att fylla i.
-            // const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
-            // if (isDistributed) {
-                 openViewGameModal(reportId); // Öppna alltid "Visa vy" först
-            // } else {
-            //     openAddGameModal(reportId); 
-            // }
+            const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
+            if (isDistributed) {
+                 openViewGameModal(reportId);
+            } else {
+                 openAddGameModal(reportId); 
+            }
         }
         function openViewGameModal(reportId) {
             const report = allReports.find(r => r.id === reportId && r.felledGameDetails);
@@ -451,11 +523,17 @@
             closeAllOverlays(addGameModal); addGameModal.style.display = 'flex'; document.body.classList.add('overlay-open');
         }
         function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function exportAllDataToCSV() { /* ... (Din fungerande kod) ... */ }
-        function handleClearAllData() { /* ... (Din fungerande kod) ... */ }
+        function exportAllDataToCSV() {
+            if(allReports.length===0){alert("Ingen data att exportera.");return}let e="data:text/csv;charset=utf-8,",t=["Skott ID","Skott Klockslag","Skott Verifierat","Skott Registrerat","Viltslag","Pass/Plats (Vilt)","Skytt (Vilt)","Köttfördelning (Vilt)"];e+=t.join(",")+"\r\n",allReports.slice().sort((o,a)=>new Date(o.createdAt)-new Date(a.createdAt)).forEach(o=>{let a=o.isVerified?"Ja":"Nej",i=new Date(o.createdAt).toLocaleString("sv-SE"),l=[o.id,o.shotTime,a,i,o.felledGameDetails?o.felledGameDetails.species||"":"",o.felledGameDetails?o.felledGameDetails.passLocation||"":"",o.felledGameDetails?o.felledGameDetails.shooter||"":"",o.felledGameDetails?o.felledGameDetails.meatDistribution||"":""];e+=l.map(r=>`"${String(r).replace(/"/g,'""')}"`).join(",")+"\r\n"});let n=encodeURI(e),s=document.createElement("a");s.setAttribute("href",n),s.setAttribute("download",`bjorklunds_rapport_v2_${new Date().toISOString().slice(0,10).replace(/-/g,"")}.csv`),document.body.appendChild(s),s.click(),document.body.removeChild(s);
+        }
+        function handleClearAllData() {
+            if(allReports.length===0){alert("Det finns ingen data att rensa.");return}confirm("ÄR DU SÄKER på att du vill rensa ALL data? Detta kan inte ångras.")&&(allReports=[],saveAllDataToLocalStorage(),renderShotLogList(),renderFelledGameReportList());
+        }
         function openHelpOverlay() { if (!helpOverlay) return; closeAllOverlays(helpOverlay); helpOverlay.style.display = 'flex'; document.body.classList.add('overlay-open');}
         function closeHelpOverlay() { if (helpOverlay) helpOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function generateQRCode() { /* ... (Din fungerande kod) ... */ }
+        function generateQRCode() {
+            if(!qrCodeContainer||"undefined"==typeof QRious)return void(qrCodeContainer&&(qrCodeContainer.textContent="QR-kod kunde inte laddas."));qrCodeContainer.innerHTML="";let e=document.createElement("canvas");try{new QRious({element:e,value:appURL,size:188,padding:5,level:"H",background:"white",foreground:"black"}),e.width>0&&qrCodeContainer.appendChild(e),shareableLink&&(shareableLink.href=appURL,shareableLink.textContent=appURL)}catch(t){qrCodeContainer.textContent="Kunde inte generera QR-kod."}
+        }
         function openShareOverlay() { if (!shareOverlay) return; closeAllOverlays(shareOverlay); generateQRCode(); shareOverlay.style.display = 'flex'; document.body.classList.add('overlay-open');}
         function closeShareOverlay() { if (shareOverlay) shareOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
         function closeAllOverlays(keepOpenOverlay = null) { 
