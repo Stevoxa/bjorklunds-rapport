@@ -4,7 +4,7 @@ html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport V4.26 - Såt Logik Omarbetad</title>
+    <title>Björklunds Rapport V4.27 - UI Text Justering</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -369,7 +369,7 @@ html
         <section id="quickShotEntrySection">
             <h2>Snabbregistrera Skott</h2>
             <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 10px;">Avlossat Skott</button>
-            <button id="newSaaterBtn" style="width:100%; font-size: 1.1em; padding: 12px;" class="button-secondary" disabled>Ny Såt / Avsluta Pågående Såt</button>
+            <button id="newSaaterBtn" style="width:100%; font-size: 1.1em; padding: 12px;" class="button-secondary" disabled>Ny Såt</button>
             <ul id="shotLogList"></ul>
             <p id="noLoggedShotsInfo" class="info-text" style="display: block;">Inga skott loggade ännu.</p>
         </section>
@@ -707,8 +707,8 @@ html
             const sortedItems = allReports.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             
             const hasAnyShots = allReports.some(r => r.itemType === 'shot');
-            // Knappen "Ny Såt" ska vara aktiv om det finns *några* skott, eller specifikt skott med saater: 0
-            newSaaterBtn.disabled = !allReports.some(r => r.itemType === 'shot' && r.saater === 0) && !hasAnyShots; 
+            newSaaterBtn.disabled = !(allReports.some(r => r.itemType === 'shot' && r.saater === 0) || allReports.length === 0 || allReports.some(r => r.itemType === 'shot'));
+
             noLoggedShotsInfo.style.display = hasAnyShots ? 'none' : 'block';
             
             sortedItems.forEach(item => {
@@ -756,14 +756,7 @@ html
                     const timeSpan = document.createElement('span'); 
                     timeSpan.className = 'shot-time'; 
                     timeSpan.textContent = `Skott kl. ${item.shotTime}`; 
-                    if (item.saater === 0) { 
-                        const unassignedText = document.createElement('span');
-                        unassignedText.textContent = " (Ej avslutad såt)";
-                        unassignedText.style.fontStyle = 'italic';
-                        unassignedText.style.color = 'var(--secondary-text-color)';
-                        unassignedText.style.fontSize = '0.9em';
-                        timeSpan.appendChild(unassignedText);
-                    }
+                    // Texten "(Ej avslutad såt)" har tagits bort härifrån
                     shotInfoDiv.appendChild(timeSpan); 
                     const linkStatusSpan = document.createElement('span'); 
                     linkStatusSpan.className = 'shot-link-status'; 
@@ -892,7 +885,7 @@ html
                         if (shot) {
                             let saaterText = "";
                             if (shot.saater > 0) saaterText = `, Såt ${shot.saater}`;
-                            else if (shot.saater === 0) saaterText = ", (Ej avslutad såt)";
+                            // Ingen text för shot.saater === 0 här längre
                             li.textContent = `Skott kl. ${shot.shotTime}${shot.isVerified ? ' (Verifierat ✔)' : ''}${saaterText}`;
                         } else {
                             li.textContent = `Skott ID: ${shotId} (Data saknas?)`;
@@ -925,7 +918,7 @@ html
             } else if (itemType === 'game' && itemToDelete.felledGameDetails.linkedShotIds?.length > 0) {
                 confirmMsg = "Detta fällda vilt har associerade skott. Ta bort viltet och alla associationer till det?";
             } else if (itemType === 'saaterDivider') {
-                confirmMsg = `Ta bort Såt ${itemToDelete.saaterNumber}? Alla skott som tillhör denna såt kommer att markeras som "Ej avslutad såt". Detta kan inte enkelt ångras.`;
+                confirmMsg = `Ta bort Såt ${itemToDelete.saaterNumber}? Alla skott som tillhör denna såt kommer inte längre att vara markerade med detta såtnummer (de får såt-nummer 0). Detta kan inte enkelt ångras.`;
             }
 
             if (confirm(confirmMsg)) {
@@ -933,7 +926,7 @@ html
                     const saaterNumToDelete = itemToDelete.saaterNumber;
                     allReports.splice(itemIndex, 1); // Ta bort avdelaren
                     
-                    // Markera alla skott som tillhörde denna såt som "oavslutade"
+                    // Markera alla skott som tillhörde denna såt som "oavslutade" (saater: 0)
                     allReports.forEach(r => {
                         if (r.itemType === 'shot' && r.saater === saaterNumToDelete) {
                             r.saater = 0;
@@ -1189,7 +1182,7 @@ html
                         const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
                         let saaterText = 'Okänd';
                         if (shot) {
-                            if (shot.saater === 0) saaterText = 'Ej avslutad såt';
+                            if (shot.saater === 0) saaterText = 'Ej tilldelad såt'; // Anpassad text för CSV
                             else saaterText = `Såt ${shot.saater}`;
                         }
                         return shot ? `${shot.shotTime}; ${shot.isVerified ? "Ja" : "Nej"}; ${saaterText}` : `ID ${shotId} saknas`;
@@ -1225,21 +1218,6 @@ html
         function handleNewSaater() {
             const unassignedShots = allReports.filter(r => r.itemType === 'shot' && r.saater === 0);
 
-            // Man ska kunna skapa en tom såt om inga skott är loggade alls, eller om alla tidigare skott redan tillhör en såt.
-            // Knappen "Ny Såt" ska vara aktiv om:
-            // 1. Det finns skott med saater: 0 (dessa kommer att tilldelas den nya såten)
-            // ELLER
-            // 2. Det inte finns några skott med saater: 0, MEN det finns skott totalt (då skapas en ny "tom" såt efter den senaste).
-            // ELLER
-            // 3. Det inte finns några skott alls (första såten skapas "tom").
-            // Denna logik hanteras delvis av newSaaterBtn.disabled i renderShotLogList, men vi kan ha en check här också.
-            if (unassignedShots.length === 0 && !allReports.some(r => r.itemType === 'shot')) {
-                 // Tillåt att skapa första såten även om inga skott loggats
-            } else if (unassignedShots.length === 0 && allReports.some(r => r.itemType === 'shot')) {
-                // Alla skott är redan i såtar, skapa en ny tom såt.
-            }
-            // else: unassignedShots.length > 0, dessa kommer att tilldelas.
-
             const currentSaaterForAssignment = nextSaaterToAssign;
             
             unassignedShots.forEach(shot => {
@@ -1248,11 +1226,9 @@ html
 
             let dividerCreatedAt;
             if (unassignedShots.length > 0) {
-                unassignedShots.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Nyaste först
-                dividerCreatedAt = new Date(new Date(unassignedShots[0].createdAt).getTime() + 1).toISOString();
+                const sortedUnassignedShots = unassignedShots.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                dividerCreatedAt = new Date(new Date(sortedUnassignedShots[0].createdAt).getTime() + 1).toISOString(); 
             } else {
-                // Om inga skott tilldelas (ny tom såt, eller första såten är tom), använd nuvarande tid.
-                // Om det finns tidigare såtar, se till att denna hamnar efter den senaste.
                 const lastSaaterDivider = allReports
                     .filter(r => r.itemType === 'saaterDivider')
                     .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
@@ -1265,7 +1241,7 @@ html
             }
 
             const newSaaterDivider = {
-                id: Date.now(), 
+                id: Date.now() + Math.random(), 
                 itemType: 'saaterDivider',
                 saaterNumber: currentSaaterForAssignment,
                 createdAt: dividerCreatedAt
@@ -1273,7 +1249,7 @@ html
             
             allReports.unshift(newSaaterDivider); 
             
-            saaterStates[`saater_${currentSaaterForAssignment}`] = 'expanded';
+            saaterStates[`saater_${currentSaaterForAssignment}`] = 'expanded'; 
             
             if (currentSaaterForAssignment > 1 && saaterStates[`saater_${currentSaaterForAssignment - 1}`]) {
                 saaterStates[`saater_${currentSaaterForAssignment - 1}`] = 'collapsed';
@@ -1309,11 +1285,11 @@ html
             } 
         }
         function openHelpOverlay() { if (!helpOverlay) return; const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
-            if (helpContent) { helpContent.innerHTML = `<h4>Grundläggande Användning (V4.26 - Såt Logik Omarbetad)</h4>
+            if (helpContent) { helpContent.innerHTML = `<h4>Grundläggande Användning (V4.27 - UI Text Justering)</h4>
             <p>Appen hanterar registrering av skott och fällda vilt, med möjlighet att associera skott till ett specifikt vilt. Hantering av såtar är nu implementerad.</p>
             <ol>
-                <li><strong>Avlossat Skott:</strong> Loggar tidpunkten för ett skott. Skottet visas initialt som "Ej avslutad såt".</li>
-                <li><strong>Ny Såt / Avsluta Pågående Såt (knapp):</strong> Klicka på denna knapp *efter* att du loggat skotten för en såt du vill avsluta och markera. Detta skapar en avdelare (t.ex. "--- Såt 1 ---") som placeras *ovanför* de nyss loggade "Ej avslutad såt"-skotten, och dessa skott tilldelas då "Såt 1". Nästa gång du klickar skapas "Såt 2" för nästa uppsättning skott, och så vidare. Den föregående såten (om någon) fälls oftast ihop automatiskt för bättre överblick. Du kan även klicka på knappen för att skapa en "tom" såt om inga skott har loggats sedan föregående såt, eller om det är den allra första såten.</li>
+                <li><strong>Avlossat Skott:</strong> Loggar tidpunkten för ett skott. Dessa skott har ännu inte tilldelats en färdig såt.</li>
+                <li><strong>Ny Såt (knapp):</strong> Klicka på denna knapp *efter* att du loggat skotten för en såt du vill avsluta och markera. Detta skapar en avdelare (t.ex. "--- Såt 1 ---") som placeras *ovanför* de skott som ännu inte hade en såt, och dessa skott tilldelas då "Såt 1". Nästa gång du klickar skapas "Såt 2" för nästa uppsättning skott, och så vidare. Den föregående såten (om någon) fälls oftast ihop automatiskt för bättre överblick. Du kan även klicka på knappen för att skapa en "tom" såt om inga skott har loggats sedan föregående såt, eller om det är den allra första såten.</li>
                 <li><strong>Skottlistan:</strong> Visar alla loggade skott och såt-avdelare, med de nyaste överst.
                     <ul>
                         <li>Varje såt-avdelare (t.ex. "Såt 1") är klickbar för att visa/dölja de skott som tillhör just den såten (de som ligger direkt under avdelaren och har samma såt-nummer).</li>
@@ -1326,7 +1302,7 @@ html
                 <li><strong>Rapportlista (Fällt Vilt):</strong> Visar alla rapporterade fällda vilt. Status för kött är "Fördelat" / "Ej fördelat". Långa texter i listan klipps av (...). Klicka på raden för att se detaljer.</li>
                 <li><strong>Visa Detaljer (modal):</strong> Detaljerad vy för ett fällt vilt. Rubriken visar en ikon (första bokstaven i art) och viltslagets namn. Köttfördelningsstatus visas med ikon före text. Längst ner finns en lista över "Skott mot Viltet" med deras såt-information. Knapparna längst ner heter "Ta bort" och "Redigera".</li>
                 <li><strong>Visa rapport (knapp):</strong> Öppnar en vy "Rapport Köttfördelning". Listar vilt med köttfördelning, grupperat ("Till Slakteri" först, sedan "Övrig Fördelning") och sorterat på viltslag och sedan fördelningstext. Visar även dagens datum. Innehåller knappar för "Kopiera text" och "Dela rapport".</li>
-                <li><strong>Spara full rapport (knapp):</strong> Exporterar en CSV-fil med detaljerad information om alla fällda vilt, inklusive data om associerade skott (tid, verifieringsstatus och såt-nummer, där "Ej avslutad såt" kan förekomma om skottet ännu inte tilldelats en färdig såt).</li>
+                <li><strong>Spara full rapport (knapp):</strong> Exporterar en CSV-fil med detaljerad information om alla fällda vilt, inklusive data om associerade skott (tid, verifieringsstatus och såt-nummer, där skott som ännu inte tilldelats en färdig såt kommer att ha såt-nummer 0 eller en beskrivande text).</li>
                 <li><strong>Köttfördelning:</strong> Anges när du skapar/redigerar en viltrapport.</li>
                 <li><strong>Rensa Allt/Övrigt:</strong> Som tidigare. Knapparna ligger nu under varandra.</li>
             </ol>
