@@ -4,7 +4,7 @@ html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport V4.27 - UI Text Justering</title>
+    <title>Björklunds Rapport V4.29 - Köttfördelningsmallar</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -383,7 +383,22 @@ html
     </div>
 
     <!-- Modal för att lägga till/redigera Fällt Vilt -->
-    <div id="addGameModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="gameModalTitle">Fällt Vilt</h3> <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="currentShotLogIdInput"> <input type="hidden" id="triggeringShotIdInput"> <div class="form-group"> <label for="gameSpeciesInput">Viltslag:</label> <select id="gameSpeciesInput"> <option value="">-- Välj --</option><option value="Dovhjort kapital">Dovhjort kapital</option><option value="Dovhjort">Dovhjort</option> <option value="Dovhind">Dovhind</option><option value="Dovspets">Dovspets</option><option value="Dovkalv">Dovkalv</option><option value="Kronhjort kapital">Kronhjort kapital</option><option value="Kronhjort">Kronhjort</option><option value="Kronhind">Kronhind</option><option value="Kronspets">Kronspets</option><option value="Kronkalv">Kronkalv</option><option value="Rådjursbock">Rådjursbock</option><option value="Rådjur">Rådjur</option><option value="Vildsvin">Vildsvin</option><option value="Älgtjur">Älgtjur</option><option value="Älgko">Älgko</option><option value="Älgkalv">Älgkalv</option><option value="Räv">Räv</option><option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> <hr style="margin: 15px 0;"><h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> <div class="form-group"> <label for="meatQuickChoiceSelect">Snabbval:</label> <select id="meatQuickChoiceSelect"> <option value="">-- Välj eller skriv fritt nedan --</option> <option value="tar hem kött och delar med granne.">...tar hem kött och delar med granne.</option> <option value="tar hem kött.">...tar hem kött.</option> <option value="lämnar till slakteri.">...lämnar till slakteri.</option> <option value="delas i jaktlaget.">...delas i jaktlaget.</option> </select> </div> <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Kalle Anka tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara Viltrapport</button> </div> </div> </div>
+    <div id="addGameModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="gameModalTitle">Fällt Vilt</h3> <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="currentShotLogIdInput"> <input type="hidden" id="triggeringShotIdInput"> <div class="form-group"> <label for="gameSpeciesInput">Viltslag:</label> <select id="gameSpeciesInput"> <option value="">-- Välj --</option><option value="Dovhjort kapital">Dovhjort kapital</option><option value="Dovhjort">Dovhjort</option> <option value="Dovhind">Dovhind</option><option value="Dovspets">Dovspets</option><option value="Dovkalv">Dovkalv</option><option value="Kronhjort kapital">Kronhjort kapital</option><option value="Kronhjort">Kronhjort</option><option value="Kronhind">Kronhind</option><option value="Kronspets">Kronspets</option><option value="Kronkalv">Kronkalv</option><option value="Rådjursbock">Rådjursbock</option><option value="Rådjur">Rådjur</option><option value="Vildsvin">Vildsvin</option><option value="Älgtjur">Älgtjur</option><option value="Älgko">Älgko</option><option value="Älgkalv">Älgkalv</option><option value="Räv">Räv</option><option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> <hr style="margin: 15px 0;"><h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> 
+            <div class="form-group">
+                <label for="meatQuickChoiceSelect">Snabbval:</label>
+                <select id="meatQuickChoiceSelect">
+                    <option value="">-- Välj eller skriv fritt nedan --</option>
+                    <option value="köper köttet. Hänger endast upp i slakteriet.">köper köttet. Hänger endast upp i slakteriet.</option>
+                    <option value="köper köttet. Hänger upp i slakteriet och TM styckar.">köper köttet. Hänger upp i slakteriet och TM styckar.</option>
+                    <option value="tilldelas köttet. Hänger endast upp i slakteriet.">tilldelas köttet. Hänger endast upp i slakteriet.</option>
+                    <option value="tilldelas köttet. Hänger upp i slakteriet och TM styckar.">tilldelas köttet. Hänger upp i slakteriet och TM styckar.</option>
+                    <option value="Jaktklubben tar köttet. Hänger upp i slakteriet och TM styckar.">Jaktklubben tar köttet. Hänger upp i slakteriet och TM styckar.</option>
+                    <option value="köper köttet och tar med sig hem.">köper köttet och tar med sig hem.</option>
+                    <option value="tilldelas köttet och tar med sig hem.">tilldelas köttet och tar med sig hem.</option>
+                    <option value="Jaktklubben tar köttet.">Jaktklubben tar köttet.</option>
+                </select>
+            </div>
+            <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Kalle Anka tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara Viltrapport</button> </div> </div> </div>
     <!-- Modal för att koppla Skott till Vilt -->
     <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Associera Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att associera till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att associera skottet.</p> </div> <div class="modal-actions"> <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till Fällt Vilt & Associera</button> <button id="unlinkShotBtn" class="button-secondary">Ta bort association / Ingen association</button> </div> </div> </div>
 
@@ -470,7 +485,7 @@ html
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let shooterRecognition;
         let activeRecognitionInput = null;
-        let nextSaaterToAssign = 1; // Börjar med att nästa såt som skapas är "Såt 1"
+        let nextSaaterToAssign = 1; 
         let saaterStates = {}; 
 
         // --- INITIERING VID LADDNING AV SIDAN ---
@@ -554,11 +569,11 @@ html
                     
                     if (parsedData.nextSaaterToAssign) {
                         nextSaaterToAssign = parsedData.nextSaaterToAssign;
-                    } else { // Fallback för äldre data som använde currentSaaterNumber
+                    } else { 
                         const saaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
                         if (saaterDividers.length > 0) {
                             nextSaaterToAssign = Math.max(0, ...saaterDividers.map(d => d.saaterNumber)) + 1;
-                        } else if (parsedData.currentSaaterNumber && parsedData.currentSaaterNumber > 0) { // Ännu äldre
+                        } else if (parsedData.currentSaaterNumber && parsedData.currentSaaterNumber > 0) { 
                              nextSaaterToAssign = parsedData.currentSaaterNumber + (allReports.some(r => r.itemType === 'shot' && r.saater === parsedData.currentSaaterNumber) ? 1: 0);
                              if (nextSaaterToAssign === 0) nextSaaterToAssign = 1;
                         }
@@ -567,12 +582,9 @@ html
                         }
                     }
                     
-                    // Säkerställ att skott har ett såt-nummer om avdelare finns
-                    // och att såt-avdelare finns om skott har såt-nummer
                     const allShotSaaterNumbers = [...new Set(allReports.filter(r => r.itemType === 'shot' && r.saater > 0).map(s => s.saater))];
                     allShotSaaterNumbers.forEach(saaterNum => {
                         if (!allReports.some(r => r.itemType === 'saaterDivider' && r.saaterNumber === saaterNum)) {
-                            // Saknas avdelare, försök skapa en. Bestäm createdAt för den.
                             const shotsInThisSaater = allReports.filter(r => r.itemType === 'shot' && r.saater === saaterNum).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                             let dividerCreatedAt = new Date().toISOString();
                             if (shotsInThisSaater.length > 0) {
@@ -582,19 +594,12 @@ html
                         }
                     });
                     
-                    // Om skott har saater=0 men det finns avdelare, kan det vara ett tecken på att något är fel,
-                    // men det är normalt tillstånd innan "Ny Såt" klickas.
-                    // Om det inte finns några skott med saater=0, men det finns en nextSaaterToAssign som är > 1
-                    // och det INTE finns en saaterDivider för nextSaaterToAssign - 1, då kan vi ha problem.
-                    // Detta är mest för att städa upp eventuell gammal inkonsekvent data.
-
                     const existingSaaterNumbers = [...new Set(allReports.filter(r => r.itemType === 'saaterDivider').map(s => s.saaterNumber))];
                     existingSaaterNumbers.forEach(num => {
                         if (saaterStates[`saater_${num}`] === undefined) {
-                            // Den senaste såten (högst nummer) är expanderad, andra kollapsade.
-                            if (num === nextSaaterToAssign - 1 && nextSaaterToAssign > 1) { // Om nextSaaterToAssign är 1, finns ingen "senaste" än
+                            if (num === nextSaaterToAssign - 1 && nextSaaterToAssign > 1) { 
                                  saaterStates[`saater_${num}`] = 'expanded';
-                            } else if (existingSaaterNumbers.length === 1 && num === 1) { // Bara såt 1 finns
+                            } else if (existingSaaterNumbers.length === 1 && num === 1) { 
                                  saaterStates[`saater_${num}`] = 'expanded';
                             }
                             else {
@@ -620,7 +625,6 @@ html
                         if (oldReport.isDirectFelledGame) {
                             migratedReports.push({ id: oldReport.id, itemType: 'game', createdAt: oldReport.createdAt, felledGameDetails: { species: oldReport.felledGameDetails?.species || '', shooter: oldReport.felledGameDetails?.shooter || '', passLocation: oldReport.felledGameDetails?.passLocation || '', reportTime: oldReport.shotTime || '00:00', meatDistribution: oldReport.felledGameDetails?.meatDistribution || '', linkedShotIds: [] } });
                         } else {
-                            // Alla skott från V2 antas tillhöra Såt 1 initialt efter migrering
                             const shotItem = { id: oldReport.id, itemType: 'shot', shotTime: oldReport.shotTime, isVerified: oldReport.isVerified, createdAt: oldReport.createdAt, linkedGameReportId: null, saater: 1 }; 
                             if (oldReport.felledGameDetails) {
                                 const gameId = Date.now() + Math.random();
@@ -633,7 +637,6 @@ html
                     allReports = migratedReports;
                     saaterStates = {};
                     if (allReports.some(r => r.itemType === 'shot' && r.saater === 1)) {
-                        // Skapa en avdelare för Såt 1 om den inte finns
                         const shotsForSaater1 = allReports.filter(r => r.itemType === 'shot' && r.saater === 1).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                         let divider1CreatedAt = new Date().toISOString();
                         if (shotsForSaater1.length > 0) {
@@ -657,7 +660,6 @@ html
                 allReports = []; nextSaaterToAssign = 1; saaterStates = {};
                 console.log("No data found in localStorage.");
             }
-             // Rensa gammal currentSaaterNumber från localStorage om den finns
             const storedData = JSON.parse(localStorage.getItem('bjorklundsAllRapporter_v4_saater') || '{}');
             if (storedData.hasOwnProperty('currentSaaterNumber')) {
                 delete storedData.currentSaaterNumber;
@@ -678,14 +680,14 @@ html
                 isVerified: false,
                 createdAt: n.toISOString(),
                 linkedGameReportId: null,
-                saater: 0 // 0 betyder att det ännu inte tillhör en namngiven/avslutad såt
+                saater: 0 
             };
             allReports.unshift(newShot); 
             if (newSaaterBtn) newSaaterBtn.disabled = false;
             saveAllDataToLocalStorage();
             renderShotLogList(); 
         }
-        function handleToggleShotVerification(shotId, checkboxElement) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); if (shot) { shot.isVerified = checkboxElement.checked; saveAllDataToLocalStorage(); /* Ingen render behövs här, UI uppdateras direkt */ } }
+        function handleToggleShotVerification(shotId, checkboxElement) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); if (shot) { shot.isVerified = checkboxElement.checked; saveAllDataToLocalStorage(); } }
         
         // --- Viltrapporthantering (Add/Edit Modal) ---
         function handleSaveGameDetails() { if (!currentShotLogIdInput || !gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionTextarea || !gameReportTimeInput) { console.error("Formulärelement saknas."); alert("Internt fel (formulärfält saknas)."); return; } if (!gameSpeciesInput.value) { alert("Välj ett viltslag."); gameSpeciesInput.focus(); return; } if (!gameReportTimeInput.value) { alert("Ange tid för rapport/hantering."); gameReportTimeInput.focus(); return; } const details = { species: gameSpeciesInput.value, passLocation: gamePassLocationInput.value.trim(), shooter: gameShooterInput.value.trim(), reportTime: gameReportTimeInput.value, meatDistribution: gameMeatDistributionTextarea.value.trim(), }; const gameReportIdValue = currentShotLogIdInput.value; const triggeringShotId = parseInt(document.getElementById('triggeringShotIdInput')?.value) || null; let savedGameReportId = null; if (gameReportIdValue.startsWith('new_')) { const newReportId = parseInt(gameReportIdValue.split('_')[1]) || Date.now(); const newReport = { id: newReportId, itemType: 'game', createdAt: new Date().toISOString(), felledGameDetails: { ...details, linkedShotIds: [] } }; allReports.unshift(newReport); savedGameReportId = newReport.id; } else { const gameReportId = parseInt(gameReportIdValue); const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report) { alert("Fel: Kunde inte hitta viltrapporten att spara till."); closeAddGameModal(); return; } report.felledGameDetails = { ...report.felledGameDetails, ...details }; savedGameReportId = report.id; } saveAllDataToLocalStorage(); if (triggeringShotId && savedGameReportId && gameReportIdValue.startsWith('new_')) { linkShotToGame(triggeringShotId, savedGameReportId, false); } renderShotLogList(); renderFelledGameReportList(); closeAddGameModal(); }
@@ -756,7 +758,6 @@ html
                     const timeSpan = document.createElement('span'); 
                     timeSpan.className = 'shot-time'; 
                     timeSpan.textContent = `Skott kl. ${item.shotTime}`; 
-                    // Texten "(Ej avslutad såt)" har tagits bort härifrån
                     shotInfoDiv.appendChild(timeSpan); 
                     const linkStatusSpan = document.createElement('span'); 
                     linkStatusSpan.className = 'shot-link-status'; 
@@ -885,8 +886,7 @@ html
                         if (shot) {
                             let saaterText = "";
                             if (shot.saater > 0) saaterText = `, Såt ${shot.saater}`;
-                            // Ingen text för shot.saater === 0 här längre
-                            li.textContent = `Skott kl. ${shot.shotTime}${shot.isVerified ? ' (Verifierat ✔)' : ''}${saaterText}`;
+                            li.textContent = `Skott kl. ${shot.shotTime}${saaterText}`; 
                         } else {
                             li.textContent = `Skott ID: ${shotId} (Data saknas?)`;
                             li.style.color = 'var(--danger-color)';
@@ -924,25 +924,21 @@ html
             if (confirm(confirmMsg)) {
                 if (itemType === 'saaterDivider') {
                     const saaterNumToDelete = itemToDelete.saaterNumber;
-                    allReports.splice(itemIndex, 1); // Ta bort avdelaren
-                    
-                    // Markera alla skott som tillhörde denna såt som "oavslutade" (saater: 0)
+                    allReports.splice(itemIndex, 1); 
                     allReports.forEach(r => {
                         if (r.itemType === 'shot' && r.saater === saaterNumToDelete) {
                             r.saater = 0;
                         }
                     });
                     delete saaterStates[`saater_${saaterNumToDelete}`];
-
-                    // Justera nextSaaterToAssign om den borttagna var den högsta
                     const remainingSaaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
                     if (remainingSaaterDividers.length > 0) {
                         nextSaaterToAssign = Math.max(0, ...remainingSaaterDividers.map(d => d.saaterNumber)) + 1;
                     } else {
-                        nextSaaterToAssign = 1; // Inga avdelare kvar
+                        nextSaaterToAssign = 1; 
                     }
 
-                } else { // shot or game
+                } else { 
                     allReports.splice(itemIndex, 1);
                     if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
                         const game = allReports.find(g => g.itemType === 'game' && g.id === itemToDelete.linkedGameReportId);
@@ -1182,7 +1178,7 @@ html
                         const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
                         let saaterText = 'Okänd';
                         if (shot) {
-                            if (shot.saater === 0) saaterText = 'Ej tilldelad såt'; // Anpassad text för CSV
+                            if (shot.saater === 0) saaterText = 'Ej tilldelad såt'; 
                             else saaterText = `Såt ${shot.saater}`;
                         }
                         return shot ? `${shot.shotTime}; ${shot.isVerified ? "Ja" : "Nej"}; ${saaterText}` : `ID ${shotId} saknas`;
@@ -1285,7 +1281,7 @@ html
             } 
         }
         function openHelpOverlay() { if (!helpOverlay) return; const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
-            if (helpContent) { helpContent.innerHTML = `<h4>Grundläggande Användning (V4.27 - UI Text Justering)</h4>
+            if (helpContent) { helpContent.innerHTML = `<h4>Grundläggande Användning (V4.29 - Köttfördelningsmallar)</h4>
             <p>Appen hanterar registrering av skott och fällda vilt, med möjlighet att associera skott till ett specifikt vilt. Hantering av såtar är nu implementerad.</p>
             <ol>
                 <li><strong>Avlossat Skott:</strong> Loggar tidpunkten för ett skott. Dessa skott har ännu inte tilldelats en färdig såt.</li>
@@ -1295,15 +1291,15 @@ html
                         <li>Varje såt-avdelare (t.ex. "Såt 1") är klickbar för att visa/dölja de skott som tillhör just den såten (de som ligger direkt under avdelaren och har samma såt-nummer).</li>
                         <li>Långa art- och platsnamn för associerade skott klipps av med (...) för att passa på små skärmar.</li>
                         <li>Klicka på ett skott (ej på avdelaren) för att associera det med ett fällt vilt eller skapa en ny viltrapport.</li>
-                        <li>Du kan markera skott som "Verifierat".</li>
+                        <li>Du kan markera skott som "Verifierat" i skottlistan.</li>
                     </ul>
                 </li>
                 <li><strong>Lägg till Fällt Vilt (knapp):</strong> Skapar en ny rapport för ett fällt vilt.</li>
                 <li><strong>Rapportlista (Fällt Vilt):</strong> Visar alla rapporterade fällda vilt. Status för kött är "Fördelat" / "Ej fördelat". Långa texter i listan klipps av (...). Klicka på raden för att se detaljer.</li>
-                <li><strong>Visa Detaljer (modal):</strong> Detaljerad vy för ett fällt vilt. Rubriken visar en ikon (första bokstaven i art) och viltslagets namn. Köttfördelningsstatus visas med ikon före text. Längst ner finns en lista över "Skott mot Viltet" med deras såt-information. Knapparna längst ner heter "Ta bort" och "Redigera".</li>
+                <li><strong>Visa Detaljer (modal):</strong> Detaljerad vy för ett fällt vilt. Rubriken visar en ikon (första bokstaven i art) och viltslagets namn. Köttfördelningsstatus visas med ikon före text. Längst ner finns en lista över "Skott mot Viltet" med deras såt-information (verifieringsstatus visas ej här). Knapparna längst ner heter "Ta bort" och "Redigera".</li>
                 <li><strong>Visa rapport (knapp):</strong> Öppnar en vy "Rapport Köttfördelning". Listar vilt med köttfördelning, grupperat ("Till Slakteri" först, sedan "Övrig Fördelning") och sorterat på viltslag och sedan fördelningstext. Visar även dagens datum. Innehåller knappar för "Kopiera text" och "Dela rapport".</li>
                 <li><strong>Spara full rapport (knapp):</strong> Exporterar en CSV-fil med detaljerad information om alla fällda vilt, inklusive data om associerade skott (tid, verifieringsstatus och såt-nummer, där skott som ännu inte tilldelats en färdig såt kommer att ha såt-nummer 0 eller en beskrivande text).</li>
-                <li><strong>Köttfördelning:</strong> Anges när du skapar/redigerar en viltrapport.</li>
+                <li><strong>Köttfördelning:</strong> Anges när du skapar/redigerar en viltrapport. Nya snabbval finns nu!</li>
                 <li><strong>Rensa Allt/Övrigt:</strong> Som tidigare. Knapparna ligger nu under varandra.</li>
             </ol>
             <h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare (localStorage). Ingen data skickas till någon server.</p>`; } 
