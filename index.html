@@ -500,7 +500,7 @@
     </style>
 </head>
 <body>
-    <div id="introVideoOverlay">
+    <div id="introVideoOverlay" style="display: none;"> <!-- Initialt dold -->
         <video id="introVideoPlayer" width="100%" height="100%" muted playsinline>
             <source src="videos/intro.mp4" type="video/mp4">
             Din webbläsare stödjer inte video-taggen.
@@ -753,11 +753,28 @@
             </div>
         </div>
     </div>
+    
+    <!-- Anpassad Alert Modal -->
+    <div id="customAlertModal" class="content-overlay" style="display: none;">
+        <div class="overlay-content-box" style="max-width: 400px;">
+            <div class="overlay-header" id="customAlertHeader" style="margin-bottom: 10px; display: none;">
+                <h3 id="customAlertTitle" style="font-size: 1.3em;">Meddelande</h3>
+            </div>
+            <div class="overlay-scrollable-content" style="margin-bottom: 15px; text-align: center;">
+                <p id="customAlertMessage" style="margin: 5px 0; font-size: 1.0em;"></p>
+            </div>
+            <div style="display:flex; justify-content: center;">
+                <button id="customAlertOkBtn" style="min-width: 100px;">OK</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
         let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
-        let introVideoOverlay, introVideoPlayer; // NYTT för video
+        let introVideoOverlay, introVideoPlayer; 
+        let customAlertModal, customAlertTitle, customAlertHeader, customAlertMessage, customAlertOkBtn; // För anpassad alert
+
         // --- GLOBALA VARIABLER ---
         let allReports = [];
         let currentTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -766,7 +783,7 @@
         let nextSaaterToAssign = 1; 
         let saaterStates = {}; 
         const LAST_ACTIVE_TAB_KEY = 'bjorklundsRapportLastActiveTab';
-        const LAST_INTRO_VIDEO_SHOWN_KEY = 'bjorklundsRapportLastIntroVideoShown'; // NYTT
+        const LAST_INTRO_VIDEO_SHOWN_KEY = 'bjorklundsRapportLastIntroVideoShown'; 
 
         // --- INITIERING VID LADDNING AV SIDAN ---
         document.addEventListener('DOMContentLoaded', () => { 
@@ -784,8 +801,14 @@
             shareMeatReportBtn = document.getElementById('shareMeatReportBtn'); 
             tabButtons = document.querySelectorAll('.tab-button');
             tabContents = document.querySelectorAll('.tab-content');
-            introVideoOverlay = document.getElementById('introVideoOverlay'); // NYTT
-            introVideoPlayer = document.getElementById('introVideoPlayer'); // NYTT
+            introVideoOverlay = document.getElementById('introVideoOverlay'); 
+            introVideoPlayer = document.getElementById('introVideoPlayer'); 
+            customAlertModal = document.getElementById('customAlertModal');
+            customAlertTitle = document.getElementById('customAlertTitle');
+            customAlertHeader = document.getElementById('customAlertHeader'); 
+            customAlertMessage = document.getElementById('customAlertMessage');
+            customAlertOkBtn = document.getElementById('customAlertOkBtn');
+
 
             if (installAppBtn) installAppBtn.style.display = 'none';
             applyTheme(currentTheme);
@@ -815,6 +838,12 @@
             if (helpOverlayCloseBtn) helpOverlayCloseBtn.addEventListener('click', closeHelpOverlay);
             if (shareOverlayCloseBtn) shareOverlayCloseBtn.addEventListener('click', closeShareOverlay);
             if (saveReportOverlayCloseBtn) saveReportOverlayCloseBtn.addEventListener('click', closeSaveReportOverlay); 
+            if (customAlertOkBtn) {
+                customAlertOkBtn.addEventListener('click', () => {
+                    if (customAlertModal) customAlertModal.style.display = 'none';
+                    checkAndCloseBodyOverlay(); 
+                });
+            }
             if (copyMeatReportBtn) copyMeatReportBtn.addEventListener('click', handleCopyMeatReport); 
             if (shareMeatReportBtn) shareMeatReportBtn.addEventListener('click', handleShareMeatReport); 
             if(meatRecipientNameInput) meatRecipientNameInput.addEventListener('input', updateMeatDistributionTextarea);
@@ -822,6 +851,28 @@
             setupPWAInstallation();
             if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.error('SW reg failed:', err)); }
         });
+
+        // --- Anpassad Alert Funktion ---
+        function showCustomAlert(message, title) { 
+            if (!customAlertModal || !customAlertTitle || !customAlertMessage || !customAlertHeader) {
+                console.warn("Custom alert elements not found, falling back to native alert.");
+                alert(message); 
+                return;
+            }
+
+            if (title) {
+                customAlertTitle.textContent = title;
+                customAlertHeader.style.display = 'flex'; 
+            } else {
+                customAlertHeader.style.display = 'none'; 
+            }
+            customAlertMessage.innerHTML = message; 
+            
+            closeAllOverlays(customAlertModal); 
+            customAlertModal.style.display = 'flex';
+            document.body.classList.add('overlay-open');
+            if(customAlertOkBtn) customAlertOkBtn.focus(); 
+        }
 
         // --- Tabbhantering ---
         function initializeTabs() {
@@ -869,7 +920,7 @@
             }
         }
         function toggleTheme() { currentTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(currentTheme); }
-        function setupPWAInstallation() { window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if (installAppBtn) { installAppBtn.style.display = 'inline-flex'; const newInstallBtn = installAppBtn.cloneNode(true); if(installAppBtn.parentNode) installAppBtn.parentNode.replaceChild(newInstallBtn, installAppBtn); installAppBtn = newInstallBtn; installAppBtn.onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; if(installAppBtn) installAppBtn.style.display = 'none'; } else { const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; if (isIOS) alert("På iOS: Dela -> Lägg till på hemskärmen."); else if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) alert("Appen är redan installerad!"); else alert("Installationsprompt ej tillgänglig.");} }; } }); window.addEventListener('appinstalled', () => { if (installAppBtn) installAppBtn.style.display = 'none'; deferredPrompt = null; }); }
+        function setupPWAInstallation() { window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if (installAppBtn) { installAppBtn.style.display = 'inline-flex'; const newInstallBtn = installAppBtn.cloneNode(true); if(installAppBtn.parentNode) installAppBtn.parentNode.replaceChild(newInstallBtn, installAppBtn); installAppBtn = newInstallBtn; installAppBtn.onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; if(installAppBtn) installAppBtn.style.display = 'none'; } else { const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; if (isIOS) showCustomAlert("För att installera på iOS: Klicka på Dela-ikonen i Safari och välj sedan 'Lägg till på hemskärmen'.", "Installationsguide"); else if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) showCustomAlert("Appen är redan installerad!", "Information"); else showCustomAlert("Installationsprompt ej tillgänglig. Försök igen senare eller följ webbläsarens instruktioner för att lägga till på hemskärmen.", "Information");} }; } }); window.addEventListener('appinstalled', () => { if (installAppBtn) installAppBtn.style.display = 'none'; deferredPrompt = null; }); }
         
         // --- Datahantering & Migrering ---
         function saveAllDataToLocalStorage() {
@@ -882,7 +933,7 @@
                 localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(dataToSave)); 
             } catch (e) {
                 console.error("Fel vid sparande till localStorage:", e);
-                alert("Fel: Kunde inte spara data.");
+                showCustomAlert("Fel: Kunde inte spara data.", "Dataproblem");
             }
         }
 
@@ -1000,16 +1051,191 @@
         function handleToggleShotVerification(shotId, checkboxElement) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); if (shot) { shot.isVerified = checkboxElement.checked; saveAllDataToLocalStorage(); } }
         
         // --- Viltrapporthantering (Add/Edit Modal) ---
-        function handleSaveGameDetails() { if (!currentShotLogIdInput || !gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionTextarea || !gameReportTimeInput) { console.error("Formulärelement saknas."); alert("Internt fel (formulärfält saknas)."); return; } if (!gameSpeciesInput.value) { alert("Välj ett viltslag."); gameSpeciesInput.focus(); return; } if (!gameReportTimeInput.value) { alert("Ange tid för rapport/hantering."); gameReportTimeInput.focus(); return; } const details = { species: gameSpeciesInput.value, passLocation: gamePassLocationInput.value.trim(), shooter: gameShooterInput.value.trim(), reportTime: gameReportTimeInput.value, meatDistribution: gameMeatDistributionTextarea.value.trim(), }; const gameReportIdValue = currentShotLogIdInput.value; const triggeringShotId = parseInt(document.getElementById('triggeringShotIdInput')?.value) || null; let savedGameReportId = null; if (gameReportIdValue.startsWith('new_')) { const newReportId = parseInt(gameReportIdValue.split('_')[1]) || Date.now(); const newReport = { id: newReportId, itemType: 'game', createdAt: new Date().toISOString(), felledGameDetails: { ...details, linkedShotIds: [] } }; allReports.unshift(newReport); savedGameReportId = newReport.id; } else { const gameReportId = parseInt(gameReportIdValue); const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report) { alert("Fel: Kunde inte hitta viltrapporten att spara till."); closeAddGameModal(); return; } report.felledGameDetails = { ...report.felledGameDetails, ...details }; savedGameReportId = report.id; } saveAllDataToLocalStorage(); if (triggeringShotId && savedGameReportId && gameReportIdValue.startsWith('new_')) { linkShotToGame(triggeringShotId, savedGameReportId, false); } renderShotLogList(); renderFelledGameReportList(); closeAddGameModal(); }
-        function openAddGameModal(gameReportId, triggeringShotId = null) { if (!addGameModal) return; const hiddenTriggerInput = document.getElementById('triggeringShotIdInput'); if (hiddenTriggerInput) hiddenTriggerInput.value = ''; if (gameReportId !== null) { const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report) { alert("Fel: Hittade inte viltrapport för redigering."); return; } currentShotLogIdInput.value = gameReportId; gameModalTitle.textContent = "Redigera Fällt Vilt"; gameSpeciesInput.value = report.felledGameDetails.species || ''; gamePassLocationInput.value = report.felledGameDetails.passLocation || ''; gameShooterInput.value = report.felledGameDetails.shooter || ''; gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || ''; gameReportTimeInput.value = report.felledGameDetails.reportTime || ''; meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = ''; } else { gameModalTitle.textContent = "Lägg till fällt vilt"; currentShotLogIdInput.value = 'new_' + Date.now(); const n = new Date(); const h = String(n.getHours()).padStart(2, '0'); const m = String(n.getMinutes()).padStart(2, '0'); gameReportTimeInput.value = `${h}:${m}`; gameSpeciesInput.value = ''; gamePassLocationInput.value = ''; gameShooterInput.value = ''; gameMeatDistributionTextarea.value = ''; meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = ''; if (triggeringShotId && hiddenTriggerInput) { hiddenTriggerInput.value = triggeringShotId; } } closeAllOverlays(addGameModal); addGameModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
+        function handleSaveGameDetails() { 
+            if (!currentShotLogIdInput || !gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionTextarea || !gameReportTimeInput) { 
+                console.error("Formulärelement saknas."); 
+                showCustomAlert("Internt fel (formulärfält saknas).", "Fel"); 
+                return; 
+            } 
+            if (!gameSpeciesInput.value) { 
+                showCustomAlert("Välj ett viltslag.", "Obligatoriskt fält"); 
+                gameSpeciesInput.focus(); 
+                return; 
+            } 
+            if (!gameReportTimeInput.value) { 
+                showCustomAlert("Ange tid för rapport/hantering.", "Obligatoriskt fält"); 
+                gameReportTimeInput.focus(); 
+                return; 
+            } 
+            const details = { species: gameSpeciesInput.value, passLocation: gamePassLocationInput.value.trim(), shooter: gameShooterInput.value.trim(), reportTime: gameReportTimeInput.value, meatDistribution: gameMeatDistributionTextarea.value.trim(), }; 
+            const gameReportIdValue = currentShotLogIdInput.value; 
+            const triggeringShotId = parseInt(document.getElementById('triggeringShotIdInput')?.value) || null; 
+            let savedGameReportId = null; 
+            if (gameReportIdValue.startsWith('new_')) { 
+                const newReportId = parseInt(gameReportIdValue.split('_')[1]) || Date.now(); 
+                const newReport = { id: newReportId, itemType: 'game', createdAt: new Date().toISOString(), felledGameDetails: { ...details, linkedShotIds: [] } }; 
+                allReports.unshift(newReport); 
+                savedGameReportId = newReport.id; 
+            } else { 
+                const gameReportId = parseInt(gameReportIdValue); 
+                const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
+                if (!report) { 
+                    showCustomAlert("Fel: Kunde inte hitta viltrapporten att spara till.", "Fel"); 
+                    closeAddGameModal(); 
+                    return; 
+                } 
+                report.felledGameDetails = { ...report.felledGameDetails, ...details }; 
+                savedGameReportId = report.id; 
+            } 
+            saveAllDataToLocalStorage(); 
+            if (triggeringShotId && savedGameReportId && gameReportIdValue.startsWith('new_')) { 
+                linkShotToGame(triggeringShotId, savedGameReportId, false); 
+            } 
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            closeAddGameModal(); 
+        }
+        function openAddGameModal(gameReportId, triggeringShotId = null) { 
+            if (!addGameModal) return; 
+            const hiddenTriggerInput = document.getElementById('triggeringShotIdInput'); 
+            if (hiddenTriggerInput) hiddenTriggerInput.value = ''; 
+            if (gameReportId !== null) { 
+                const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
+                if (!report) { 
+                    showCustomAlert("Fel: Hittade inte viltrapport för redigering.", "Fel"); 
+                    return; 
+                } 
+                currentShotLogIdInput.value = gameReportId; 
+                gameModalTitle.textContent = "Redigera Fällt Vilt"; 
+                gameSpeciesInput.value = report.felledGameDetails.species || ''; 
+                gamePassLocationInput.value = report.felledGameDetails.passLocation || ''; 
+                gameShooterInput.value = report.felledGameDetails.shooter || ''; 
+                gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || ''; 
+                gameReportTimeInput.value = report.felledGameDetails.reportTime || ''; 
+                meatRecipientNameInput.value = ''; 
+                meatQuickChoiceSelect.value = ''; 
+            } else { 
+                gameModalTitle.textContent = "Lägg till fällt vilt"; 
+                currentShotLogIdInput.value = 'new_' + Date.now(); 
+                const n = new Date(); 
+                const h = String(n.getHours()).padStart(2, '0'); 
+                const m = String(n.getMinutes()).padStart(2, '0'); 
+                gameReportTimeInput.value = `${h}:${m}`; 
+                gameSpeciesInput.value = ''; 
+                gamePassLocationInput.value = ''; 
+                gameShooterInput.value = ''; 
+                gameMeatDistributionTextarea.value = ''; 
+                meatRecipientNameInput.value = ''; 
+                meatQuickChoiceSelect.value = ''; 
+                if (triggeringShotId && hiddenTriggerInput) { 
+                    hiddenTriggerInput.value = triggeringShotId; 
+                } 
+            } 
+            closeAllOverlays(addGameModal); 
+            addGameModal.style.display = 'flex'; 
+            document.body.classList.add('overlay-open'); 
+        }
         function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
         // --- Koppling Skott <-> Vilt (Link Modal) ---
-        function openLinkShotModal(shotId) { if (!linkShotModal || !linkableGameList || !linkShotModalShotId) return; linkShotModalShotId.value = shotId; linkShotModalTitle.textContent = "Associera Skott till Fällt Vilt"; linkableGameList.innerHTML = ''; const gameReports = allReports.filter(r => r.itemType === 'game').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); if (gameReports.length === 0) { linkableGameList.innerHTML = '<li class="info-text">Inget fällt vilt att associera till ännu.</li>'; } else { gameReports.forEach(game => { const li = document.createElement('li'); li.className = 'linkable-game-item'; li.dataset.gameId = game.id; const species = game.felledGameDetails.species || 'Okänt Vilt'; const shooter = game.felledGameDetails.shooter || '-'; const location = game.felledGameDetails.passLocation || '-'; li.innerHTML = `<span class="species">${species}</span><span class="details">Skytt: ${shooter}, Plats: ${location}</span>`; li.onclick = () => { linkShotToGame(shotId, game.id); }; linkableGameList.appendChild(li); }); } const pInfo = linkShotModal.querySelector('.overlay-scrollable-content > p.info-text'); if(pInfo) pInfo.textContent = "Klicka på ett vilt i listan för att associera skottet."; if(createNewGameFromLinkBtn) createNewGameFromLinkBtn.textContent = "Lägg till fällt vilt & Associera"; if(unlinkShotBtn) unlinkShotBtn.textContent = "Ta bort association / Ingen association"; closeAllOverlays(linkShotModal); linkShotModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
+        function openLinkShotModal(shotId) { 
+            if (!linkShotModal || !linkableGameList || !linkShotModalShotId) return; 
+            linkShotModalShotId.value = shotId; 
+            linkShotModalTitle.textContent = "Associera Skott till Fällt Vilt"; 
+            linkableGameList.innerHTML = ''; 
+            const gameReports = allReports.filter(r => r.itemType === 'game').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); 
+            if (gameReports.length === 0) { 
+                linkableGameList.innerHTML = '<li class="info-text">Inget fällt vilt att associera till ännu.</li>'; 
+            } else { 
+                gameReports.forEach(game => { 
+                    const li = document.createElement('li'); 
+                    li.className = 'linkable-game-item'; 
+                    li.dataset.gameId = game.id; 
+                    const species = game.felledGameDetails.species || 'Okänt Vilt'; 
+                    const shooter = game.felledGameDetails.shooter || '-'; 
+                    const location = game.felledGameDetails.passLocation || '-'; 
+                    li.innerHTML = `<span class="species">${species}</span><span class="details">Skytt: ${shooter}, Plats: ${location}</span>`; 
+                    li.onclick = () => { linkShotToGame(shotId, game.id); }; 
+                    linkableGameList.appendChild(li); 
+                }); 
+            } 
+            const pInfo = linkShotModal.querySelector('.overlay-scrollable-content > p.info-text'); 
+            if(pInfo) pInfo.textContent = "Klicka på ett vilt i listan för att associera skottet."; 
+            if(createNewGameFromLinkBtn) createNewGameFromLinkBtn.textContent = "Lägg till fällt vilt & Associera"; 
+            if(unlinkShotBtn) unlinkShotBtn.textContent = "Ta bort association / Ingen association"; 
+            closeAllOverlays(linkShotModal); 
+            linkShotModal.style.display = 'flex'; 
+            document.body.classList.add('overlay-open'); 
+        }
         function closeLinkShotModal() { if (linkShotModal) linkShotModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function handleCreateNewGameFromLinkModal() { const shotIdToLink = parseInt(linkShotModalShotId.value); if (!shotIdToLink) { alert("Internt fel: Kunde inte hitta skott-ID för association."); return; } closeLinkShotModal(); openAddGameModal(null, shotIdToLink); }
-        function handleUnlinkShotFromLinkModal() { const shotIdToUnlink = parseInt(linkShotModalShotId.value); if (shotIdToUnlink) { unlinkShotFromGame(shotIdToUnlink); } else { alert("Internt fel: Kunde inte hitta skott-ID för att ta bort association."); } }
-        function linkShotToGame(shotId, gameReportId, closeModal = true) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); const game = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!shot || !game) { console.error(`Kunde inte hitta skott ${shotId} eller vilt ${gameReportId} för association.`); alert("Kunde inte utföra associationen."); return; } if (shot.linkedGameReportId && shot.linkedGameReportId !== gameReportId) { const oldGame = allReports.find(r => r.itemType === 'game' && r.id === shot.linkedGameReportId); if (oldGame && oldGame.felledGameDetails.linkedShotIds) { oldGame.felledGameDetails.linkedShotIds = oldGame.felledGameDetails.linkedShotIds.filter(id => id !== shotId); } } allReports.forEach(g => { if(g.itemType === 'game' && g.id !== gameReportId && g.felledGameDetails.linkedShotIds?.includes(shotId)) { g.felledGameDetails.linkedShotIds = g.felledGameDetails.linkedShotIds.filter(id => id !== shotId); } }); shot.linkedGameReportId = gameReportId; if (!game.felledGameDetails.linkedShotIds) { game.felledGameDetails.linkedShotIds = []; } if (!game.felledGameDetails.linkedShotIds.includes(shotId)) { game.felledGameDetails.linkedShotIds.push(shotId); } console.log(`Associerade skott ${shotId} till vilt ${gameReportId}`); saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); if (closeModal) closeLinkShotModal(); }
-        function unlinkShotFromGame(shotId, closeModal = true) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); if (!shot) { console.error(`Kunde inte hitta skott ${shotId} för att ta bort association.`); return; } const linkedGameId = shot.linkedGameReportId; shot.linkedGameReportId = null; if (linkedGameId) { const game = allReports.find(r => r.itemType === 'game' && r.id === linkedGameId); if (game && game.felledGameDetails.linkedShotIds) { game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== shotId); } } console.log(`Tog bort association för skott ${shotId}`); saveAllDataToLocalStorage(); renderShotLogList(); renderFelledGameReportList(); if (closeModal) closeLinkShotModal(); }
+        function handleCreateNewGameFromLinkModal() { 
+            const shotIdToLink = parseInt(linkShotModalShotId.value); 
+            if (!shotIdToLink) { 
+                showCustomAlert("Internt fel: Kunde inte hitta skott-ID för association.", "Fel"); 
+                return; 
+            } 
+            closeLinkShotModal(); 
+            openAddGameModal(null, shotIdToLink); 
+        }
+        function handleUnlinkShotFromLinkModal() { 
+            const shotIdToUnlink = parseInt(linkShotModalShotId.value); 
+            if (shotIdToUnlink) { 
+                unlinkShotFromGame(shotIdToUnlink); 
+            } else { 
+                showCustomAlert("Internt fel: Kunde inte hitta skott-ID för att ta bort association.", "Fel"); 
+            } 
+        }
+        function linkShotToGame(shotId, gameReportId, closeModal = true) { 
+            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); 
+            const game = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
+            if (!shot || !game) { 
+                console.error(`Kunde inte hitta skott ${shotId} eller vilt ${gameReportId} för association.`); 
+                showCustomAlert("Kunde inte utföra associationen.", "Fel"); 
+                return; 
+            } 
+            if (shot.linkedGameReportId && shot.linkedGameReportId !== gameReportId) { 
+                const oldGame = allReports.find(r => r.itemType === 'game' && r.id === shot.linkedGameReportId); 
+                if (oldGame && oldGame.felledGameDetails.linkedShotIds) { 
+                    oldGame.felledGameDetails.linkedShotIds = oldGame.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
+                } 
+            } 
+            allReports.forEach(g => { 
+                if(g.itemType === 'game' && g.id !== gameReportId && g.felledGameDetails.linkedShotIds?.includes(shotId)) { 
+                    g.felledGameDetails.linkedShotIds = g.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
+                } 
+            }); 
+            shot.linkedGameReportId = gameReportId; 
+            if (!game.felledGameDetails.linkedShotIds) { 
+                game.felledGameDetails.linkedShotIds = []; 
+            } 
+            if (!game.felledGameDetails.linkedShotIds.includes(shotId)) { 
+                game.felledGameDetails.linkedShotIds.push(shotId); 
+            } 
+            console.log(`Associerade skott ${shotId} till vilt ${gameReportId}`); 
+            saveAllDataToLocalStorage(); 
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            if (closeModal) closeLinkShotModal(); 
+        }
+        function unlinkShotFromGame(shotId, closeModal = true) { 
+            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); 
+            if (!shot) { 
+                console.error(`Kunde inte hitta skott ${shotId} för att ta bort association.`); 
+                return; 
+            } 
+            const linkedGameId = shot.linkedGameReportId; 
+            shot.linkedGameReportId = null; 
+            if (linkedGameId) { 
+                const game = allReports.find(r => r.itemType === 'game' && r.id === linkedGameId); 
+                if (game && game.felledGameDetails.linkedShotIds) { 
+                    game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
+                } 
+            } 
+            console.log(`Tog bort association för skott ${shotId}`); 
+            saveAllDataToLocalStorage(); 
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            if (closeModal) closeLinkShotModal(); 
+        }
 
         // --- Rendering av Listor ---
         function renderShotLogList() {
@@ -1442,10 +1668,10 @@
             const reportText = generateMeatReportText();
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(reportText).then(() => {
-                    alert("Rapporttext kopierad till urklipp!");
+                    showCustomAlert("Rapporttext kopierad till urklipp!", "Kopierat");
                 }).catch(err => {
                     console.error('Kunde inte kopiera text: ', err);
-                    alert("Kopiering misslyckades. Prova manuellt eller dela direkt.");
+                    showCustomAlert("Kopiering misslyckades. Prova manuellt eller dela direkt.", "Fel vid kopiering");
                 });
             } else {
                 const textArea = document.createElement("textarea");
@@ -1456,9 +1682,9 @@
                 textArea.select();
                 try {
                     document.execCommand('copy');
-                    alert("Rapporttext kopierad till urklipp! (fallback)");
+                    showCustomAlert("Rapporttext kopierad till urklipp! (fallback)", "Kopierat");
                 } catch (err) {
-                    alert("Kopiering misslyckades. Webbläsaren stödjer inte detta eller så blockerades det.");
+                    showCustomAlert("Kopiering misslyckades. Webbläsaren stödjer inte detta eller så blockerades det.", "Fel vid kopiering");
                 }
                 document.body.removeChild(textArea);
             }
@@ -1477,18 +1703,18 @@
                 } catch (err) {
                     console.error('Fel vid delning: ', err);
                     if (err.name !== 'AbortError') { 
-                        alert('Delning misslyckades. Du kan försöka kopiera texten istället.');
+                        showCustomAlert('Delning misslyckades. Du kan försöka kopiera texten istället.', "Fel vid delning");
                     }
                 }
             } else {
-                alert('Webbläsaren stödjer inte direkt delning. Använd "Kopiera text"-knappen och klistra in manuellt.');
+                showCustomAlert('Webbläsaren stödjer inte direkt delning. Använd "Kopiera text"-knappen och klistra in manuellt.', "Information");
             }
         }
         
         function exportFullGameReportToCSV() {
             const gameReports = allReports.filter(r => r.itemType === 'game');
             if(gameReports.length === 0) {
-                alert("Ingen data om fällt vilt att exportera.");
+                showCustomAlert("Ingen data om fällt vilt att exportera.", "Information");
                 return;
             }
 
@@ -1611,12 +1837,12 @@
 
 
         function handleClearAllData() { 
-            if(allReports.length===0){alert("Det finns ingen data att rensa.");return} 
             if(confirm("Är du säker på att du vill starta en ny jakt och rensa ALL data? Detta kan inte ångras.")){ 
                 allReports=[];
                 nextSaaterToAssign = 1; 
                 saaterStates = {}; 
                 saveAllDataToLocalStorage(); 
+                
                 localStorage.removeItem(LAST_INTRO_VIDEO_SHOWN_KEY); 
                 checkAndPlayIntroVideo(true); 
 
@@ -1730,7 +1956,7 @@
         function openShareOverlay() { if (!shareOverlay) return; closeAllOverlays(shareOverlay); generateQRCode(); shareOverlay.style.display = 'flex'; document.body.classList.add('overlay-open');}
         function closeShareOverlay() { if (shareOverlay) shareOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
         function closeAllOverlays(keepOpenOverlay = null) {
-            [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay].forEach(o => {
+            [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay, customAlertModal].forEach(o => { 
                 if (o && o !== keepOpenOverlay) o.style.display = 'none';
             });
             if (keepOpenOverlay === null) { 
@@ -1747,7 +1973,8 @@
                                     (viewGameModal && viewGameModal.style.display === 'flex') || 
                                     (helpOverlay && helpOverlay.style.display === 'flex') || 
                                     (shareOverlay && shareOverlay.style.display === 'flex') || 
-                                    (saveReportOverlay && saveReportOverlay.style.display === 'flex');
+                                    (saveReportOverlay && saveReportOverlay.style.display === 'flex') ||
+                                    (customAlertModal && customAlertModal.style.display === 'flex'); 
 
             if (!isIntroVideoVisible && !anyOtherModalOpen && document.body.classList.contains('overlay-open')) {
                 document.body.classList.remove('overlay-open');
@@ -1760,4 +1987,3 @@
     </script>
 </body>
 </html>
-```
