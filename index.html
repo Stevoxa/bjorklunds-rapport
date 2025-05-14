@@ -1,10 +1,10 @@
-html
+`html
 <!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport V5.5 - CSS Pilar</title>
+    <title>Björklunds Rapport V5.3.1 - Tabb/Ikon Finjustering</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -48,7 +48,7 @@ html
             --tab-inactive-hover-text: var(--text-color); 
             --tab-active-bg: var(--surface-bg-color);    
             --tab-active-text: var(--primary-color);     
-            --tab-active-border-color: var(--primary-color);
+            /* --tab-active-border-color: var(--primary-color);  Behövs inte om border-bottom matchar bg */
         }
 
         body[data-theme="dark"] {
@@ -89,7 +89,7 @@ html
             --tab-inactive-hover-text: var(--text-color); 
             --tab-active-bg: var(--surface-bg-color);     
             --tab-active-text: var(--text-color);        
-            --tab-active-border-color: var(--primary-color);
+            /* --tab-active-border-color: var(--primary-color); */
         }
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -134,6 +134,16 @@ html
             align-items: center;
             gap: 5px;
         }
+         .app-header-actions-container .icon-button { /* Specific for icon buttons in the title bar */
+            background-color: transparent !important; 
+            border: none !important; 
+            padding: 4px; 
+            width: 28px; 
+            height: 28px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
          .app-header-actions-container .icon-button svg { 
             fill: var(--primary-text-color) !important; 
             width: 20px; height: 20px;
@@ -141,10 +151,7 @@ html
          .app-header-actions-container .icon-button:hover svg {
             fill: color-mix(in srgb, var(--primary-text-color) 80%, black) !important;
         }
-         .app-header-actions-container .icon-button {
-            padding: 4px; width: 28px; height: 28px;
-        }
-
+        
         .tabs-nav {
             display: flex;
             background-color: var(--tab-inactive-bg); 
@@ -157,17 +164,18 @@ html
             padding: 12px 8px; 
             cursor: pointer;
             border: none;
-            background-color: var(--tab-inactive-bg);
+            background-color: var(--tab-inactive-bg); /* Explicit inactive background */
             color: var(--tab-inactive-text); 
             font-size: 0.9em; 
             font-weight: 500;
             text-align: center;
-            border-bottom: 3px solid transparent; 
-            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            /* border-bottom: 3px solid transparent; */ /* Borttagen för renare look, aktiv har egen border */
+            transition: background-color 0.2s ease, color 0.2s ease;
             font-family: inherit;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px; 
-            margin-top: 1px; 
+            margin-top: 1px; /* Skjuter ner inaktiva tabbar lite */
+             border-bottom: none; /* Se till att ingen border finns default */
         }
        
         .tab-button:hover:not(.active) { 
@@ -182,10 +190,10 @@ html
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
             border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--tab-active-bg); 
+            border-bottom: 1px solid var(--tab-active-bg); /* Döljer underliggande linje */
             position: relative;
             z-index: 2; 
-            margin-bottom: -1px; 
+            margin-bottom: -1px; /* Överlappar linjen under .tabs-nav */
         }
         .tab-button.active:hover { 
             background-color: var(--tab-active-bg) !important; 
@@ -257,18 +265,18 @@ html
             display: inline-block;
             width: 0; 
             height: 0;
-            margin-left: 8px; 
-            margin-right: 8px; 
+            margin-left: 10px; /* Ökat lite för luft */
+            margin-right: 10px; /* Ökat lite för luft */
             border-style: solid;
-            transition: transform 0.2s ease, opacity 0.15s ease; /* La till opacity transition */
+            transition: transform 0.2s ease, opacity 0.15s ease; 
             cursor: pointer;
         }
         .saater-toggle-icon.expanded { /* ▼ */
-            border-width: 7px 5px 0 5px; /* Topp, Höger-Vänster, Botten */
+            border-width: 7px 5px 0 5px; 
             border-color: var(--primary-color) transparent transparent transparent;
         }
         .saater-toggle-icon.collapsed { /* ► */
-            border-width: 5px 0 5px 7px; /* Topp-Botten, Höger, Vänster */
+            border-width: 5px 0 5px 7px; 
             border-color: transparent transparent transparent var(--primary-color);
         }
         .saater-divider:hover .saater-toggle-icon {
@@ -714,7 +722,7 @@ html
                     toggleIconSpan.className = 'saater-toggle-icon';
 
                     const isCollapsed = saaterStates[`saater_${item.saaterNumber}`] === 'collapsed';
-                    toggleIconSpan.classList.remove('expanded', 'collapsed');
+                    toggleIconSpan.classList.remove('expanded', 'collapsed'); // Rensa först
                     if (isCollapsed) {
                         toggleIconSpan.classList.add('collapsed');
                     } else {
@@ -1276,18 +1284,17 @@ html
             if (!helpOverlay) return; 
             const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
             if (helpContent) { 
-                 helpContent.innerHTML = `<h4>Grundläggande Användning (V5.4 - Läslighet & Pilar)</h4>
-                <p>Ytterligare UI-justeringar för bättre läsbarhet och tydligare interaktionselement.</p>
+                 helpContent.innerHTML = `<h4>Grundläggande Användning (V5.5 - CSS Pilar & Overlay Fix)</h4>
+                <p>CSS-pilar för såtar och förbättrad textläsbarhet i overlays i mörkt tema.</p>
                 <p><strong>Navigering:</strong> Använd tabbarna "Skott", "Fällt Vilt" och "Rapporter & Admin" högst upp.</p>
                 <ol>
                     <li><strong>Fliken "Skott":</strong>
                         <ul>
-                            <li><strong>Ny Såt (knapp):</strong> Avslutar pågående "grupp" av skott, skapar avdelare (t.ex. "Såt 1") ovanför dem.</li>
-                            <li><strong>Skottlistan:</strong> Hopfällda såtar (►) och expanderade såtar (▼) använder nu CSS-genererade pilar som är visuellt lika stora och tydliga.</li>
+                            <li><strong>Ny Såt:</strong> Såt-pilar (►/▼) är nu CSS-genererade för enhetligt utseende.</li>
                         </ul>
                     </li>
-                     <li><strong>Fliken "Fällt Vilt" & "Rapporter & Admin":</strong> All text i modalfönster (overlays) är nu korrekt ljus mot den mörka bakgrunden i appens mörka tema, vilket förbättrar läsbarheten avsevärt.</li>
-                    <li><strong>Generellt Tabb-utseende:</strong> Aktiv tabb är tydligt markerad med en bakgrund som matchar innehållsytan och kontrasterande text. Hover-effekten på den aktiva tabben har tagits bort för att undvika förvirring. Inaktiva tabbar har en subtil hover-effekt.</li>
+                    <li><strong>Modalfönster (Overlays):</strong> All text i modalfönster (när du t.ex. lägger till vilt) har nu korrekt ljus färg i appens mörka tema.</li>
+                    <li><strong>Aktiva Tabbar:</strong> Den aktiva tabben är tydligt markerad och ska inte ändra utseende när muspekaren hålls över den.</li>
                 </ol>
                 <h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare.</p>`;
             } 
