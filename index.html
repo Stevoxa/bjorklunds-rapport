@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -262,10 +261,6 @@ html
         .icon-button:disabled svg { fill: var(--secondary-text-color) !important; opacity: 0.5; }
         .delete-btn svg { fill: var(--danger-color) !important; }
         .delete-btn:hover:not(:disabled) svg { fill: color-mix(in srgb, var(--danger-color) 80%, black) !important; }
-        .speech-button { border: 1px solid var(--secondary-button-border-color); background-color: var(--secondary-button-bg-color); }
-        .speech-button svg { fill: var(--secondary-button-text-color) !important; }
-        .speech-button:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
-        .speech-button.is-listening svg { fill: var(--listening-color) !important; }
 
         .input-group, .form-group { display: flex; margin-bottom: 15px; gap: 10px; align-items: center; flex-wrap: wrap;}
         .form-group { flex-direction: column; align-items: stretch; gap: 5px;}
@@ -348,6 +343,16 @@ html
         .overlay-header .icon-button { width: 30px; height: 30px; padding: 5px;}
         .overlay-header .icon-button svg { width: 18px; height: 18px;}
         .overlay-scrollable-content { color: var(--overlay-text-color); overflow-y: auto; flex-grow: 1; margin-bottom: 20px; padding-right: 5px;}
+        /* Ny CSS-regel för h4 efter hr i #addGameModal */
+        #addGameModal .overlay-scrollable-content hr + h4 {
+            font-size: 1.2em;
+            color: var(--overlay-header-text-color);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--subtle-border-color);
+            margin-top: 0; 
+            margin-bottom: 20px;
+        }
+
 
         #viewGameDetailsContent .detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--subtle-border-color); align-items: baseline; }
         #viewGameDetailsContent .detail-row[style*="border-bottom: none;"] { border-bottom: none !important; }
@@ -463,7 +468,10 @@ html
 <option value="Älgko">Älgko</option>
 <option value="Älgkalv">Älgkalv</option>
 <option value="Räv">Räv</option>
-<option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> <hr style="margin: 15px 0;"><h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> 
+<option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> 
+ </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> 
+ <hr style="margin-top: 25px; margin-bottom: 15px;"><h4>Köttfördelning</h4> 
+ <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> 
             <div class="form-group">
                 <label for="meatQuickChoiceSelect">Snabbval:</label>
                 <select id="meatQuickChoiceSelect">
@@ -549,15 +557,13 @@ html
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
-        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, speakShooterBtn,meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
+        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
         // --- GLOBALA VARIABLER ---
         let allReports = [];
         let currentTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         let deferredPrompt;
         const appURL = window.location.href;
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        let shooterRecognition;
-        let activeRecognitionInput = null;
+        // SpeechRecognition-relaterade variabler borttagna
         let nextSaaterToAssign = 1; 
         let saaterStates = {}; 
         const LAST_ACTIVE_TAB_KEY = 'bjorklundsRapportLastActiveTab';
@@ -568,7 +574,7 @@ html
             viewMeatReportBtn = document.getElementById('viewMeatReportBtn'); 
             exportFullGameReportBtn = document.getElementById('exportFullGameReportBtn'); 
             newSaaterBtn = document.getElementById('newSaaterBtn');
-            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); gameShooterInput = document.getElementById('gameShooterInput'); speakShooterBtn = document.getElementById('speakShooterBtn'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); meatQuickChoiceSelect = document.getElementById('meatQuickChoiceSelect'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
+            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); gameShooterInput = document.getElementById('gameShooterInput'); /* speakShooterBtn borttagen */ meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); meatQuickChoiceSelect = document.getElementById('meatQuickChoiceSelect'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
             saveReportOverlay = document.getElementById('saveReportOverlay');
             saveReportOverlayCloseBtn = document.getElementById('saveReportOverlayCloseBtn');
             meatDistributionReportList = document.getElementById('meatDistributionReportList');
@@ -610,7 +616,6 @@ html
             if (shareMeatReportBtn) shareMeatReportBtn.addEventListener('click', handleShareMeatReport); 
             if(meatRecipientNameInput) meatRecipientNameInput.addEventListener('input', updateMeatDistributionTextarea);
             if(meatQuickChoiceSelect) meatQuickChoiceSelect.addEventListener('change', updateMeatDistributionTextarea);
-            setupSpeechRecognitionForShooter();
             setupPWAInstallation();
             if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.error('SW reg failed:', err)); }
         });
@@ -640,7 +645,7 @@ html
             });
         }
 
-        // --- Tema, PWA, Taligenkänning ---
+        // --- Tema & PWA ---
         function applyTheme(theme) { 
             const newTheme = theme === 'dark' ? 'dark' : 'light'; 
             document.body.setAttribute('data-theme', newTheme); 
@@ -662,8 +667,6 @@ html
         }
         function toggleTheme() { currentTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(currentTheme); }
         function setupPWAInstallation() { window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if (installAppBtn) { installAppBtn.style.display = 'inline-flex'; const newInstallBtn = installAppBtn.cloneNode(true); if(installAppBtn.parentNode) installAppBtn.parentNode.replaceChild(newInstallBtn, installAppBtn); installAppBtn = newInstallBtn; installAppBtn.onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; if(installAppBtn) installAppBtn.style.display = 'none'; } else { const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; if (isIOS) alert("På iOS: Dela -> Lägg till på hemskärmen."); else if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) alert("Appen är redan installerad!"); else alert("Installationsprompt ej tillgänglig.");} }; } }); window.addEventListener('appinstalled', () => { if (installAppBtn) installAppBtn.style.display = 'none'; deferredPrompt = null; }); }
-        function setupGenericSpeechRecognition(recognitionInstance, buttonElement, targetInputElement) { if (SpeechRecognition && buttonElement && targetInputElement) { if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {} try { recognitionInstance.lang = 'sv-SE'; recognitionInstance.continuous = false; recognitionInstance.interimResults = false; recognitionInstance.onresult = (event) => { const txt = event.results[0][0].transcript.trim(); if (activeRecognitionInput) activeRecognitionInput.value = txt; }; recognitionInstance.onerror = (event) => { if (buttonElement) { buttonElement.title = "Fel: " + event.error; buttonElement.classList.remove('is-listening'); buttonElement.disabled = false; } activeRecognitionInput = null; }; recognitionInstance.onstart = () => { if (buttonElement) { buttonElement.classList.add('is-listening'); buttonElement.disabled = true; buttonElement.title = "Lyssnar..."; }}; recognitionInstance.onend = () => { if (buttonElement) { buttonElement.classList.remove('is-listening'); buttonElement.disabled = false; buttonElement.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;}; const newBtn = buttonElement.cloneNode(true); buttonElement.parentNode.replaceChild(newBtn, buttonElement); if (buttonElement.id === 'speakShooterBtn') speakShooterBtn = newBtn; newBtn.addEventListener('click', () => { try { activeRecognitionInput = targetInputElement; if (recognitionInstance) recognitionInstance.start(); } catch (e) { if (newBtn) {newBtn.classList.remove('is-listening');newBtn.disabled = false;newBtn.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;} }); } catch(e) { if (buttonElement) { buttonElement.disabled = true; buttonElement.title = 'Röstinitiering misslyckades.'; }} } else { if (buttonElement) { buttonElement.disabled = true; buttonElement.title = SpeechRecognition ? 'Målelement saknas.' : 'Röstinmatning stöds ej.'; }} }
-        function setupSpeechRecognitionForShooter() { if (SpeechRecognition && speakShooterBtn && gameShooterInput) { shooterRecognition = new SpeechRecognition(); setupGenericSpeechRecognition(shooterRecognition, speakShooterBtn, gameShooterInput); } else if(speakShooterBtn) { speakShooterBtn.disabled = true; speakShooterBtn.title = 'Röstinmatning stöds ej.';}}
         
         // --- Datahantering & Migrering ---
         function saveAllDataToLocalStorage() {
@@ -727,6 +730,7 @@ html
                 localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(storedData));
             }
         }
+
 
         // --- Skotthantering ---
         function handleLogShot() {
@@ -870,13 +874,24 @@ html
             noReportsInfo.style.display = gameReports.length === 0 ? 'block' : 'none';
             if (gameReports.length > 0) {
                 gameReports.forEach(report => {
-                    const li = document.createElement('li'); li.classList.add('report-item-stacked'); li.dataset.reportId = report.id;
-                    li.onclick = () => { openViewGameModal(report.id); };
+                    const li = document.createElement('li'); 
+                    li.classList.add('report-item-stacked'); 
+                    li.dataset.reportId = report.id;
+                    
+                    const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
+
+                    li.onclick = () => { 
+                        if (!isDistributed) {
+                            openAddGameModal(report.id); 
+                        } else {
+                            openViewGameModal(report.id); 
+                        }
+                    };
                     
                     const placeholder = document.createElement('div'); 
                     placeholder.classList.add('item-image-placeholder');
                     const speciesForIcon = report.felledGameDetails.species || 'Okänt vilt';
-                    placeholder.textContent = speciesForIcon ? speciesForIcon.substring(0, 1).toUpperCase() : "V"; // Återställd till text
+                    placeholder.textContent = speciesForIcon ? speciesForIcon.substring(0, 1).toUpperCase() : "V";
 
 
                     const mainInfo = document.createElement('div'); mainInfo.classList.add('item-main-info'); const speciesDiv = document.createElement('div'); speciesDiv.classList.add('species'); speciesDiv.textContent = report.felledGameDetails.species || '-'; const detailsDiv = document.createElement('div'); detailsDiv.classList.add('details'); detailsDiv.innerHTML = `<span>${report.felledGameDetails.shooter || '-'}</span><span>${report.felledGameDetails.passLocation || '-'}</span>`; mainInfo.appendChild(speciesDiv); mainInfo.appendChild(detailsDiv);
@@ -885,7 +900,6 @@ html
                     const statusIconDiv = document.createElement('div'); statusIconDiv.classList.add('meat-status-icon');
                     const statusTextSpan = document.createElement('span'); statusTextSpan.classList.add('meat-status-text');
 
-                    const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
                     if (isDistributed) {
                         statusTextSpan.textContent = 'Fördelat'; statusTextSpan.classList.add('fördelat');
                         statusIconDiv.classList.add('fördelat'); statusIconDiv.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
@@ -911,7 +925,7 @@ html
             const modalTitleText = viewGameModalTitle.querySelector('.modal-title-text');
             const speciesName = report.felledGameDetails.species || 'Okänt Vilt';
             
-            modalTitleIcon.textContent = speciesName ? speciesName.substring(0,1).toUpperCase() : "V"; // Återställd till text
+            modalTitleIcon.textContent = speciesName ? speciesName.substring(0,1).toUpperCase() : "V";
 
             if (modalTitleText) modalTitleText.textContent = speciesName;
 
@@ -1230,7 +1244,7 @@ html
             let csvContent="data:text/csv;charset=utf-8,";
             const headers=[
                 "Datum", "Tid", "Viltslag", "Skytt", "Pass/Plats", "Såt", "Köttfördelning", "Antal Skott"
-            ];F
+            ];
             csvContent += headers.join(",") + "\r\n";
 
             const sortedGameReports = gameReports.slice().sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
