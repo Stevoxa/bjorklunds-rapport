@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -314,13 +315,18 @@
             background-color: var(--primary-color); 
             border-radius: 4px; 
             flex-shrink: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.1em; 
+            color: var(--primary-text-color); 
+            font-weight: bold;
             overflow: hidden; 
         }
         #reportList { list-style-type: none; padding: 0; margin: 0; }
         .report-item-stacked {display: flex; align-items: center; gap: 12px; padding: 10px 8px; border: 1px solid var(--subtle-border-color); border-radius: 6px; margin-bottom: 10px; background-color: var(--surface-bg-color); cursor: pointer; transition: background-color 0.2s ease;}
         .report-item-stacked:last-child { margin-bottom: 0; }
         .report-item-stacked:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%); }
-        /* .item-image-placeholder ... stilar redan definierade och justerade */
         .item-main-info {flex-grow: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
         .item-main-info .species { font-size: 1.05em; font-weight: bold; color: var(--text-color); }
         .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.3; }
@@ -357,7 +363,8 @@
             background-color: var(--primary-color); 
             color: var(--primary-text-color); 
             border-radius: 4px; 
-            /* font-size & font-weight hanteras av JS för text-fallback */
+            font-size: 1.1em; 
+            font-weight: bold; 
             flex-shrink: 0; 
             overflow: hidden;
         }
@@ -437,7 +444,26 @@
         </section>
     </div> 
 
-    <div id="addGameModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="gameModalTitle">Fällt Vilt</h3> <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="currentShotLogIdInput"> <input type="hidden" id="triggeringShotIdInput"> <div class="form-group"> <label for="gameSpeciesInput">Viltslag:</label> <select id="gameSpeciesInput"> <option value="">-- Välj --</option><option value="Dovhjort kapital">Dovhjort kapital</option><option value="Dovhjort">Dovhjort</option> <option value="Dovhind">Dovhind</option><option value="Dovspets">Dovspets</option><option value="Dovkalv">Dovkalv</option><option value="Kronhjort kapital">Kronhjort kapital</option><option value="Kronhjort">Kronhjort</option><option value="Kronhind">Kronhind</option><option value="Kronspets">Kronspets</option><option value="Kronkalv">Kronkalv</option><option value="Rådjursbock">Rådjursbock</option><option value="Rådjur">Rådjur</option><option value="Vildsvin">Vildsvin</option><option value="Älgtjur">Älgtjur</option><option value="Älgko">Älgko</option><option value="Älgkalv">Älgkalv</option><option value="Räv">Räv</option><option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> <hr style="margin: 15px 0;"><h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> 
+    <div id="addGameModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="gameModalTitle">Fällt Vilt</h3> <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="currentShotLogIdInput"> <input type="hidden" id="triggeringShotIdInput"> <div class="form-group"> <label for="gameSpeciesInput">Viltslag:</label> <select id="gameSpeciesInput"> <option value="">-- Välj --</option>
+<option value="Dovhjort helskovel">Dovhjort helskovel</option>
+<option value="Dovhjort halvskovel">Dovhjort halvskovel</option>
+<option value="Dovhind">Dovhind</option>
+<option value="Dovspets">Dovspets</option>
+<option value="Dovkalv">Dovkalv</option>
+<option value="Kronhjort kapital">Kronhjort kapital</option>
+<option value="Kronhjort">Kronhjort</option>
+<option value="Kronhind">Kronhind</option>
+<option value="Kronspets">Kronspets</option>
+<option value="Kronkalv">Kronkalv</option>
+<option value="Rådjursbock">Rådjursbock</option>
+<option value="Rådjursget">Rådjursget</option>
+<option value="Rådjurskid">Rådjurskid</option>
+<option value="Vildsvin">Vildsvin</option>
+<option value="Älgtjur">Älgtjur</option>
+<option value="Älgko">Älgko</option>
+<option value="Älgkalv">Älgkalv</option>
+<option value="Räv">Räv</option>
+<option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> <hr style="margin: 15px 0;"><h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> 
             <div class="form-group">
                 <label for="meatQuickChoiceSelect">Snabbval:</label>
                 <select id="meatQuickChoiceSelect">
@@ -702,34 +728,6 @@
             }
         }
 
-        // --- Viltslagsikoner ---
-        function getSpeciesIconContent(speciesName) {
-            const baseIconPath = './images/'; // Ändra om du placerar ikoner någon annanstans
-            let iconContent = '';
-            let isTextFallback = false;
-
-            const speciesLower = (speciesName || '').toLowerCase(); // Säkerställ att speciesName inte är null/undefined
-            let iconFileName = null;
-
-            if (speciesLower === 'rådjursbock') {
-                iconFileName = 'radjursbock.svg';
-            }
-            // Lägg till fler 'else if' för andra arter här:
-            // else if (speciesLower === 'dovhjort') {
-            //    iconFileName = 'dovhjort.svg';
-            // }
-            // ... och så vidare
-
-            if (iconFileName) {
-                // För SVG kan du antingen använda <img> eller <object> eller inline SVG. <img> är enklast här.
-                iconContent = `<img src="${baseIconPath}${iconFileName}" alt="${speciesName} ikon" style="width: 100%; height: 100%; object-fit: contain; display: block;">`;
-            } else {
-                iconContent = speciesName ? speciesName.substring(0, 1).toUpperCase() : "V";
-                isTextFallback = true;
-            }
-            return { html: iconContent, isText: isTextFallback };
-        }
-
         // --- Skotthantering ---
         function handleLogShot() {
             const n = new Date();
@@ -877,26 +875,9 @@
                     
                     const placeholder = document.createElement('div'); 
                     placeholder.classList.add('item-image-placeholder');
-                    
                     const speciesForIcon = report.felledGameDetails.species || 'Okänt vilt';
-                    const iconData = getSpeciesIconContent(speciesForIcon);
-                    placeholder.innerHTML = iconData.html;
+                    placeholder.textContent = speciesForIcon ? speciesForIcon.substring(0, 1).toUpperCase() : "V"; // Återställd till text
 
-                    if (iconData.isText) {
-                         placeholder.style.display = 'flex';
-                         placeholder.style.alignItems = 'center';
-                         placeholder.style.justifyContent = 'center';
-                         placeholder.style.fontSize = '1.1em';
-                         placeholder.style.color = 'var(--primary-text-color)';
-                         placeholder.style.fontWeight = 'bold';
-                    } else { 
-                        placeholder.style.display = 'block'; 
-                        placeholder.style.fontSize = ''; // Rensa text-specifika stilar
-                        placeholder.style.color = '';
-                        placeholder.style.fontWeight = '';
-                        placeholder.style.alignItems = '';
-                        placeholder.style.justifyContent = '';
-                    }
 
                     const mainInfo = document.createElement('div'); mainInfo.classList.add('item-main-info'); const speciesDiv = document.createElement('div'); speciesDiv.classList.add('species'); speciesDiv.textContent = report.felledGameDetails.species || '-'; const detailsDiv = document.createElement('div'); detailsDiv.classList.add('details'); detailsDiv.innerHTML = `<span>${report.felledGameDetails.shooter || '-'}</span><span>${report.felledGameDetails.passLocation || '-'}</span>`; mainInfo.appendChild(speciesDiv); mainInfo.appendChild(detailsDiv);
 
@@ -930,18 +911,7 @@
             const modalTitleText = viewGameModalTitle.querySelector('.modal-title-text');
             const speciesName = report.felledGameDetails.species || 'Okänt Vilt';
             
-            const iconData = getSpeciesIconContent(speciesName);
-            modalTitleIcon.innerHTML = iconData.html;
-
-            if (iconData.isText) {
-                 modalTitleIcon.style.fontSize = '1.1em'; // Se till att text-specifika stilar appliceras
-                 modalTitleIcon.style.fontWeight = 'bold';
-                 modalTitleIcon.style.color = 'var(--primary-text-color)'; // Om modalTitleIcon inte har det via CSS
-            } else {
-                 modalTitleIcon.style.fontSize = ''; 
-                 modalTitleIcon.style.fontWeight = '';
-                 // Behåll color: var(--primary-text-color) för bakgrundsfärgen om ingen bild laddas? Beror på SVG-transparens.
-            }
+            modalTitleIcon.textContent = speciesName ? speciesName.substring(0,1).toUpperCase() : "V"; // Återställd till text
 
             if (modalTitleText) modalTitleText.textContent = speciesName;
 
@@ -1260,7 +1230,7 @@
             let csvContent="data:text/csv;charset=utf-8,";
             const headers=[
                 "Datum", "Tid", "Viltslag", "Skytt", "Pass/Plats", "Såt", "Köttfördelning", "Antal Skott"
-            ];
+            ];F
             csvContent += headers.join(",") + "\r\n";
 
             const sortedGameReports = gameReports.slice().sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
