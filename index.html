@@ -1,10 +1,9 @@
-`html
 <!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport V5.3.1 - Tabb/Ikon Finjustering</title>
+    <title>Björklunds Rapport V5.7 - Manual text changes</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -48,7 +47,6 @@
             --tab-inactive-hover-text: var(--text-color); 
             --tab-active-bg: var(--surface-bg-color);    
             --tab-active-text: var(--primary-color);     
-            /* --tab-active-border-color: var(--primary-color);  Behövs inte om border-bottom matchar bg */
         }
 
         body[data-theme="dark"] {
@@ -89,7 +87,6 @@
             --tab-inactive-hover-text: var(--text-color); 
             --tab-active-bg: var(--surface-bg-color);     
             --tab-active-text: var(--text-color);        
-            /* --tab-active-border-color: var(--primary-color); */
         }
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -134,7 +131,7 @@
             align-items: center;
             gap: 5px;
         }
-         .app-header-actions-container .icon-button { /* Specific for icon buttons in the title bar */
+         .app-header-actions-container .icon-button { 
             background-color: transparent !important; 
             border: none !important; 
             padding: 4px; 
@@ -164,18 +161,17 @@
             padding: 12px 8px; 
             cursor: pointer;
             border: none;
-            background-color: var(--tab-inactive-bg); /* Explicit inactive background */
+            background-color: var(--tab-inactive-bg);
             color: var(--tab-inactive-text); 
             font-size: 0.9em; 
             font-weight: 500;
             text-align: center;
-            /* border-bottom: 3px solid transparent; */ /* Borttagen för renare look, aktiv har egen border */
             transition: background-color 0.2s ease, color 0.2s ease;
             font-family: inherit;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px; 
-            margin-top: 1px; /* Skjuter ner inaktiva tabbar lite */
-             border-bottom: none; /* Se till att ingen border finns default */
+            margin-top: 1px; 
+            border-bottom: none; 
         }
        
         .tab-button:hover:not(.active) { 
@@ -190,10 +186,10 @@
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
             border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--tab-active-bg); /* Döljer underliggande linje */
+            border-bottom: 1px solid var(--tab-active-bg); 
             position: relative;
             z-index: 2; 
-            margin-bottom: -1px; /* Överlappar linjen under .tabs-nav */
+            margin-bottom: -1px; 
         }
         .tab-button.active:hover { 
             background-color: var(--tab-active-bg) !important; 
@@ -204,6 +200,7 @@
             padding: 15px; 
             background-color: var(--surface-bg-color); 
         }
+
 
         h2 { color: var(--primary-color); text-align: left; margin-top: 0; margin-bottom: 20px; font-size: 1.3em; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);}
         hr { border: 0; height: 1px; background-color: var(--border-color); margin: 20px 0; }
@@ -265,8 +262,8 @@
             display: inline-block;
             width: 0; 
             height: 0;
-            margin-left: 10px; /* Ökat lite för luft */
-            margin-right: 10px; /* Ökat lite för luft */
+            margin-left: 10px; 
+            margin-right: 10px; 
             border-style: solid;
             transition: transform 0.2s ease, opacity 0.15s ease; 
             cursor: pointer;
@@ -363,21 +360,21 @@
 
         <nav class="tabs-nav">
             <button class="tab-button active" data-tab="shotTab">Skott</button>
-            <button class="tab-button" data-tab="gameTab">Fällt Vilt</button>
-            <button class="tab-button" data-tab="adminTab">Rapporter & Admin</button>
+            <button class="tab-button" data-tab="gameTab">Fällt vilt</button>
+            <button class="tab-button" data-tab="adminTab">Rapporter & admin</button>
         </nav>
 
         <section id="shotTab" class="tab-content">
             <h2>Snabbregistrera Skott</h2>
-            <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 10px;">Avlossat Skott</button>
-            <button id="newSaaterBtn" style="width:100%; font-size: 1.1em; padding: 12px;" class="button-secondary" disabled>Ny Såt</button>
+            <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 10px;">Avlossat skott</button>
+            <button id="newSaaterBtn" style="width:100%; font-size: 1.1em; padding: 12px;" class="button-secondary" disabled>Ny såt</button>
             <ul id="shotLogList"></ul>
             <p id="noLoggedShotsInfo" class="info-text" style="display: block;">Inga skott loggade ännu.</p>
         </section>
 
         <section id="gameTab" class="tab-content" style="display: none;">
-            <h2>Rapporterat Fällt Vilt</h2>
-            <button id="addFelledGameBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 15px;">Lägg till Fällt Vilt</button>
+            <h2>Rapportera Fällt Vilt</h2>
+            <button id="addFelledGameBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 15px;">Lägg till</button>
             <ul id="reportList"></ul>
             <p id="noReportsInfo" class="info-text" style="display: block;">Inget fält vilt rapporterat ännu.</p>
         </section>
@@ -385,10 +382,10 @@
         <section id="adminTab" class="tab-content" style="display: none;">
             <h2>Rapporter & Administration</h2>
             <div class="bottom-actions">
-                <button id="viewMeatReportBtn" class="button-secondary">Visa rapport Köttfördelning</button>
+                <button id="viewMeatReportBtn" class="button-secondary">Visa köttfördelning</button>
                 <button id="exportFullGameReportBtn" class="button-secondary">Spara fullständig CSV-rapport</button>
                 <hr style="margin: 10px 0;">
-                <button id="clearAllDataBtn" class="button-secondary">Rensa All Data</button>
+                <button id="clearAllDataBtn" class="button-secondary">Påbörja ny jakt / Rensa all data</button>
             </div>
         </section>
     </div>
@@ -409,9 +406,9 @@
                     <option value="Jaktklubben tar köttet.">Jaktklubben tar köttet.</option>
                 </select>
             </div>
-            <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Kalle Anka tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara Viltrapport</button> </div> </div> </div>
+            <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Kalle Anka tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara</button> </div> </div> </div>
     <!-- Modal för att koppla Skott till Vilt -->
-    <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Associera Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att associera till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att associera skottet.</p> </div> <div class="modal-actions"> <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till Fällt Vilt & Associera</button> <button id="unlinkShotBtn" class="button-secondary">Ta bort association / Ingen association</button> </div> </div> </div>
+    <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Associera Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att associera till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att associera skottet.</p> </div> <div class="modal-actions"> <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till fällt vilt & Associera</button> <button id="unlinkShotBtn" class="button-secondary">Ta bort association / Ingen association</button> </div> </div> </div>
 
     <!-- Modal för att visa detaljer om Fällt Vilt -->
     <div id="viewGameModal" class="content-overlay" style="display: none;">
@@ -468,7 +465,7 @@
     <div id="saveReportOverlay" class="content-overlay" style="display: none;">
         <div class="overlay-content-box">
             <div class="overlay-header">
-                <h3>Rapport Köttfördelning</h3>
+                <h3>Köttfördelning</h3>
                 <button id="saveReportOverlayCloseBtn" class="icon-button" title="Stäng">
                     <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                 </button>
@@ -685,10 +682,10 @@
         
         // --- Viltrapporthantering (Add/Edit Modal) ---
         function handleSaveGameDetails() { if (!currentShotLogIdInput || !gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionTextarea || !gameReportTimeInput) { console.error("Formulärelement saknas."); alert("Internt fel (formulärfält saknas)."); return; } if (!gameSpeciesInput.value) { alert("Välj ett viltslag."); gameSpeciesInput.focus(); return; } if (!gameReportTimeInput.value) { alert("Ange tid för rapport/hantering."); gameReportTimeInput.focus(); return; } const details = { species: gameSpeciesInput.value, passLocation: gamePassLocationInput.value.trim(), shooter: gameShooterInput.value.trim(), reportTime: gameReportTimeInput.value, meatDistribution: gameMeatDistributionTextarea.value.trim(), }; const gameReportIdValue = currentShotLogIdInput.value; const triggeringShotId = parseInt(document.getElementById('triggeringShotIdInput')?.value) || null; let savedGameReportId = null; if (gameReportIdValue.startsWith('new_')) { const newReportId = parseInt(gameReportIdValue.split('_')[1]) || Date.now(); const newReport = { id: newReportId, itemType: 'game', createdAt: new Date().toISOString(), felledGameDetails: { ...details, linkedShotIds: [] } }; allReports.unshift(newReport); savedGameReportId = newReport.id; } else { const gameReportId = parseInt(gameReportIdValue); const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report) { alert("Fel: Kunde inte hitta viltrapporten att spara till."); closeAddGameModal(); return; } report.felledGameDetails = { ...report.felledGameDetails, ...details }; savedGameReportId = report.id; } saveAllDataToLocalStorage(); if (triggeringShotId && savedGameReportId && gameReportIdValue.startsWith('new_')) { linkShotToGame(triggeringShotId, savedGameReportId, false); } renderShotLogList(); renderFelledGameReportList(); closeAddGameModal(); }
-        function openAddGameModal(gameReportId, triggeringShotId = null) { if (!addGameModal) return; const hiddenTriggerInput = document.getElementById('triggeringShotIdInput'); if (hiddenTriggerInput) hiddenTriggerInput.value = ''; if (gameReportId !== null) { const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report) { alert("Fel: Hittade inte viltrapport för redigering."); return; } currentShotLogIdInput.value = gameReportId; gameModalTitle.textContent = "Redigera Fällt Vilt"; gameSpeciesInput.value = report.felledGameDetails.species || ''; gamePassLocationInput.value = report.felledGameDetails.passLocation || ''; gameShooterInput.value = report.felledGameDetails.shooter || ''; gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || ''; gameReportTimeInput.value = report.felledGameDetails.reportTime || ''; meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = ''; } else { gameModalTitle.textContent = "Lägg till Nytt Fällt Vilt"; currentShotLogIdInput.value = 'new_' + Date.now(); const n = new Date(); const h = String(n.getHours()).padStart(2, '0'); const m = String(n.getMinutes()).padStart(2, '0'); gameReportTimeInput.value = `${h}:${m}`; gameSpeciesInput.value = ''; gamePassLocationInput.value = ''; gameShooterInput.value = ''; gameMeatDistributionTextarea.value = ''; meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = ''; if (triggeringShotId && hiddenTriggerInput) { hiddenTriggerInput.value = triggeringShotId; } } closeAllOverlays(addGameModal); addGameModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
+        function openAddGameModal(gameReportId, triggeringShotId = null) { if (!addGameModal) return; const hiddenTriggerInput = document.getElementById('triggeringShotIdInput'); if (hiddenTriggerInput) hiddenTriggerInput.value = ''; if (gameReportId !== null) { const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); if (!report) { alert("Fel: Hittade inte viltrapport för redigering."); return; } currentShotLogIdInput.value = gameReportId; gameModalTitle.textContent = "Redigera Fällt Vilt"; gameSpeciesInput.value = report.felledGameDetails.species || ''; gamePassLocationInput.value = report.felledGameDetails.passLocation || ''; gameShooterInput.value = report.felledGameDetails.shooter || ''; gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || ''; gameReportTimeInput.value = report.felledGameDetails.reportTime || ''; meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = ''; } else { gameModalTitle.textContent = "Lägg till fällt vilt"; currentShotLogIdInput.value = 'new_' + Date.now(); const n = new Date(); const h = String(n.getHours()).padStart(2, '0'); const m = String(n.getMinutes()).padStart(2, '0'); gameReportTimeInput.value = `${h}:${m}`; gameSpeciesInput.value = ''; gamePassLocationInput.value = ''; gameShooterInput.value = ''; gameMeatDistributionTextarea.value = ''; meatRecipientNameInput.value = ''; meatQuickChoiceSelect.value = ''; if (triggeringShotId && hiddenTriggerInput) { hiddenTriggerInput.value = triggeringShotId; } } closeAllOverlays(addGameModal); addGameModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
         function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
         // --- Koppling Skott <-> Vilt (Link Modal) ---
-        function openLinkShotModal(shotId) { if (!linkShotModal || !linkableGameList || !linkShotModalShotId) return; linkShotModalShotId.value = shotId; linkShotModalTitle.textContent = "Associera Skott till Fällt Vilt"; linkableGameList.innerHTML = ''; const gameReports = allReports.filter(r => r.itemType === 'game').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); if (gameReports.length === 0) { linkableGameList.innerHTML = '<li class="info-text">Inget fällt vilt att associera till ännu.</li>'; } else { gameReports.forEach(game => { const li = document.createElement('li'); li.className = 'linkable-game-item'; li.dataset.gameId = game.id; const species = game.felledGameDetails.species || 'Okänt Vilt'; const shooter = game.felledGameDetails.shooter || '-'; const location = game.felledGameDetails.passLocation || '-'; li.innerHTML = `<span class="species">${species}</span><span class="details">Skytt: ${shooter}, Plats: ${location}</span>`; li.onclick = () => { linkShotToGame(shotId, game.id); }; linkableGameList.appendChild(li); }); } const pInfo = linkShotModal.querySelector('.overlay-scrollable-content > p.info-text'); if(pInfo) pInfo.textContent = "Klicka på ett vilt i listan för att associera skottet."; if(createNewGameFromLinkBtn) createNewGameFromLinkBtn.textContent = "Lägg till Fällt Vilt & Associera"; if(unlinkShotBtn) unlinkShotBtn.textContent = "Ta bort association / Ingen association"; closeAllOverlays(linkShotModal); linkShotModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
+        function openLinkShotModal(shotId) { if (!linkShotModal || !linkableGameList || !linkShotModalShotId) return; linkShotModalShotId.value = shotId; linkShotModalTitle.textContent = "Associera Skott till Fällt Vilt"; linkableGameList.innerHTML = ''; const gameReports = allReports.filter(r => r.itemType === 'game').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); if (gameReports.length === 0) { linkableGameList.innerHTML = '<li class="info-text">Inget fällt vilt att associera till ännu.</li>'; } else { gameReports.forEach(game => { const li = document.createElement('li'); li.className = 'linkable-game-item'; li.dataset.gameId = game.id; const species = game.felledGameDetails.species || 'Okänt Vilt'; const shooter = game.felledGameDetails.shooter || '-'; const location = game.felledGameDetails.passLocation || '-'; li.innerHTML = `<span class="species">${species}</span><span class="details">Skytt: ${shooter}, Plats: ${location}</span>`; li.onclick = () => { linkShotToGame(shotId, game.id); }; linkableGameList.appendChild(li); }); } const pInfo = linkShotModal.querySelector('.overlay-scrollable-content > p.info-text'); if(pInfo) pInfo.textContent = "Klicka på ett vilt i listan för att associera skottet."; if(createNewGameFromLinkBtn) createNewGameFromLinkBtn.textContent = "Lägg till fällt vilt & Associera"; if(unlinkShotBtn) unlinkShotBtn.textContent = "Ta bort association / Ingen association"; closeAllOverlays(linkShotModal); linkShotModal.style.display = 'flex'; document.body.classList.add('overlay-open'); }
         function closeLinkShotModal() { if (linkShotModal) linkShotModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
         function handleCreateNewGameFromLinkModal() { const shotIdToLink = parseInt(linkShotModalShotId.value); if (!shotIdToLink) { alert("Internt fel: Kunde inte hitta skott-ID för association."); return; } closeLinkShotModal(); openAddGameModal(null, shotIdToLink); }
         function handleUnlinkShotFromLinkModal() { const shotIdToUnlink = parseInt(linkShotModalShotId.value); if (shotIdToUnlink) { unlinkShotFromGame(shotIdToUnlink); } else { alert("Internt fel: Kunde inte hitta skott-ID för att ta bort association."); } }
@@ -722,7 +719,7 @@
                     toggleIconSpan.className = 'saater-toggle-icon';
 
                     const isCollapsed = saaterStates[`saater_${item.saaterNumber}`] === 'collapsed';
-                    toggleIconSpan.classList.remove('expanded', 'collapsed'); // Rensa först
+                    toggleIconSpan.classList.remove('expanded', 'collapsed'); 
                     if (isCollapsed) {
                         toggleIconSpan.classList.add('collapsed');
                     } else {
@@ -1005,7 +1002,7 @@
 
                 sortedMeatReports.forEach((report, index) => {
                     const isSlakteri = report.felledGameDetails.meatDistribution.toLowerCase().includes('slakteri');
-                    const groupName = isSlakteri ? "Till Slakteri" : "Övrig Fördelning";
+                    const groupName = isSlakteri ? "Till slakteriet" : "Till annan plats";
 
                     if (groupName !== currentGroup) {
                          if ((isSlakteri && slakteriItems.length > 0) || (!isSlakteri && otherItems.length > 0)) {
@@ -1043,7 +1040,7 @@
                     const nextReport = sortedMeatReports[index + 1];
                     if (nextReport) {
                         const nextIsSlakteri = nextReport.felledGameDetails.meatDistribution.toLowerCase().includes('slakteri');
-                        const nextGroupName = nextIsSlakteri ? "Till Slakteri" : "Övrig Fördelning";
+                        const nextGroupName = nextIsSlakteri ? "Till slakteriet" : "Till annan plats";
                         if (groupName === nextGroupName) {
                              li.style.borderBottom = '1px solid var(--subtle-border-color)';
                         }
@@ -1086,14 +1083,14 @@
             otherItems.sort(sortLogic);
 
             if (slakteriItems.length > 0) {
-                reportText += "Till Slakteri:\n";
+                reportText += "Till slakteriet:\n";
                 slakteriItems.forEach(report => {
                     reportText += `${report.felledGameDetails.species || 'Okänt vilt'}: ${report.felledGameDetails.meatDistribution}\n`;
                 });
                 if (otherItems.length > 0) reportText += "\n";
             }
             if (otherItems.length > 0) {
-                reportText += "Övrig Fördelning:\n";
+                reportText += "Till annan plats:\n";
                 otherItems.forEach(report => {
                     reportText += `${report.felledGameDetails.species || 'Okänt vilt'}: ${report.felledGameDetails.meatDistribution}\n`;
                 });
@@ -1133,7 +1130,7 @@
         async function handleShareMeatReport() {
             const reportText = generateMeatReportText();
             const shareData = {
-                title: 'Rapport Köttfördelning',
+                title: 'Rapport köttfördelning',
                 text: reportText,
             };
             if (navigator.share) {
@@ -1160,8 +1157,7 @@
 
             let csvContent="data:text/csv;charset=utf-8,";
             const headers=[
-                "ID Vilt", "Skapat Datum Vilt", "Rapporttid Vilt", "Art", "Skytt", "Pass/Plats", "Köttfördelning",
-                "Antal Associerade Skott", "Associerade Skott IDs", "Detaljer Associerade Skott (Tid; Verifierat; Såt)"
+                "Datum", "Tid", "Viltslag", "Skytt", "Pass/Plats", "Såt", "Köttfördelning", "Antal Skott"
             ];
             csvContent += headers.join(",") + "\r\n";
 
@@ -1170,32 +1166,36 @@
             sortedGameReports.forEach(report => {
                 const details = report.felledGameDetails;
                 const linkedShotIds = details.linkedShotIds || [];
-                let linkedShotsDetailsText = "";
-
+                
+                let saaterForReport = ""; 
                 if (linkedShotIds.length > 0) {
-                    const shotsInfo = linkedShotIds.map(shotId => {
-                        const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
-                        let saaterText = 'Okänd';
-                        if (shot) {
-                            if (shot.saater === 0) saaterText = 'Ej tilldelad såt'; 
-                            else saaterText = `Såt ${shot.saater}`;
-                        }
-                        return shot ? `${shot.shotTime}; ${shot.isVerified ? "Ja" : "Nej"}; ${saaterText}` : `ID ${shotId} saknas`;
-                    });
-                    linkedShotsDetailsText = shotsInfo.join(" | ");
+                    const saaterNumbersFromShots = linkedShotIds
+                        .map(shotId => {
+                            const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
+                            return shot ? shot.saater : null;
+                        })
+                        .filter(saaterNum => saaterNum !== null && saaterNum > 0); 
+
+                    if (saaterNumbersFromShots.length > 0) {
+                        saaterForReport = `Såt ${Math.min(...saaterNumbersFromShots)}`; 
+                    } else {
+                        saaterForReport = "Ej angivet"; // Om länkade skott finns men inget med såt > 0
+                    }
                 }
 
+
+                const reportDate = new Date(report.createdAt);
+                const formattedDate = `${reportDate.getFullYear()}-${String(reportDate.getMonth() + 1).padStart(2, '0')}-${String(reportDate.getDate()).padStart(2, '0')}`;
+
                 let row = [
-                    report.id,
-                    new Date(report.createdAt).toLocaleString("sv-SE"),
+                    formattedDate,
                     details.reportTime || "",
                     details.species || "",
                     details.shooter || "",
                     details.passLocation || "",
+                    saaterForReport,
                     details.meatDistribution || "",
-                    linkedShotIds.length,
-                    linkedShotIds.join(';'), 
-                    linkedShotsDetailsText
+                    linkedShotIds.length 
                 ];
                 csvContent += row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(",") + "\r\n";
             });
@@ -1203,7 +1203,8 @@
             let encodedUri = encodeURI(csvContent);
             let link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `bjorklunds_rapport_falltvilt_${new Date().toISOString().slice(0,10).replace(/-/g,"")}.csv`);
+            const exportDate = new Date().toISOString().slice(0,10).replace(/-/g,"");
+            link.setAttribute("download", `Vilt_Rapport_${exportDate}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1270,7 +1271,7 @@
 
         function handleClearAllData() { 
             if(allReports.length===0){alert("Det finns ingen data att rensa.");return} 
-            if(confirm("ÄR DU SÄKER på att du vill rensa ALL data? Detta kan inte ångras.")){ 
+            if(confirm("Är du säker på att du vill starta en ny jakt och rensa ALL data? Detta kan inte ångras.")){ 
                 allReports=[];
                 nextSaaterToAssign = 1; 
                 saaterStates = {}; 
@@ -1284,17 +1285,22 @@
             if (!helpOverlay) return; 
             const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
             if (helpContent) { 
-                 helpContent.innerHTML = `<h4>Grundläggande Användning (V5.5 - CSS Pilar & Overlay Fix)</h4>
-                <p>CSS-pilar för såtar och förbättrad textläsbarhet i overlays i mörkt tema.</p>
-                <p><strong>Navigering:</strong> Använd tabbarna "Skott", "Fällt Vilt" och "Rapporter & Admin" högst upp.</p>
+                 helpContent.innerHTML = `<h4>Grundläggande Användning (V5.6 - CSV & UI Fixar)</h4>
+                <p>CSV-rapporten är förenklad och UI-justeringar för tydlighet har gjorts.</p>
+                <p><strong>Navigering:</strong> Använd tabbarna "Skott", "Fällt vilt" och "Rapporter & Admin" högst upp.</p>
                 <ol>
                     <li><strong>Fliken "Skott":</strong>
                         <ul>
                             <li><strong>Ny Såt:</strong> Såt-pilar (►/▼) är nu CSS-genererade för enhetligt utseende.</li>
                         </ul>
                     </li>
-                    <li><strong>Modalfönster (Overlays):</strong> All text i modalfönster (när du t.ex. lägger till vilt) har nu korrekt ljus färg i appens mörka tema.</li>
-                    <li><strong>Aktiva Tabbar:</strong> Den aktiva tabben är tydligt markerad och ska inte ändra utseende när muspekaren hålls över den.</li>
+                     <li><strong>Fliken "Fällt vilt":</strong> Overlay-fönster har korrekt ljus text på mörk bakgrund i appens mörka tema.</li>
+                     <li><strong>Fliken "Rapporter & Admin":</strong>
+                        <ul>
+                             <li><strong>Spara fullständig CSV-rapport:</strong> Exporterar nu en förenklad CSV med kolumnerna: Datum, Tid, Viltslag, Skytt, Pass/Plats, Såt (lägsta nummer från kopplade skott), Köttfördelning, Antal Skott.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Generellt Tabb-utseende:</strong> Aktiv tabb har en bakgrund som matchar innehållsytan och kontrasterande text, utan mörkare hover-effekt.</li>
                 </ol>
                 <h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare.</p>`;
             } 
