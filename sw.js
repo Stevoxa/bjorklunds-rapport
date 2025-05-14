@@ -5,6 +5,7 @@ const urlsToCache = [
     './index.html', 
     './icon-192x192.png', // Behåll om du återanvänder ikoner
     './icon-512x512.png'  // Behåll om du återanvänder ikoner
+    './videos/intro.mp4'  // Intro Video
     // Lägg till andra statiska resurser om du har nya (t.ex. nya ikoner)
 ];
 
