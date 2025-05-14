@@ -232,6 +232,39 @@
 
         h2 { color: var(--primary-color); text-align: left; margin-top: 0; margin-bottom: 20px; font-size: 1.3em; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);}
         hr { border: 0; height: 1px; background-color: var(--border-color); margin: 20px 0; }
+        #helpOverlay .overlay-scrollable-content hr {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+        #helpOverlay .overlay-scrollable-content h4 { 
+            font-size: 1.4em; 
+            color: var(--overlay-header-text-color);
+            margin-top: 0; 
+            margin-bottom: 0.75em;
+        }
+        #helpOverlay .overlay-scrollable-content h5 { 
+            font-size: 1.2em;
+            color: var(--overlay-text-color); 
+            margin-top: 1.2em;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+        }
+         #helpOverlay .overlay-scrollable-content h6 { 
+            font-size: 1.1em;
+            color: var(--overlay-text-color);
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+        }
+         #helpOverlay .overlay-scrollable-content ul,
+         #helpOverlay .overlay-scrollable-content ol {
+            padding-left: 20px; 
+            margin-bottom: 1em;
+        }
+         #helpOverlay .overlay-scrollable-content li {
+            margin-bottom: 0.3em;
+        }
+
         .info-text { color: var(--secondary-text-color); font-size: 0.9em; text-align: center; margin-top: 10px; }
 
         button, .button-like { 
@@ -243,27 +276,52 @@
         }
         button:disabled { background-color: var(--secondary-text-color); color: color-mix(in srgb, var(--primary-text-color) 70%, transparent); cursor: not-allowed; opacity: 0.6; }
         
-        .button-secondary { background-color: var(--secondary-button-bg-color); color: var(--secondary-button-text-color); border: 1px solid var(--secondary-button-border-color); }
-        .button-secondary:hover:not(:disabled) { 
-            background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); 
-        }
-        .button-secondary:focus { /* Stil för fokus på sekundära knappar */
-            outline: 2px solid var(--primary-color); 
-            outline-offset: 2px;
-            background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); 
+        .button-secondary { 
+            background-color: var(--secondary-button-bg-color); 
+            color: var(--secondary-button-text-color); 
+            border: 1px solid var(--secondary-button-border-color); 
         }
 
-        #clearAllDataBtn.button-secondary, #unlinkShotBtn.button-secondary, #viewGameDeleteBtn.button-secondary { background-color: var(--danger-secondary-bg) !important; color: var(--danger-secondary-text-color) !important; border-color: var(--danger-color) !important; }
+        body:not([data-theme="dark"]) .button-secondary:hover:not(:disabled),
+        body:not([data-theme="dark"]) .button-secondary:focus:not(:disabled) {
+            background-color: var(--tab-inactive-hover-bg); 
+            color: var(--tab-inactive-hover-text);        
+            border-color: var(--secondary-button-border-color); 
+        }
+        body:not([data-theme="dark"]) .button-secondary:focus:not(:disabled) {
+             outline: 2px solid var(--primary-color); 
+             outline-offset: 2px;
+        }
+
+        body[data-theme="dark"] .button-secondary:hover:not(:disabled),
+        body[data-theme="dark"] .button-secondary:focus:not(:disabled) {
+            background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); 
+        }
+         body[data-theme="dark"] .button-secondary:focus:not(:disabled) {
+             outline: 2px solid var(--primary-color); 
+             outline-offset: 2px;
+        }
+
+        #clearAllDataBtn.button-secondary, 
+        #unlinkShotBtn.button-secondary, 
+        #viewGameDeleteBtn.button-secondary { 
+            background-color: var(--danger-secondary-bg) !important; 
+            color: var(--danger-secondary-text-color) !important; 
+            border-color: var(--danger-color) !important; 
+        }
+
         #clearAllDataBtn.button-secondary:hover:not(:disabled), 
         #unlinkShotBtn.button-secondary:hover:not(:disabled), 
-        #viewGameDeleteBtn.button-secondary:hover:not(:disabled) { 
+        #viewGameDeleteBtn.button-secondary:hover:not(:disabled),
+        #clearAllDataBtn.button-secondary:focus:not(:disabled), 
+        #unlinkShotBtn.button-secondary:focus:not(:disabled), 
+        #viewGameDeleteBtn.button-secondary:focus:not(:disabled) { 
             background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; 
         }
-        #clearAllDataBtn.button-secondary:focus, 
-        #unlinkShotBtn.button-secondary:focus, 
-        #viewGameDeleteBtn.button-secondary:focus { 
-            background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; 
-            outline-color: var(--danger-color); 
+        #clearAllDataBtn.button-secondary:focus:not(:disabled), 
+        #unlinkShotBtn.button-secondary:focus:not(:disabled), 
+        #viewGameDeleteBtn.button-secondary:focus:not(:disabled) { 
+             outline-color: var(--danger-color); 
         }
 
 
@@ -372,6 +430,26 @@
             margin-bottom: 20px;
         }
 
+        #introVideoOverlay {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color); 
+            z-index: 2000; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #introVideoPlayer {
+            object-fit: cover; 
+            width: 100%; 
+            height: 100%; 
+        }
+
 
         #viewGameDetailsContent .detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--subtle-border-color); align-items: baseline; }
         #viewGameDetailsContent .detail-row[style*="border-bottom: none;"] { border-bottom: none !important; }
@@ -422,6 +500,13 @@
     </style>
 </head>
 <body>
+    <div id="introVideoOverlay">
+        <video id="introVideoPlayer" width="100%" height="100%" muted playsinline>
+            <source src="videos/intro.mp4" type="video/mp4">
+            Din webbläsare stödjer inte video-taggen.
+        </video>
+    </div>
+
     <div id="appRootContainer"> 
         <div class="app-title-bar">
             <h1>Björklunds Rapport</h1>
@@ -556,8 +641,30 @@
     <div class="overlay-scrollable-content">
         <h4>Välkommen till Björklunds Rapport!</h4>
         <p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare.</p>
-    
-        <h5>Så här fungerar appen:</h5>
+        
+        <hr>
+        <h5>Installera Appen på Din Hemskärm</h5>
+        <p>För enklare åtkomst kan du lägga till Björklunds Rapport på din mobils hemskärm. Den kommer då att fungera mer som en vanlig app.</p>
+        
+        <p><strong>Android (t.ex. Chrome):</strong></p>
+        <ol>
+            <li>Öppna appen i din Chrome-webbläsare.</li>
+            <li>Tryck på menyknappen (ofta tre prickar uppe till höger).</li>
+            <li>Välj "Installera appen" eller "Lägg till på startskärmen".</li>
+            <li>Följ instruktionerna.</li>
+        </ol>
+        <p><em>Alternativt kan en "Installera App"-knapp (med en nedåtpil ikon) dyka upp automatiskt högst upp i appen när du använt sidan ett tag.</em></p>
+
+        <p><strong>iOS (iPhone/iPad - Safari):</strong></p>
+        <ol>
+            <li>Öppna appen i Safari-webbläsaren.</li>
+            <li>Tryck på Dela-ikonen (en ruta med en pil som pekar uppåt) längst ner (eller uppe) i webbläsaren.</li>
+            <li>Skrolla ner i delningsmenyn och välj "Lägg till på hemskärmen".</li>
+            <li>Bekräfta namnet och tryck "Lägg till".</li>
+        </ol>
+
+        <hr>
+        <h5>Så här fungerar appen</h5>
         <p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
         <ul>
             <li><strong>Skott:</strong> För snabb registrering av avlossade skott.</li>
@@ -571,7 +678,7 @@
             <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten.
                 <ul>
                     <li>Du kan se vilken såt ett skott tillhör under skottinformationen.</li>
-                    <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼).</li>
+                    <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼). När en ny såt skapas fälls alla såtar ihop automatiskt.</li>
                 </ul>
             </li>
             <li><strong>Loggade skott:</strong> Dina registrerade skott visas i en lista under knapparna.
@@ -592,7 +699,7 @@
                     <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
                     <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
                     <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
-                    <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ.</li>
+                    <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
                 </ul>
             </li>
             <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
@@ -621,7 +728,7 @@
             <li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li>
             <li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li>
             <li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li>
-            <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
+            <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas högst upp. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
         </ul>
     
         <p>Lycka till med jakten och rapporteringen!</p>
@@ -650,6 +757,7 @@
     <script>
         // --- DOM ELEMENT REFERENSER ---
         let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
+        let introVideoOverlay, introVideoPlayer; // NYTT för video
         // --- GLOBALA VARIABLER ---
         let allReports = [];
         let currentTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -658,6 +766,7 @@
         let nextSaaterToAssign = 1; 
         let saaterStates = {}; 
         const LAST_ACTIVE_TAB_KEY = 'bjorklundsRapportLastActiveTab';
+        const LAST_INTRO_VIDEO_SHOWN_KEY = 'bjorklundsRapportLastIntroVideoShown'; // NYTT
 
         // --- INITIERING VID LADDNING AV SIDAN ---
         document.addEventListener('DOMContentLoaded', () => { 
@@ -675,6 +784,8 @@
             shareMeatReportBtn = document.getElementById('shareMeatReportBtn'); 
             tabButtons = document.querySelectorAll('.tab-button');
             tabContents = document.querySelectorAll('.tab-content');
+            introVideoOverlay = document.getElementById('introVideoOverlay'); // NYTT
+            introVideoPlayer = document.getElementById('introVideoPlayer'); // NYTT
 
             if (installAppBtn) installAppBtn.style.display = 'none';
             applyTheme(currentTheme);
@@ -682,6 +793,7 @@
             loadAllDataFromLocalStorage(); 
             renderShotLogList();
             renderFelledGameReportList();
+            checkAndPlayIntroVideo(); 
 
             if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
             if (helpBtn) helpBtn.addEventListener('click', openHelpOverlay);
@@ -821,6 +933,55 @@
                 localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(storedData));
             }
         }
+
+        // --- Videohantering ---
+        function checkAndPlayIntroVideo(forcePlay = false) {
+            if (!introVideoOverlay || !introVideoPlayer) {
+                console.warn("Intro video elements not found.");
+                return;
+            }
+
+            const today = new Date().toDateString(); 
+            const lastShownDate = localStorage.getItem(LAST_INTRO_VIDEO_SHOWN_KEY);
+
+            if (forcePlay || lastShownDate !== today) {
+                introVideoOverlay.style.display = 'flex';
+                document.body.classList.add('overlay-open'); 
+
+                introVideoPlayer.currentTime = 0; 
+                introVideoPlayer.play().then(() => {
+                    // Video playing
+                }).catch(error => {
+                    console.error("Error playing intro video:", error);
+                    hideIntroVideo();
+                });
+
+                const onVideoEnd = () => {
+                    hideIntroVideo();
+                    localStorage.setItem(LAST_INTRO_VIDEO_SHOWN_KEY, today);
+                    introVideoPlayer.removeEventListener('ended', onVideoEnd);
+                    introVideoPlayer.removeEventListener('click', skipVideo); 
+                };
+                introVideoPlayer.addEventListener('ended', onVideoEnd);
+                
+                const skipVideo = () => {
+                    introVideoPlayer.pause();
+                    onVideoEnd(); 
+                };
+                introVideoPlayer.addEventListener('click', skipVideo);
+
+            } else {
+                hideIntroVideo();
+            }
+        }
+
+        function hideIntroVideo() {
+            if (introVideoOverlay) {
+                introVideoOverlay.style.display = 'none';
+            }
+            checkAndCloseBodyOverlay(); 
+        }
+
 
         // --- Skotthantering ---
         function handleLogShot() {
@@ -1420,13 +1581,11 @@
             
             allReports.unshift(newSaaterDivider); 
             
-            // Fäll ihop ALLA befintliga såtar
             for (const key in saaterStates) {
                 if (saaterStates.hasOwnProperty(key)) {
                     saaterStates[key] = 'collapsed';
                 }
             }
-            // Fäll ihop även den NYA såten
             saaterStates[`saater_${currentSaaterForAssignment}`] = 'collapsed'; 
             
             nextSaaterToAssign++; 
@@ -1458,6 +1617,9 @@
                 nextSaaterToAssign = 1; 
                 saaterStates = {}; 
                 saveAllDataToLocalStorage(); 
+                localStorage.removeItem(LAST_INTRO_VIDEO_SHOWN_KEY); 
+                checkAndPlayIntroVideo(true); 
+
                 renderShotLogList(); 
                 renderFelledGameReportList(); 
                 activateTab('shotTab'); 
@@ -1470,7 +1632,29 @@
                 helpContent.innerHTML = `<h4>Välkommen till Björklunds Rapport!</h4>
 <p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare.</p>
 
-<h5>Så här fungerar appen:</h5>
+<hr>
+<h5>Installera Appen på Din Hemskärm</h5>
+<p>För enklare åtkomst kan du lägga till Björklunds Rapport på din mobils hemskärm. Den kommer då att fungera mer som en vanlig app.</p>
+
+<p><strong>Android (t.ex. Chrome):</strong></p>
+<ol>
+    <li>Öppna appen i din Chrome-webbläsare.</li>
+    <li>Tryck på menyknappen (ofta tre prickar uppe till höger).</li>
+    <li>Välj "Installera appen" eller "Lägg till på startskärmen".</li>
+    <li>Följ instruktionerna.</li>
+</ol>
+<p><em>Alternativt kan en "Installera App"-knapp (med en nedåtpil ikon) dyka upp automatiskt högst upp i appen när du använt sidan ett tag.</em></p>
+
+<p><strong>iOS (iPhone/iPad - Safari):</strong></p>
+<ol>
+    <li>Öppna appen i Safari-webbläsaren.</li>
+    <li>Tryck på Dela-ikonen (en ruta med en pil som pekar uppåt) längst ner (eller uppe) i webbläsaren.</li>
+    <li>Skrolla ner i delningsmenyn och välj "Lägg till på hemskärmen".</li>
+    <li>Bekräfta namnet och tryck "Lägg till".</li>
+</ol>
+
+<hr>
+<h5>Så här fungerar appen</h5>
 <p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
 <ul>
     <li><strong>Skott:</strong> För snabb registrering av avlossade skott.</li>
@@ -1484,7 +1668,7 @@
     <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten.
         <ul>
             <li>Du kan se vilken såt ett skott tillhör under skottinformationen.</li>
-            <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼).</li>
+            <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼). När en ny såt skapas fälls alla såtar ihop automatiskt.</li>
         </ul>
     </li>
     <li><strong>Loggade skott:</strong> Dina registrerade skott visas i en lista under knapparna.
@@ -1505,7 +1689,7 @@
             <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
             <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
             <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
-            <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ.</li>
+            <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
         </ul>
     </li>
     <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
@@ -1534,7 +1718,7 @@
     <li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li>
     <li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li>
     <li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li>
-    <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
+    <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas högst upp. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
 </ul>
 
 <p>Lycka till med jakten och rapporteringen!</p>`;
@@ -1545,10 +1729,35 @@
         function generateQRCode() { if(!qrCodeContainer||"undefined"==typeof QRious)return void(qrCodeContainer&&(qrCodeContainer.textContent="QR-kod kunde inte laddas.")); qrCodeContainer.innerHTML=""; let canvas=document.createElement("canvas"); try{ new QRious({element:canvas,value:appURL,size:188,padding:5,level:"H",background:"white",foreground:"black"}); if(canvas.width>0) qrCodeContainer.appendChild(canvas); else qrCodeContainer.textContent="Fel vid QR-generering."; if(shareableLink){shareableLink.href=appURL;shareableLink.textContent=appURL} }catch(t){qrCodeContainer.textContent="Kunde inte generera QR-kod."} }
         function openShareOverlay() { if (!shareOverlay) return; closeAllOverlays(shareOverlay); generateQRCode(); shareOverlay.style.display = 'flex'; document.body.classList.add('overlay-open');}
         function closeShareOverlay() { if (shareOverlay) shareOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function closeAllOverlays(keepOpenOverlay = null) { [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay].forEach(o => { if (o && o !== keepOpenOverlay) o.style.display = 'none';}); if (keepOpenOverlay === null) checkAndCloseBodyOverlay(); else if (!document.body.classList.contains('overlay-open')) document.body.classList.add('overlay-open'); }
-        function checkAndCloseBodyOverlay() { const anyOpen = (addGameModal && addGameModal.style.display === 'flex') || (linkShotModal && linkShotModal.style.display === 'flex') || (viewGameModal && viewGameModal.style.display === 'flex') || (helpOverlay && helpOverlay.style.display === 'flex') || (shareOverlay && shareOverlay.style.display === 'flex') || (saveReportOverlay && saveReportOverlay.style.display === 'flex'); if (!anyOpen && document.body.classList.contains('overlay-open')) { document.body.classList.remove('overlay-open'); } }
+        function closeAllOverlays(keepOpenOverlay = null) {
+            [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay].forEach(o => {
+                if (o && o !== keepOpenOverlay) o.style.display = 'none';
+            });
+            if (keepOpenOverlay === null) { 
+                checkAndCloseBodyOverlay();
+            } else if (!document.body.classList.contains('overlay-open')) {
+                document.body.classList.add('overlay-open');
+            }
+        }
+
+        function checkAndCloseBodyOverlay() {
+            const isIntroVideoVisible = introVideoOverlay && introVideoOverlay.style.display === 'flex';
+            const anyOtherModalOpen = (addGameModal && addGameModal.style.display === 'flex') || 
+                                    (linkShotModal && linkShotModal.style.display === 'flex') || 
+                                    (viewGameModal && viewGameModal.style.display === 'flex') || 
+                                    (helpOverlay && helpOverlay.style.display === 'flex') || 
+                                    (shareOverlay && shareOverlay.style.display === 'flex') || 
+                                    (saveReportOverlay && saveReportOverlay.style.display === 'flex');
+
+            if (!isIntroVideoVisible && !anyOtherModalOpen && document.body.classList.contains('overlay-open')) {
+                document.body.classList.remove('overlay-open');
+            } else if ((isIntroVideoVisible || anyOtherModalOpen) && !document.body.classList.contains('overlay-open')) {
+                document.body.classList.add('overlay-open');
+            }
+        }
         function updateMeatDistributionTextarea() { if (!meatRecipientNameInput || !meatQuickChoiceSelect || !gameMeatDistributionTextarea) return; const recipient = meatRecipientNameInput.value.trim(); const quickChoice = meatQuickChoiceSelect.value; let fullText = gameMeatDistributionTextarea.value; if (recipient && quickChoice) { fullText = `${recipient} ${quickChoice}`; } else if (quickChoice && !recipient) { fullText = quickChoice.charAt(0).toUpperCase() + quickChoice.slice(1); } else if (recipient && !quickChoice && gameMeatDistributionTextarea.value.trim() === '') { fullText = recipient; } else if (!recipient && !quickChoice) {} else { if (recipient) fullText = recipient; else if (quickChoice) fullText = quickChoice.charAt(0).toUpperCase() + quickChoice.slice(1); } gameMeatDistributionTextarea.value = fullText; }
 
     </script>
 </body>
 </html>
+```
