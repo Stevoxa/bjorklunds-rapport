@@ -242,10 +242,30 @@
             background-color: color-mix(in srgb, var(--primary-color) 85%, black); 
         }
         button:disabled { background-color: var(--secondary-text-color); color: color-mix(in srgb, var(--primary-text-color) 70%, transparent); cursor: not-allowed; opacity: 0.6; }
+        
         .button-secondary { background-color: var(--secondary-button-bg-color); color: var(--secondary-button-text-color); border: 1px solid var(--secondary-button-border-color); }
-        .button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
+        .button-secondary:hover:not(:disabled) { 
+            background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); 
+        }
+        .button-secondary:focus { /* Stil för fokus på sekundära knappar */
+            outline: 2px solid var(--primary-color); 
+            outline-offset: 2px;
+            background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); 
+        }
+
         #clearAllDataBtn.button-secondary, #unlinkShotBtn.button-secondary, #viewGameDeleteBtn.button-secondary { background-color: var(--danger-secondary-bg) !important; color: var(--danger-secondary-text-color) !important; border-color: var(--danger-color) !important; }
-        #clearAllDataBtn.button-secondary:hover:not(:disabled), #unlinkShotBtn.button-secondary:hover:not(:disabled), #viewGameDeleteBtn.button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; }
+        #clearAllDataBtn.button-secondary:hover:not(:disabled), 
+        #unlinkShotBtn.button-secondary:hover:not(:disabled), 
+        #viewGameDeleteBtn.button-secondary:hover:not(:disabled) { 
+            background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; 
+        }
+        #clearAllDataBtn.button-secondary:focus, 
+        #unlinkShotBtn.button-secondary:focus, 
+        #viewGameDeleteBtn.button-secondary:focus { 
+            background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; 
+            outline-color: var(--danger-color); 
+        }
+
 
         input[type="text"], input[type="time"], select, textarea { 
             flex-grow: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1em; font-family: inherit; box-sizing: border-box; background-color: var(--surface-bg-color); color: var(--text-color); min-width: 150px; 
@@ -343,7 +363,6 @@
         .overlay-header .icon-button { width: 30px; height: 30px; padding: 5px;}
         .overlay-header .icon-button svg { width: 18px; height: 18px;}
         .overlay-scrollable-content { color: var(--overlay-text-color); overflow-y: auto; flex-grow: 1; margin-bottom: 20px; padding-right: 5px;}
-        /* Ny CSS-regel för h4 efter hr i #addGameModal */
         #addGameModal .overlay-scrollable-content hr + h4 {
             font-size: 1.2em;
             color: var(--overlay-header-text-color);
@@ -533,7 +552,80 @@
             </div>
         </div>
     </div>
-    <div id="helpOverlay" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3>Hjälp & Information</h3> <button id="helpOverlayCloseBtn" class="icon-button" title="Stäng"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button> </div> <div class="overlay-scrollable-content"> </div> </div> </div>
+    <div id="helpOverlay" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3>Hjälp & Information</h3> <button id="helpOverlayCloseBtn" class="icon-button" title="Stäng"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button> </div> 
+    <div class="overlay-scrollable-content">
+        <h4>Välkommen till Björklunds Rapport!</h4>
+        <p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare.</p>
+    
+        <h5>Så här fungerar appen:</h5>
+        <p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
+        <ul>
+            <li><strong>Skott:</strong> För snabb registrering av avlossade skott.</li>
+            <li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts.</li>
+            <li><strong>Rapporter & Admin:</strong> För att se sammanställningar och hantera jaktdata.</li>
+        </ul>
+    
+        <h6>Fliken "Skott" - Registrera dina skott</h6>
+        <ol>
+            <li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas. Tiden för skottet sparas automatiskt.</li>
+            <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten.
+                <ul>
+                    <li>Du kan se vilken såt ett skott tillhör under skottinformationen.</li>
+                    <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼).</li>
+                </ul>
+            </li>
+            <li><strong>Loggade skott:</strong> Dina registrerade skott visas i en lista under knapparna.
+                <ul>
+                    <li><strong>Verifierat:</strong> Bocka i rutan "Verifierat" för att markera att tiden för skottet stämmer med verkligheten.</li>
+                    <li><strong>Associera skott:</strong> Klicka på ett skott i listan för att koppla det till ett fällt vilt. Du kan antingen välja ett redan rapporterat vilt eller skapa en ny viltrapport direkt. Detta är viktigt för att veta vilka skott som hör till vilket djur.</li>
+                    <li><strong>Ta bort:</strong> Klicka på soptunnan för att ta bort ett felaktigt loggat skott.</li>
+                </ul>
+            </li>
+        </ol>
+    
+        <h6>Fliken "Fällt vilt" - Rapportera fällt vilt</h6>
+        <ol>
+            <li><strong>Lägg till:</strong> Klicka på knappen "Lägg till" för att skapa en ny rapport för ett fällt vilt.</li>
+            <li><strong>Fyll i detaljer:</strong>
+                <ul>
+                    <li><strong>Viltslag:</strong> Välj från listan.</li>
+                    <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
+                    <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
+                    <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
+                    <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ.</li>
+                </ul>
+            </li>
+            <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
+            <li><strong>Lista över fällt vilt:</strong> Alla rapporterade vilt visas i en lista.
+                <ul>
+                    <li><strong>Status:</strong> Visar om köttfördelning är ifylld ("Fördelat") eller inte ("Ej fördelat").</li>
+                    <li><strong>Klicka på ett vilt:</strong>
+                        <ul>
+                            <li>Om status är <strong>"Ej fördelat"</strong> (röd varningstriangel) kommer du direkt till redigeringsläget för att fylla i köttfördelningen.</li>
+                            <li>Om status är <strong>"Fördelat"</strong> (grön bock) visas först detaljer om viltet. Härifrån kan du välja att "Redigera" eller "Ta bort" rapporten.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    
+        <h6>Fliken "Rapporter & Admin" - Sammanställningar och datahantering</h6>
+        <ul>
+            <li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats. Du kan kopiera texten eller dela rapporten direkt från denna vy.</li>
+            <li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en fil till din enhet (oftast i "Hämtade filer") som kan öppnas i t.ex. Excel. Den innehåller all information om det fällda viltet.</li>
+            <li><strong>Påbörja ny jakt / Rensa all data:</strong> OBS! Denna knapp tar bort ALL sparad information om skott och fällt vilt. Används när en helt ny jakt ska startas och all gammal data ska raderas. Du får en extra fråga för att bekräfta.</li>
+        </ul>
+    
+        <h5>Övriga funktioner:</h5>
+        <ul>
+            <li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li>
+            <li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li>
+            <li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li>
+            <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
+        </ul>
+    
+        <p>Lycka till med jakten och rapporteringen!</p>
+    </div> </div> </div>
     <div id="shareOverlay" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3>Dela Appen</h3> <button id="shareOverlayCloseBtn" class="icon-button" title="Stäng"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button> </div> <div class="overlay-scrollable-content" style="text-align: center;"> <div id="qrCodeContainer"></div> <p><a id="shareableLink" href="#" target="_blank"></a></p> </div> </div> </div>
     <div id="saveReportOverlay" class="content-overlay" style="display: none;">
         <div class="overlay-content-box">
@@ -563,7 +655,6 @@
         let currentTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         let deferredPrompt;
         const appURL = window.location.href;
-        // SpeechRecognition-relaterade variabler borttagna
         let nextSaaterToAssign = 1; 
         let saaterStates = {}; 
         const LAST_ACTIVE_TAB_KEY = 'bjorklundsRapportLastActiveTab';
@@ -574,7 +665,7 @@
             viewMeatReportBtn = document.getElementById('viewMeatReportBtn'); 
             exportFullGameReportBtn = document.getElementById('exportFullGameReportBtn'); 
             newSaaterBtn = document.getElementById('newSaaterBtn');
-            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); gameShooterInput = document.getElementById('gameShooterInput'); /* speakShooterBtn borttagen */ meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); meatQuickChoiceSelect = document.getElementById('meatQuickChoiceSelect'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
+            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); gameShooterInput = document.getElementById('gameShooterInput'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); meatQuickChoiceSelect = document.getElementById('meatQuickChoiceSelect'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
             saveReportOverlay = document.getElementById('saveReportOverlay');
             saveReportOverlayCloseBtn = document.getElementById('saveReportOverlayCloseBtn');
             meatDistributionReportList = document.getElementById('meatDistributionReportList');
@@ -730,7 +821,6 @@
                 localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(storedData));
             }
         }
-
 
         // --- Skotthantering ---
         function handleLogShot() {
@@ -1299,7 +1389,6 @@
         // --- Såt Funktioner ---
         function handleNewSaater() {
             const unassignedShots = allReports.filter(r => r.itemType === 'shot' && r.saater === 0);
-
             const currentSaaterForAssignment = nextSaaterToAssign;
             
             unassignedShots.forEach(shot => {
@@ -1331,16 +1420,23 @@
             
             allReports.unshift(newSaaterDivider); 
             
-            saaterStates[`saater_${currentSaaterForAssignment}`] = 'expanded'; 
-            
-            if (currentSaaterForAssignment > 1 && saaterStates[`saater_${currentSaaterForAssignment - 1}`]) {
-                saaterStates[`saater_${currentSaaterForAssignment - 1}`] = 'collapsed';
+            // Fäll ihop ALLA befintliga såtar
+            for (const key in saaterStates) {
+                if (saaterStates.hasOwnProperty(key)) {
+                    saaterStates[key] = 'collapsed';
+                }
             }
-
+            // Fäll ihop även den NYA såten
+            saaterStates[`saater_${currentSaaterForAssignment}`] = 'collapsed'; 
+            
             nextSaaterToAssign++; 
             
             saveAllDataToLocalStorage();
             renderShotLogList();
+
+            if (newSaaterBtn) {
+                newSaaterBtn.blur();
+            }
         }
 
         function toggleSaaterCollapse(saaterNum) {
@@ -1371,24 +1467,77 @@
             if (!helpOverlay) return; 
             const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
             if (helpContent) { 
-                 helpContent.innerHTML = `<h4>Grundläggande Användning (V5.6 - CSV & UI Fixar)</h4>
-                <p>CSV-rapporten är förenklad och UI-justeringar för tydlighet har gjorts.</p>
-                <p><strong>Navigering:</strong> Använd tabbarna "Skott", "Fällt vilt" och "Rapporter & Admin" högst upp.</p>
-                <ol>
-                    <li><strong>Fliken "Skott":</strong>
-                        <ul>
-                            <li><strong>Ny Såt:</strong> Såt-pilar (►/▼) är nu CSS-genererade för enhetligt utseende.</li>
-                        </ul>
-                    </li>
-                     <li><strong>Fliken "Fällt vilt":</strong> Overlay-fönster har korrekt ljus text på mörk bakgrund i appens mörka tema.</li>
-                     <li><strong>Fliken "Rapporter & Admin":</strong>
-                        <ul>
-                             <li><strong>Spara fullständig CSV-rapport:</strong> Exporterar nu en förenklad CSV med kolumnerna: Datum, Tid, Viltslag, Skytt, Pass/Plats, Såt (lägsta nummer från kopplade skott), Köttfördelning, Antal Skott.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Generellt Tabb-utseende:</strong> Aktiv tabb har en bakgrund som matchar innehållsytan och kontrasterande text, utan mörkare hover-effekt.</li>
-                </ol>
-                <h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare.</p>`;
+                helpContent.innerHTML = `<h4>Välkommen till Björklunds Rapport!</h4>
+<p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare.</p>
+
+<h5>Så här fungerar appen:</h5>
+<p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
+<ul>
+    <li><strong>Skott:</strong> För snabb registrering av avlossade skott.</li>
+    <li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts.</li>
+    <li><strong>Rapporter & Admin:</strong> För att se sammanställningar och hantera jaktdata.</li>
+</ul>
+
+<h6>Fliken "Skott" - Registrera dina skott</h6>
+<ol>
+    <li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas. Tiden för skottet sparas automatiskt.</li>
+    <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten.
+        <ul>
+            <li>Du kan se vilken såt ett skott tillhör under skottinformationen.</li>
+            <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼).</li>
+        </ul>
+    </li>
+    <li><strong>Loggade skott:</strong> Dina registrerade skott visas i en lista under knapparna.
+        <ul>
+            <li><strong>Verifierat:</strong> Bocka i rutan "Verifierat" för att markera att tiden för skottet stämmer med verkligheten.</li>
+            <li><strong>Associera skott:</strong> Klicka på ett skott i listan för att koppla det till ett fällt vilt. Du kan antingen välja ett redan rapporterat vilt eller skapa en ny viltrapport direkt. Detta är viktigt för att veta vilka skott som hör till vilket djur.</li>
+            <li><strong>Ta bort:</strong> Klicka på soptunnan för att ta bort ett felaktigt loggat skott.</li>
+        </ul>
+    </li>
+</ol>
+
+<h6>Fliken "Fällt vilt" - Rapportera fällt vilt</h6>
+<ol>
+    <li><strong>Lägg till:</strong> Klicka på knappen "Lägg till" för att skapa en ny rapport för ett fällt vilt.</li>
+    <li><strong>Fyll i detaljer:</strong>
+        <ul>
+            <li><strong>Viltslag:</strong> Välj från listan.</li>
+            <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
+            <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
+            <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
+            <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ.</li>
+        </ul>
+    </li>
+    <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
+    <li><strong>Lista över fällt vilt:</strong> Alla rapporterade vilt visas i en lista.
+        <ul>
+            <li><strong>Status:</strong> Visar om köttfördelning är ifylld ("Fördelat") eller inte ("Ej fördelat").</li>
+            <li><strong>Klicka på ett vilt:</strong>
+                <ul>
+                    <li>Om status är <strong>"Ej fördelat"</strong> (röd varningstriangel) kommer du direkt till redigeringsläget för att fylla i köttfördelningen.</li>
+                    <li>Om status är <strong>"Fördelat"</strong> (grön bock) visas först detaljer om viltet. Härifrån kan du välja att "Redigera" eller "Ta bort" rapporten.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ol>
+
+<h6>Fliken "Rapporter & Admin" - Sammanställningar och datahantering</h6>
+<ul>
+    <li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats. Du kan kopiera texten eller dela rapporten direkt från denna vy.</li>
+    <li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en fil till din enhet (oftast i "Hämtade filer") som kan öppnas i t.ex. Excel. Den innehåller all information om det fällda viltet.</li>
+    <li><strong>Påbörja ny jakt / Rensa all data:</strong> OBS! Denna knapp tar bort ALL sparad information om skott och fällt vilt. Används när en helt ny jakt ska startas och all gammal data ska raderas. Du får en extra fråga för att bekräfta.</li>
+</ul>
+
+<h5>Övriga funktioner:</h5>
+<ul>
+    <li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li>
+    <li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li>
+    <li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li>
+    <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
+</ul>
+
+<p>Lycka till med jakten och rapporteringen!</p>`;
             } 
             closeAllOverlays(helpOverlay); helpOverlay.style.display = 'flex'; document.body.classList.add('overlay-open'); 
         }
