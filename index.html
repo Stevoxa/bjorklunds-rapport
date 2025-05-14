@@ -4,45 +4,99 @@ html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport V4.29 - Köttfördelningsmallar</title>
+    <title>Björklunds Rapport V5.5 - CSS Pilar</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
-        /* --- Grundläggande Stilar (som i V4.0 / V4.8) --- */
         :root {
-            --bg-color: #fdfcf7; --surface-bg-color: #fff; --text-color: #333;
-            --secondary-text-color: #777; --primary-color: #344a34;
-            --primary-color-rgb: 52, 74, 52; --primary-text-color: #f8f8f8;
-            --secondary-button-bg-color: #f0ead6; --secondary-button-text-color: var(--primary-color);
-            --secondary-button-border-color: var(--primary-color); --border-color: #ccc;
-            --subtle-border-color: #eee; --danger-color: #c0392b;
-            --danger-secondary-bg: #f8d7da; --danger-secondary-text-color: #721c24;
-            --listening-color: #FFC107; --icon-fill-color: var(--primary-color);
-            --icon-hover-fill-color: #000; --overlay-bg-color: rgba(var(--primary-color-rgb), 0.85);
-            --overlay-content-bg: var(--surface-bg-color); --overlay-header-text-color: var(--primary-color);
-            --overlay-text-color: var(--text-color); --overlay-subtle-text-color: var(--secondary-text-color);
-            --overlay-link-color: var(--primary-color); --success-color: #27ae60;
-            --success-bg-color: #e9f7ef;
+            --primary-color: #344a34; 
+            --primary-color-rgb: 52, 74, 52; 
+            --primary-text-color: #FFFFFF;
+            --bg-color: #F8F9FA; 
+            --surface-bg-color: #FFFFFF; 
+            --text-color: #212529; 
+            --secondary-text-color: #6C757D; 
+            --border-color: #DEE2E6; 
+            --subtle-border-color: #E9ECEF; 
+            
+            --secondary-button-bg-color: #E9ECEF; 
+            --secondary-button-text-color: var(--primary-color); 
+            --secondary-button-border-color: var(--primary-color); 
+            
+            --danger-color: #DC3545; 
+            --danger-secondary-bg: #F8D7DA;
+            --danger-secondary-text-color: #721C24;
+            --success-color: #198754; 
+            --success-bg-color: #D1E7DD;
+
+            --listening-color: #FFC107;
+            --icon-fill-color: var(--primary-color);
+            --icon-hover-fill-color: #000; 
+            
+            --overlay-content-bg: var(--surface-bg-color);
+            --overlay-bg-color: rgba(var(--primary-color-rgb), 0.85);
+            --overlay-header-text-color: var(--primary-color);
+            --overlay-text-color: var(--text-color);
+            --overlay-subtle-text-color: var(--secondary-text-color);
+            --overlay-link-color: var(--primary-color);
+
+            --tab-inactive-bg: #E9ECEF;
+            --tab-inactive-text: var(--secondary-text-color);
+            --tab-inactive-hover-bg: #DEE2E6; 
+            --tab-inactive-hover-text: var(--text-color); 
+            --tab-active-bg: var(--surface-bg-color);    
+            --tab-active-text: var(--primary-color);     
+            --tab-active-border-color: var(--primary-color);
         }
+
         body[data-theme="dark"] {
-            --bg-color: #121212; --surface-bg-color: #1e1e1e; --text-color: #e0e0e0;
-            --secondary-text-color: #a0a0a0; --primary-color: #76c776;
-            --primary-text-color: #121212; --secondary-button-bg-color: #333;
-            --secondary-button-text-color: var(--text-color); --secondary-button-border-color: #555;
-            --border-color: #3a3a3a; --subtle-border-color: #2c2c2c; --danger-color: #ff8a80;
-            --danger-secondary-bg: #5c2b2b; --danger-secondary-text-color: #ffcdd2;
-            --listening-color: #FFEB3B; --icon-fill-color: var(--text-color);
-            --icon-hover-fill-color: #fff; --overlay-bg-color: rgba(18, 18, 18, 0.9);
-            --overlay-header-text-color: var(--primary-color); --overlay-link-color: var(--primary-color);
-            --success-color: #66bb6a; --success-bg-color: #2e3c32;
+            --primary-color: #6A994E; 
+            --primary-color-rgb: 106, 153, 78;
+            --primary-text-color: #FFFFFF; 
+
+            --bg-color: #1A1A1A; 
+            --surface-bg-color: #2C2C2C; 
+            --text-color: #E0E0E0; 
+            --secondary-text-color: #A0A0A0; 
+            --border-color: #4A4A4A;
+            --subtle-border-color: #383838;
+
+            --secondary-button-bg-color: #383838;
+            --secondary-button-text-color: var(--text-color);
+            --secondary-button-border-color: #555;
+
+            --danger-color: #FF8A80;
+            --danger-secondary-bg: #5C2B2B;
+            --danger-secondary-text-color: #FFCDD2;
+            --success-color: #66BB6A;
+            --success-bg-color: #2E3C32;
+            
+            --icon-fill-color: var(--text-color);
+            --icon-hover-fill-color: #fff;
+            
+            --overlay-content-bg: var(--surface-bg-color); 
+            --overlay-bg-color: rgba(26, 26, 26, 0.9); 
+            --overlay-header-text-color: var(--primary-color);
+            --overlay-text-color: var(--text-color); 
+            --overlay-subtle-text-color: var(--secondary-text-color); 
+            --overlay-link-color: var(--primary-color);
+
+            --tab-inactive-bg: #222222; 
+            --tab-inactive-text: var(--secondary-text-color); 
+            --tab-inactive-hover-bg: #4A4A4A; 
+            --tab-inactive-hover-text: var(--text-color); 
+            --tab-active-bg: var(--surface-bg-color);     
+            --tab-active-text: var(--text-color);        
+            --tab-active-border-color: var(--primary-color);
         }
+
         *, *::before, *::after { box-sizing: border-box; }
         body { 
-            font-family: 'Georgia', serif; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             margin: 0; 
-            padding: 15px; 
+            padding: 10px; 
             background-color: var(--bg-color); 
             color: var(--text-color); 
             font-size: 16px; 
@@ -52,64 +106,116 @@ html
         body.overlay-open { overflow: hidden; }
         .container { 
             max-width: 700px; 
-            margin: 20px auto; 
+            margin: 10px auto; 
             background-color: var(--surface-bg-color); 
-            padding: 20px; 
-            padding-top: 50px; 
+            padding: 0; 
             border-radius: 8px; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
             position: relative; 
-            transition: background-color 0.3s ease; 
+            transition: background-color 0.3s ease;
+            overflow: hidden; 
         }
-        .app-header-actions-left, .app-header-actions { position: absolute; top: 10px; display: flex; gap: 5px; z-index: 10; }
-        .app-header-actions-left { left: 10px; }
-        .app-header-actions { right: 10px; }
-        .app-header-actions-left .icon-button, .app-header-actions .icon-button { background-color: transparent !important; border: none !important; padding: 4px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
-        .app-header-actions-left .icon-button svg, .app-header-actions .icon-button svg { fill: var(--icon-fill-color) !important; width: 20px; height: 20px; }
-        .app-header-actions-left .icon-button:hover svg, .app-header-actions .icon-button:hover svg { fill: var(--icon-hover-fill-color) !important; }
-        h1, h2 { color: var(--primary-color); text-align: center; margin-top: 0; }
-        h1 { margin-bottom: 20px; font-size: 1.7em; }
-        h2 { margin-bottom: 15px; font-size: 1.4em; margin-top: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
-        hr { border: 0; height: 1px; background-color: var(--border-color); margin: 25px 0; }
+        .app-title-bar {
+            background-color: var(--primary-color);
+            color: var(--primary-text-color);
+            padding: 12px 15px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .app-title-bar h1 {
+            color: var(--primary-text-color);
+            text-align: left;
+            margin: 0;
+            font-size: 1.4em; 
+        }
+        .app-header-actions-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+         .app-header-actions-container .icon-button svg { 
+            fill: var(--primary-text-color) !important; 
+            width: 20px; height: 20px;
+        }
+         .app-header-actions-container .icon-button:hover svg {
+            fill: color-mix(in srgb, var(--primary-text-color) 80%, black) !important;
+        }
+         .app-header-actions-container .icon-button {
+            padding: 4px; width: 28px; height: 28px;
+        }
+
+        .tabs-nav {
+            display: flex;
+            background-color: var(--tab-inactive-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            position: relative;
+            padding: 0 5px; 
+        }
+        .tab-button {
+            flex-grow: 1;
+            padding: 12px 8px; 
+            cursor: pointer;
+            border: none;
+            background-color: var(--tab-inactive-bg);
+            color: var(--tab-inactive-text); 
+            font-size: 0.9em; 
+            font-weight: 500;
+            text-align: center;
+            border-bottom: 3px solid transparent; 
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            font-family: inherit;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px; 
+            margin-top: 1px; 
+        }
+       
+        .tab-button:hover:not(.active) { 
+            color: var(--tab-inactive-hover-text);
+            background-color: var(--tab-inactive-hover-bg); 
+        }
+
+        .tab-button.active {
+            background-color: var(--tab-active-bg) !important; 
+            color: var(--tab-active-text) !important; 
+            font-weight: bold;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--tab-active-bg); 
+            position: relative;
+            z-index: 2; 
+            margin-bottom: -1px; 
+        }
+        .tab-button.active:hover { 
+            background-color: var(--tab-active-bg) !important; 
+            color: var(--tab-active-text) !important; 
+            cursor: default; 
+        }
+        .tab-content {
+            padding: 15px; 
+            background-color: var(--surface-bg-color); 
+        }
+
+        h2 { color: var(--primary-color); text-align: left; margin-top: 0; margin-bottom: 20px; font-size: 1.3em; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);}
+        hr { border: 0; height: 1px; background-color: var(--border-color); margin: 20px 0; }
         .info-text { color: var(--secondary-text-color); font-size: 0.9em; text-align: center; margin-top: 10px; }
 
         button, .button-like { 
-            padding: 10px 15px; 
-            background-color: var(--primary-color); 
-            color: var(--primary-text-color); 
-            border: none; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            font-size: 1em; 
-            font-family: inherit; 
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
-            text-align: center; 
-            text-decoration: none; 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 40px; 
-            box-sizing: border-box; 
-            flex-shrink: 0; 
+            padding: 10px 15px; background-color: var(--primary-color); color: var(--primary-text-color); border: none; border-radius: 4px; cursor: pointer; font-size: 1em; font-family: inherit; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; height: 40px; box-sizing: border-box; flex-shrink: 0; 
         }
-        button:hover:not(:disabled), .button-like:hover { background-color: color-mix(in srgb, var(--primary-color) 85%, black); }
+        button:hover:not(:disabled):not(.tab-button), 
+        .button-like:hover:not(.tab-button) { 
+            background-color: color-mix(in srgb, var(--primary-color) 85%, black); 
+        }
         button:disabled { background-color: var(--secondary-text-color); color: color-mix(in srgb, var(--primary-text-color) 70%, transparent); cursor: not-allowed; opacity: 0.6; }
         .button-secondary { background-color: var(--secondary-button-bg-color); color: var(--secondary-button-text-color); border: 1px solid var(--secondary-button-border-color); }
         .button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%); }
-        #clearAllDataBtn.button-secondary, #unlinkShotBtn.button-secondary { background-color: var(--danger-secondary-bg) !important; color: var(--danger-secondary-text-color) !important; border-color: var(--danger-color) !important; }
-        #clearAllDataBtn.button-secondary:hover:not(:disabled), #unlinkShotBtn.button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; }
+        #clearAllDataBtn.button-secondary, #unlinkShotBtn.button-secondary, #viewGameDeleteBtn.button-secondary { background-color: var(--danger-secondary-bg) !important; color: var(--danger-secondary-text-color) !important; border-color: var(--danger-color) !important; }
+        #clearAllDataBtn.button-secondary:hover:not(:disabled), #unlinkShotBtn.button-secondary:hover:not(:disabled), #viewGameDeleteBtn.button-secondary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; }
 
         input[type="text"], input[type="time"], select, textarea { 
-            flex-grow: 1; 
-            padding: 10px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 4px; 
-            font-size: 1em; 
-            font-family: inherit; 
-            box-sizing: border-box; 
-            background-color: var(--surface-bg-color); 
-            color: var(--text-color); 
-            min-width: 150px; 
+            flex-grow: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1em; font-family: inherit; box-sizing: border-box; background-color: var(--surface-bg-color); color: var(--text-color); min-width: 150px; 
         }
         input[type="time"], select, textarea { height: 40px; }
         textarea { height: auto; min-height: 60px; }
@@ -131,125 +237,64 @@ html
         .form-group { flex-direction: column; align-items: stretch; gap: 5px;}
         .form-group label { font-weight: bold; margin-bottom: 2px; font-size: 0.9em;}
 
-        /* --- Skottlista --- */
         #shotLogList { list-style-type: none; padding: 0; margin: 15px 0 0 0; }
         .shot-log-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid var(--subtle-border-color); font-size: 0.95em; gap: 10px; flex-wrap: nowrap; }
         .shot-log-item:last-child { border-bottom: none; }
         .shot-log-item .shot-info { display: flex; flex-direction: column; flex-grow: 1; padding: 4px 0; border-radius: 3px; transition: background-color 0.2s ease; cursor: pointer; }
         .shot-log-item .shot-info:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--secondary-text-color) 5%); }
         .shot-log-item .shot-time { font-weight: bold; }
-        .shot-log-item .shot-link-status { 
-            font-size: 0.85em; 
-            color: var(--secondary-text-color); 
-            font-style: italic; 
-            line-height: 1.2;
-            min-width: 0; /* För text-overflow */
-        }
-        .shot-log-item .shot-link-status span { /* För art och plats om de renderas som separata span */
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
-        }
+        .shot-log-item .shot-link-status { font-size: 0.85em; color: var(--secondary-text-color); font-style: italic; line-height: 1.2; min-width: 0; }
+        .shot-log-item .shot-link-status span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
         .shot-log-item .shot-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
         .shot-log-item .time-verified-group { display: flex; align-items: center; gap: 5px; }
         .shot-log-item .time-verified-group label { font-size: 0.85em; color: var(--secondary-text-color); }
         .shot-log-item .delete-btn { padding: 2px; }
 
-        /* --- Såt Avdelare --- */
-        .saater-divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            padding: 10px 0;
-            font-weight: bold;
-            color: var(--secondary-text-color); 
-            margin: 10px 0;
-            cursor: pointer; 
-        }
-        .saater-divider hr { 
-            flex-grow: 1; 
-            border: 0; 
-            height: 1px; 
-            background-color: var(--border-color); 
-            margin: 0 10px;
-        }
+        .saater-divider { display: flex; align-items: center; text-align: center; padding: 10px 0; font-weight: bold; color: var(--secondary-text-color); margin: 10px 0; cursor: pointer; }
+        .saater-divider hr { flex-grow: 1; border: 0; height: 1px; background-color: var(--border-color); margin: 0 10px;}
         .saater-divider .saater-text { flex-shrink: 0; padding: 0 5px; } 
-        .saater-divider .saater-toggle-icon { 
-            font-size: 1em; 
+        .saater-toggle-icon { 
+            display: inline-block;
+            width: 0; 
+            height: 0;
             margin-left: 8px; 
             margin-right: 8px; 
-            color: var(--primary-color);
-            display: inline-block; 
-            width: 1.2em; 
-            text-align: center;
+            border-style: solid;
+            transition: transform 0.2s ease, opacity 0.15s ease; /* La till opacity transition */
+            cursor: pointer;
+        }
+        .saater-toggle-icon.expanded { /* ▼ */
+            border-width: 7px 5px 0 5px; /* Topp, Höger-Vänster, Botten */
+            border-color: var(--primary-color) transparent transparent transparent;
+        }
+        .saater-toggle-icon.collapsed { /* ► */
+            border-width: 5px 0 5px 7px; /* Topp-Botten, Höger, Vänster */
+            border-color: transparent transparent transparent var(--primary-color);
+        }
+        .saater-divider:hover .saater-toggle-icon {
+             opacity: 0.7;
         }
 
-        /* --- Rapportlista Vilt --- */
-        #felledGameReportSection .report-list-header-desktop { display: none; }
+
         #reportList { list-style-type: none; padding: 0; margin: 0; }
-        .report-item-stacked {
-            display: flex;
-            align-items: center; 
-            gap: 12px;
-            padding: 10px 8px;
-            border: 1px solid var(--subtle-border-color);
-            border-radius: 6px;
-            margin-bottom: 10px;
-            background-color: var(--surface-bg-color);
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
+        .report-item-stacked {display: flex; align-items: center; gap: 12px; padding: 10px 8px; border: 1px solid var(--subtle-border-color); border-radius: 6px; margin-bottom: 10px; background-color: var(--surface-bg-color); cursor: pointer; transition: background-color 0.2s ease;}
         .report-item-stacked:last-child { margin-bottom: 0; }
         .report-item-stacked:hover { background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%); }
         .item-image-placeholder { width: 40px; height: 40px; background-color: var(--primary-color); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.1em; color: var(--primary-text-color); font-weight: bold; }
-        .item-main-info {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-            min-width: 0; 
-        }
+        .item-main-info {flex-grow: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
         .item-main-info .species { font-size: 1.05em; font-weight: bold; color: var(--text-color); }
         .item-main-info .details { font-size: 0.85em; color: var(--secondary-text-color); line-height: 1.3; }
         .item-main-info .details span { display: block; font-style: italic; }
-        
-        .item-main-info .species,
-        .item-main-info .details span {
-            white-space: nowrap;      
-            overflow: hidden;         
-            text-overflow: ellipsis;  
-            display: block;           
-        }
-        
-        .item-status-actions {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 4px;
-            margin-left: auto; 
-            align-self: flex-end; 
-            padding-bottom: 2px; 
-            flex-shrink: 0; 
-        }
-        .item-status-actions .meat-status-text {
-            font-size: 0.8em;
-            font-weight: bold;
-            line-height: 1;
-            white-space: nowrap; 
-        }
-        .item-status-actions .meat-status-icon {
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; 
-        }
-        .item-status-actions .meat-status-icon svg {
-            width: 0.9em; 
-            height: 0.9em;
-        }
+        .item-main-info .species, .item-main-info .details span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+        .item-status-actions { display: flex; flex-direction: row; align-items: center; gap: 4px; margin-left: auto; align-self: flex-end; padding-bottom: 2px; flex-shrink: 0; }
+        .item-status-actions .meat-status-text { font-size: 0.8em; font-weight: bold; line-height: 1; white-space: nowrap; }
+        .item-status-actions .meat-status-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .item-status-actions .meat-status-icon svg { width: 0.9em; height: 0.9em; }
         .item-status-actions .meat-status-text.fördelat { color: var(--success-color); }
         .item-status-actions .meat-status-icon.fördelat svg { fill: var(--success-color); }
         .item-status-actions .meat-status-text.ej-fördelat { color: var(--danger-color); } 
         .item-status-actions .meat-status-icon.ej-fördelat svg { fill: var(--danger-color); }
 
-
-        /* --- Overlays --- */
         .content-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--overlay-bg-color); z-index: 1000; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; }
         .overlay-content-box { background-color: var(--overlay-content-bg); padding: 20px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.4); max-width: 550px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; }
         .overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
@@ -258,96 +303,24 @@ html
         .overlay-header .icon-button svg { width: 18px; height: 18px;}
         .overlay-scrollable-content { color: var(--overlay-text-color); overflow-y: auto; flex-grow: 1; margin-bottom: 20px; padding-right: 5px;}
 
-        /* Justeringar för viewGameModal */
-        #viewGameDetailsContent .detail-row {
-            display: flex;
-            justify-content: space-between; 
-            padding: 7px 0;
-            border-bottom: 1px solid var(--subtle-border-color);
-            align-items: baseline;
-        }
-        #viewGameDetailsContent .detail-row:last-of-type {
-             
-        }
-        #viewGameDetailsContent .detail-row[style*="border-bottom: none;"] { 
-            border-bottom: none !important;
-        }
-        #viewGameDetailsContent .detail-label {
-            font-weight: bold;
-            color: var(--secondary-text-color);
-            margin-right: 15px;
-            flex-shrink: 0;
-            min-width: 100px;
-        }
-        #viewGameDetailsContent .detail-value {
-            text-align: right;
-            word-break: break-word;
-            color: var(--text-color);
-        }
-        /* För modal-titeln med ikon */
-        #viewGameModal .overlay-header h3 {
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        }
-        #viewGameModal .modal-title-icon {
-            display: inline-flex; 
-            align-items: center;
-            justify-content: center;
-            width: 40px; 
-            height: 40px; 
-            background-color: var(--primary-color); 
-            color: var(--primary-text-color); 
-            border-radius: 4px; 
-            font-size: 1.1em; 
-            font-weight: bold;
-            flex-shrink: 0; 
-        }
-        #viewGameDetailsContent h4 { 
-            border-bottom: none;
-            margin-top: 25px;
-            margin-bottom: 12px;
-            padding-bottom: 0;
-            font-size: 1.2em;
-            color: var(--primary-color);
-        }
-        #viewGameDetailsContent #viewMeatDistributionSection,
-        #viewGameDetailsContent #viewLinkedShotsSection {
-            border-top: 1px solid var(--border-color); 
-            padding-top: 12px;
-            margin-top: 20px;
-        }
-        #viewGameDetailsContent #viewMeatDistributionSection .meat-status-line, 
-        #viewGameDetailsContent #viewLinkedShotsSection ul {
-            margin-top: 8px; 
-        }
-        
-        #viewGameModal .meat-status-line {
-            display: flex; 
-            align-items: center; 
-            gap: 6px; 
-            margin-top: 5px; 
-        }
-        #viewGameModal #viewMeatStatusIcon svg { 
-             width: 1.1em; height: 1.1em; display: block; 
-        }
+        #viewGameDetailsContent .detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--subtle-border-color); align-items: baseline; }
+        #viewGameDetailsContent .detail-row[style*="border-bottom: none;"] { border-bottom: none !important; }
+        #viewGameDetailsContent .detail-label {font-weight: bold; color: var(--overlay-subtle-text-color); margin-right: 15px; flex-shrink: 0; min-width: 100px; } 
+        #viewGameDetailsContent .detail-value { text-align: right; word-break: break-word; color: var(--overlay-text-color); } 
+        #viewGameModal .overlay-header h3 { display: flex; align-items: center; gap: 10px; }
+        #viewGameModal .modal-title-icon {display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: var(--primary-color); color: var(--primary-text-color); border-radius: 4px; font-size: 1.1em; font-weight: bold; flex-shrink: 0; }
+        #viewGameDetailsContent h4 { border-bottom: none; margin-top: 25px; margin-bottom: 12px; padding-bottom: 0; font-size: 1.2em; color: var(--overlay-header-text-color); } 
+        #viewGameDetailsContent #viewMeatDistributionSection, #viewGameDetailsContent #viewLinkedShotsSection { border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 20px;}
+        #viewGameDetailsContent #viewMeatDistributionSection .meat-status-line, #viewGameDetailsContent #viewLinkedShotsSection ul { margin-top: 8px; }
+        #viewGameModal .meat-status-line { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
+        #viewGameModal #viewMeatStatusIcon svg { width: 1.1em; height: 1.1em; display: block; }
 
         #qrCodeContainer { border:1px solid var(--border-color); background:white; margin: 20px auto; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; }
         #qrCodeContainer canvas { display: block; }
         #shareableLink { color: var(--overlay-link-color); }
-        .bottom-actions {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column; 
-            gap: 10px; 
-        }
-        .bottom-actions button {
-            flex-grow: 1; 
-            width: 100%; 
-        }
+        .bottom-actions { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .bottom-actions button { flex-grow: 1; width: 100%; }
 
-
-        /* Koppla Skott-modalen */
         #linkableGameList { list-style: none; padding: 0; margin: 0; max-height: 40vh; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 15px; }
         .linkable-game-item { padding: 10px 12px; border-bottom: 1px solid var(--subtle-border-color); cursor: pointer; transition: background-color 0.2s ease; }
         .linkable-game-item:last-child { border-bottom: none; }
@@ -357,29 +330,59 @@ html
         .linkable-game-item .details { font-size: 0.8em; color: var(--secondary-text-color); }
         #linkShotModal .modal-actions { display: flex; flex-direction: column; gap: 10px; }
         #linkShotModal .modal-actions button { width: 100%; }
+        
+        #reportsDataSection .bottom-actions button { 
+            width: 100%;
+            margin-bottom: 5px; 
+        }
 
     </style>
 </head>
 <body>
-    <!-- HTML-innehåll -->
     <div class="container">
-         <div class="app-header-actions-left"> <button id="themeToggleBtn" class="icon-button" title="Växla tema"> <svg id="themeIconMoon" viewBox="0 0 24 24" style="display: none;"><path d="M12 1.993C11.419 1.993 10.847 2.022 10.285 2.076C5.262 2.58 1.993 6.832 1.993 11.999C1.993 17.635 6.365 22 11.999 22C16.957 22 21.145 18.053 21.904 13.269C21.951 12.989 21.979 12.705 21.993 12.416C21.964 12.393 21.938 12.372 21.911 12.353C16.334 11.653 12.707 7.586 12.085 1.993H12Z"/></svg> <svg id="themeIconSun" viewBox="0 0 16 16" style="display: block;"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg> </button> </div>
-         <div class="app-header-actions"> <button id="helpBtn" class="icon-button" title="Hjälp"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z"/></svg></button> <button id="shareBtn" class="icon-button" title="Dela appen"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.81C7.5 8.31 6.79 8 6 8c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg></button> <button id="installAppBtn" class="icon-button" title="Installera appen" style="display: none;"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></button> </div>
-        <h1>Björklunds Rapport</h1>
-        <section id="quickShotEntrySection">
+        <div class="app-title-bar">
+            <h1>Björklunds Rapport</h1>
+            <div class="app-header-actions-container">
+                <button id="themeToggleBtn" class="icon-button" title="Växla tema">
+                    <svg id="themeIconMoon" viewBox="0 0 24 24" style="display: none;"><path d="M12 1.993C11.419 1.993 10.847 2.022 10.285 2.076C5.262 2.58 1.993 6.832 1.993 11.999C1.993 17.635 6.365 22 11.999 22C16.957 22 21.145 18.053 21.904 13.269C21.951 12.989 21.979 12.705 21.993 12.416C21.964 12.393 21.938 12.372 21.911 12.353C16.334 11.653 12.707 7.586 12.085 1.993H12Z"/></svg>
+                    <svg id="themeIconSun" viewBox="0 0 16 16" style="display: block;"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>
+                </button>
+                <button id="helpBtn" class="icon-button" title="Hjälp"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z"/></svg></button>
+                <button id="shareBtn" class="icon-button" title="Dela appen"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.81C7.5 8.31 6.79 8 6 8c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg></button>
+                <button id="installAppBtn" class="icon-button" title="Installera appen" style="display: none;"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></button>
+            </div>
+        </div>
+
+        <nav class="tabs-nav">
+            <button class="tab-button active" data-tab="shotTab">Skott</button>
+            <button class="tab-button" data-tab="gameTab">Fällt Vilt</button>
+            <button class="tab-button" data-tab="adminTab">Rapporter & Admin</button>
+        </nav>
+
+        <section id="shotTab" class="tab-content">
             <h2>Snabbregistrera Skott</h2>
             <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 10px;">Avlossat Skott</button>
             <button id="newSaaterBtn" style="width:100%; font-size: 1.1em; padding: 12px;" class="button-secondary" disabled>Ny Såt</button>
             <ul id="shotLogList"></ul>
             <p id="noLoggedShotsInfo" class="info-text" style="display: block;">Inga skott loggade ännu.</p>
         </section>
-        <hr>
-        <section id="felledGameReportSection"> <h2>Rapporterat Fällt Vilt:</h2> <button id="addFelledGameBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 15px;">Lägg till Fällt Vilt</button> <ul id="reportList"> </ul> <p id="noReportsInfo" class="info-text" style="display: block;">Inget fält vilt rapporterat ännu.</p> </section>
-        <div class="bottom-actions">
-            <button id="viewMeatReportBtn" class="button-secondary">Visa rapport</button>
-            <button id="exportFullGameReportBtn" class="button-secondary">Spara full rapport</button>
-            <button id="clearAllDataBtn" class="button-secondary">Rensa Allt</button>
-        </div>
+
+        <section id="gameTab" class="tab-content" style="display: none;">
+            <h2>Rapporterat Fällt Vilt</h2>
+            <button id="addFelledGameBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 15px;">Lägg till Fällt Vilt</button>
+            <ul id="reportList"></ul>
+            <p id="noReportsInfo" class="info-text" style="display: block;">Inget fält vilt rapporterat ännu.</p>
+        </section>
+
+        <section id="adminTab" class="tab-content" style="display: none;">
+            <h2>Rapporter & Administration</h2>
+            <div class="bottom-actions">
+                <button id="viewMeatReportBtn" class="button-secondary">Visa rapport Köttfördelning</button>
+                <button id="exportFullGameReportBtn" class="button-secondary">Spara fullständig CSV-rapport</button>
+                <hr style="margin: 10px 0;">
+                <button id="clearAllDataBtn" class="button-secondary">Rensa All Data</button>
+            </div>
+        </section>
     </div>
 
     <!-- Modal för att lägga till/redigera Fällt Vilt -->
@@ -402,7 +405,7 @@ html
     <!-- Modal för att koppla Skott till Vilt -->
     <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Associera Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att associera till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att associera skottet.</p> </div> <div class="modal-actions"> <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till Fällt Vilt & Associera</button> <button id="unlinkShotBtn" class="button-secondary">Ta bort association / Ingen association</button> </div> </div> </div>
 
-    <!-- Modal för att visa detaljer om Fällt Vilt (NY HTML-STRUKTUR FÖR DETALJER) -->
+    <!-- Modal för att visa detaljer om Fällt Vilt -->
     <div id="viewGameModal" class="content-overlay" style="display: none;">
         <div class="overlay-content-box">
             <div class="overlay-header">
@@ -443,7 +446,7 @@ html
                 </div>
             </div>
             <div style="display:flex; gap:10px; margin-top:15px;">
-                <button id="viewGameDeleteBtn" class="button-secondary" style="flex-grow:1; background-color: var(--danger-secondary-bg); color: var(--danger-secondary-text-color); border-color: var(--danger-color);">Ta bort</button>
+                <button id="viewGameDeleteBtn" class="button-secondary" style="flex-grow:1;">Ta bort</button>
                 <button id="viewGameEditBtn" class="button-secondary" style="flex-grow:1;">Redigera</button>
             </div>
         </div>
@@ -476,7 +479,7 @@ html
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
-        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, speakShooterBtn,meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn;
+        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, speakShooterBtn,meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
         // --- GLOBALA VARIABLER ---
         let allReports = [];
         let currentTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -487,6 +490,7 @@ html
         let activeRecognitionInput = null;
         let nextSaaterToAssign = 1; 
         let saaterStates = {}; 
+        const LAST_ACTIVE_TAB_KEY = 'bjorklundsRapportLastActiveTab';
 
         // --- INITIERING VID LADDNING AV SIDAN ---
         document.addEventListener('DOMContentLoaded', () => { 
@@ -502,9 +506,12 @@ html
             reportDateDisplay = document.getElementById('reportDateDisplay'); 
             copyMeatReportBtn = document.getElementById('copyMeatReportBtn'); 
             shareMeatReportBtn = document.getElementById('shareMeatReportBtn'); 
+            tabButtons = document.querySelectorAll('.tab-button');
+            tabContents = document.querySelectorAll('.tab-content');
 
             if (installAppBtn) installAppBtn.style.display = 'none';
             applyTheme(currentTheme);
+            initializeTabs();
             loadAllDataFromLocalStorage(); 
             renderShotLogList();
             renderFelledGameReportList();
@@ -537,8 +544,52 @@ html
             setupPWAInstallation();
             if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.error('SW reg failed:', err)); }
         });
+
+        // --- Tabbhantering ---
+        function initializeTabs() {
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTabId = button.dataset.tab;
+                    activateTab(targetTabId);
+                    localStorage.setItem(LAST_ACTIVE_TAB_KEY, targetTabId);
+                });
+            });
+            const lastActiveTab = localStorage.getItem(LAST_ACTIVE_TAB_KEY);
+            if (lastActiveTab && document.getElementById(lastActiveTab)) {
+                activateTab(lastActiveTab);
+            } else {
+                activateTab('shotTab'); 
+            }
+        }
+        function activateTab(tabId) {
+            tabContents.forEach(content => {
+                content.style.display = content.id === tabId ? 'block' : 'none';
+            });
+            tabButtons.forEach(button => {
+                button.classList.toggle('active', button.dataset.tab === tabId);
+            });
+        }
+
         // --- Tema, PWA, Taligenkänning ---
-        function applyTheme(theme) { const newTheme = theme === 'dark' ? 'dark' : 'light'; document.body.setAttribute('data-theme', newTheme); if (themeIconSun) themeIconSun.style.display = newTheme === 'dark' ? 'block' : 'none'; if (themeIconMoon) themeIconMoon.style.display = newTheme === 'light' ? 'block' : 'none'; localStorage.setItem('theme', newTheme); if (themeToggleBtn) themeToggleBtn.title = newTheme === 'dark' ? "Växla till ljust tema" : "Växla till mörkt tema"; const metaThemeColor = document.querySelector("meta[name=theme-color]"); if (metaThemeColor) { const rootStyle = getComputedStyle(document.documentElement); let colorValue = rootStyle.getPropertyValue('--primary-color').trim(); if (!colorValue) colorValue = (newTheme === 'dark') ? '#76c776' : '#344a34'; metaThemeColor.setAttribute("content", colorValue); } }
+        function applyTheme(theme) { 
+            const newTheme = theme === 'dark' ? 'dark' : 'light'; 
+            document.body.setAttribute('data-theme', newTheme); 
+            if (themeIconSun) themeIconSun.style.display = newTheme === 'dark' ? 'block' : 'none'; 
+            if (themeIconMoon) themeIconMoon.style.display = newTheme === 'light' ? 'block' : 'none'; 
+            localStorage.setItem('theme', newTheme); 
+            if (themeToggleBtn) themeToggleBtn.title = newTheme === 'dark' ? "Växla till ljust tema" : "Växla till mörkt tema"; 
+            
+            const metaThemeColor = document.querySelector("meta[name=theme-color]");
+            if (metaThemeColor) {
+                let colorValue;
+                if (newTheme === 'dark') {
+                     colorValue = getComputedStyle(document.body).getPropertyValue('--primary-color').trim();
+                } else {
+                    colorValue = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+                }
+                metaThemeColor.setAttribute("content", colorValue);
+            }
+        }
         function toggleTheme() { currentTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(currentTheme); }
         function setupPWAInstallation() { window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if (installAppBtn) { installAppBtn.style.display = 'inline-flex'; const newInstallBtn = installAppBtn.cloneNode(true); if(installAppBtn.parentNode) installAppBtn.parentNode.replaceChild(newInstallBtn, installAppBtn); installAppBtn = newInstallBtn; installAppBtn.onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; if(installAppBtn) installAppBtn.style.display = 'none'; } else { const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; if (isIOS) alert("På iOS: Dela -> Lägg till på hemskärmen."); else if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) alert("Appen är redan installerad!"); else alert("Installationsprompt ej tillgänglig.");} }; } }); window.addEventListener('appinstalled', () => { if (installAppBtn) installAppBtn.style.display = 'none'; deferredPrompt = null; }); }
         function setupGenericSpeechRecognition(recognitionInstance, buttonElement, targetInputElement) { if (SpeechRecognition && buttonElement && targetInputElement) { if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {} try { recognitionInstance.lang = 'sv-SE'; recognitionInstance.continuous = false; recognitionInstance.interimResults = false; recognitionInstance.onresult = (event) => { const txt = event.results[0][0].transcript.trim(); if (activeRecognitionInput) activeRecognitionInput.value = txt; }; recognitionInstance.onerror = (event) => { if (buttonElement) { buttonElement.title = "Fel: " + event.error; buttonElement.classList.remove('is-listening'); buttonElement.disabled = false; } activeRecognitionInput = null; }; recognitionInstance.onstart = () => { if (buttonElement) { buttonElement.classList.add('is-listening'); buttonElement.disabled = true; buttonElement.title = "Lyssnar..."; }}; recognitionInstance.onend = () => { if (buttonElement) { buttonElement.classList.remove('is-listening'); buttonElement.disabled = false; buttonElement.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;}; const newBtn = buttonElement.cloneNode(true); buttonElement.parentNode.replaceChild(newBtn, buttonElement); if (buttonElement.id === 'speakShooterBtn') speakShooterBtn = newBtn; newBtn.addEventListener('click', () => { try { activeRecognitionInput = targetInputElement; if (recognitionInstance) recognitionInstance.start(); } catch (e) { if (newBtn) {newBtn.classList.remove('is-listening');newBtn.disabled = false;newBtn.title = targetInputElement.id.toLowerCase().includes('shooter')?"Tala in skytt":"Tala in text";} activeRecognitionInput = null;} }); } catch(e) { if (buttonElement) { buttonElement.disabled = true; buttonElement.title = 'Röstinitiering misslyckades.'; }} } else { if (buttonElement) { buttonElement.disabled = true; buttonElement.title = SpeechRecognition ? 'Målelement saknas.' : 'Röstinmatning stöds ej.'; }} }
@@ -552,7 +603,7 @@ html
                     nextSaaterToAssign: nextSaaterToAssign,
                     saaterDisplayStates: saaterStates
                 };
-                localStorage.setItem('bjorklundsAllRapporter_v4_saater', JSON.stringify(dataToSave));
+                localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(dataToSave)); 
             } catch (e) {
                 console.error("Fel vid sparande till localStorage:", e);
                 alert("Fel: Kunde inte spara data.");
@@ -560,112 +611,53 @@ html
         }
 
         function loadAllDataFromLocalStorage() {
-            const dataV4 = localStorage.getItem('bjorklundsAllRapporter_v4_saater');
-            if (dataV4) {
-                try {
-                    const parsedData = JSON.parse(dataV4);
+            const dataV5 = localStorage.getItem('bjorklundsAllRapporter_v5_tabs'); 
+            if (dataV5) {
+                 try {
+                    const parsedData = JSON.parse(dataV5);
                     allReports = parsedData.reports || [];
                     saaterStates = parsedData.saaterDisplayStates || {};
-                    
-                    if (parsedData.nextSaaterToAssign) {
-                        nextSaaterToAssign = parsedData.nextSaaterToAssign;
-                    } else { 
-                        const saaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
-                        if (saaterDividers.length > 0) {
-                            nextSaaterToAssign = Math.max(0, ...saaterDividers.map(d => d.saaterNumber)) + 1;
-                        } else if (parsedData.currentSaaterNumber && parsedData.currentSaaterNumber > 0) { 
-                             nextSaaterToAssign = parsedData.currentSaaterNumber + (allReports.some(r => r.itemType === 'shot' && r.saater === parsedData.currentSaaterNumber) ? 1: 0);
-                             if (nextSaaterToAssign === 0) nextSaaterToAssign = 1;
-                        }
-                        else {
-                            nextSaaterToAssign = 1; 
-                        }
-                    }
-                    
-                    const allShotSaaterNumbers = [...new Set(allReports.filter(r => r.itemType === 'shot' && r.saater > 0).map(s => s.saater))];
-                    allShotSaaterNumbers.forEach(saaterNum => {
-                        if (!allReports.some(r => r.itemType === 'saaterDivider' && r.saaterNumber === saaterNum)) {
-                            const shotsInThisSaater = allReports.filter(r => r.itemType === 'shot' && r.saater === saaterNum).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-                            let dividerCreatedAt = new Date().toISOString();
-                            if (shotsInThisSaater.length > 0) {
-                                dividerCreatedAt = new Date(new Date(shotsInThisSaater[0].createdAt).getTime() + 1).toISOString();
-                            }
-                             allReports.push({ id: Date.now() + Math.random() + saaterNum, itemType: 'saaterDivider', saaterNumber: saaterNum, createdAt: dividerCreatedAt });
-                        }
-                    });
-                    
-                    const existingSaaterNumbers = [...new Set(allReports.filter(r => r.itemType === 'saaterDivider').map(s => s.saaterNumber))];
-                    existingSaaterNumbers.forEach(num => {
-                        if (saaterStates[`saater_${num}`] === undefined) {
-                            if (num === nextSaaterToAssign - 1 && nextSaaterToAssign > 1) { 
-                                 saaterStates[`saater_${num}`] = 'expanded';
-                            } else if (existingSaaterNumbers.length === 1 && num === 1) { 
-                                 saaterStates[`saater_${num}`] = 'expanded';
-                            }
-                            else {
-                                 saaterStates[`saater_${num}`] = 'collapsed';
-                            }
-                        }
-                    });
-                    console.log("Loaded v4 (saater) data. Next saater to assign:", nextSaaterToAssign);
+                    nextSaaterToAssign = parsedData.nextSaaterToAssign || 1;
+                    console.log("Loaded v5 (tabs) data.");
                     return;
                 } catch (e) {
-                    console.error("Kunde inte ladda v4 (saater) data, försöker tidigare versioner.", e);
+                    console.error("Kunde inte ladda v5 (tabs) data.", e);
                     allReports = []; nextSaaterToAssign = 1; saaterStates = {};
                 }
-            }
-            
-            const dataV2 = localStorage.getItem('bjorklundsAllRapporter_v2'); 
-            if (dataV2) {
-                console.log("Found v2 data, attempting migration to v4_saater.");
-                try {
-                    const oldReports = JSON.parse(dataV2);
-                    let migratedReports = [];
-                    oldReports.forEach(oldReport => {
-                        if (oldReport.isDirectFelledGame) {
-                            migratedReports.push({ id: oldReport.id, itemType: 'game', createdAt: oldReport.createdAt, felledGameDetails: { species: oldReport.felledGameDetails?.species || '', shooter: oldReport.felledGameDetails?.shooter || '', passLocation: oldReport.felledGameDetails?.passLocation || '', reportTime: oldReport.shotTime || '00:00', meatDistribution: oldReport.felledGameDetails?.meatDistribution || '', linkedShotIds: [] } });
-                        } else {
-                            const shotItem = { id: oldReport.id, itemType: 'shot', shotTime: oldReport.shotTime, isVerified: oldReport.isVerified, createdAt: oldReport.createdAt, linkedGameReportId: null, saater: 1 }; 
-                            if (oldReport.felledGameDetails) {
-                                const gameId = Date.now() + Math.random();
-                                migratedReports.push({ id: gameId, itemType: 'game', createdAt: oldReport.createdAt, felledGameDetails: { species: oldReport.felledGameDetails.species || '', shooter: oldReport.felledGameDetails.shooter || '', passLocation: oldReport.felledGameDetails.passLocation || '', reportTime: oldReport.shotTime || '00:00', meatDistribution: oldReport.felledGameDetails.meatDistribution || '', linkedShotIds: [shotItem.id] } });
-                                shotItem.linkedGameReportId = gameId;
-                            }
-                            migratedReports.push(shotItem);
+            } else { 
+                const dataV4 = localStorage.getItem('bjorklundsAllRapporter_v4_saater');
+                if (dataV4) {
+                    try {
+                        const parsedData = JSON.parse(dataV4);
+                        allReports = parsedData.reports || [];
+                        saaterStates = parsedData.saaterDisplayStates || {};
+                        if (parsedData.nextSaaterToAssign) {
+                            nextSaaterToAssign = parsedData.nextSaaterToAssign;
+                        } else { 
+                            const saaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
+                            if (saaterDividers.length > 0) {
+                                nextSaaterToAssign = Math.max(0, ...saaterDividers.map(d => d.saaterNumber)) + 1;
+                            } else { nextSaaterToAssign = 1; }
                         }
-                    });
-                    allReports = migratedReports;
-                    saaterStates = {};
-                    if (allReports.some(r => r.itemType === 'shot' && r.saater === 1)) {
-                        const shotsForSaater1 = allReports.filter(r => r.itemType === 'shot' && r.saater === 1).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-                        let divider1CreatedAt = new Date().toISOString();
-                        if (shotsForSaater1.length > 0) {
-                            divider1CreatedAt = new Date(new Date(shotsForSaater1[0].createdAt).getTime() + 1).toISOString();
-                        }
-                        allReports.push({ id: Date.now() + Math.random(), itemType: 'saaterDivider', saaterNumber: 1, createdAt: divider1CreatedAt });
-                        saaterStates['saater_1'] = 'expanded';
-                        nextSaaterToAssign = 2;
-                    } else {
-                        nextSaaterToAssign = 1;
+                        console.log("Migrated data from v4_saater to v5_tabs.");
+                        saveAllDataToLocalStorage(); 
+                        // localStorage.removeItem('bjorklundsAllRapporter_v4_saater'); 
+                    } catch (e) {
+                        console.error("Kunde inte ladda/migrera v4_saater data.", e);
+                        allReports = []; nextSaaterToAssign = 1; saaterStates = {};
                     }
-                    console.log("Migration from v2 complete. Saving as v4_saater.");
-                    saveAllDataToLocalStorage();
-                    localStorage.removeItem('bjorklundsAllRapporter_v2');
-                } catch (e) {
-                    console.error("Migration från v2 misslyckades.", e);
-                    allReports = []; nextSaaterToAssign = 1; saaterStates = {};
-                    alert("Kunde inte läsa tidigare data korrekt. Startar med tom data.");
+                } else {
+                     allReports = []; nextSaaterToAssign = 1; saaterStates = {};
+                     console.log("No data found in localStorage.");
                 }
-            } else {
-                allReports = []; nextSaaterToAssign = 1; saaterStates = {};
-                console.log("No data found in localStorage.");
             }
-            const storedData = JSON.parse(localStorage.getItem('bjorklundsAllRapporter_v4_saater') || '{}');
-            if (storedData.hasOwnProperty('currentSaaterNumber')) {
+             const storedData = JSON.parse(localStorage.getItem('bjorklundsAllRapporter_v5_tabs') || '{}');
+            if (storedData.hasOwnProperty('currentSaaterNumber')) { 
                 delete storedData.currentSaaterNumber;
-                localStorage.setItem('bjorklundsAllRapporter_v4_saater', JSON.stringify(storedData));
+                localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(storedData));
             }
         }
+
 
         // --- Skotthantering ---
         function handleLogShot() {
@@ -674,13 +666,7 @@ html
             const m = String(n.getMinutes()).padStart(2, '0');
             
             const newShot = {
-                id: Date.now(),
-                itemType: 'shot',
-                shotTime: `${h}:${m}`,
-                isVerified: false,
-                createdAt: n.toISOString(),
-                linkedGameReportId: null,
-                saater: 0 
+                id: Date.now(), itemType: 'shot', shotTime: `${h}:${m}`, isVerified: false, createdAt: n.toISOString(), linkedGameReportId: null, saater: 0 
             };
             allReports.unshift(newShot); 
             if (newSaaterBtn) newSaaterBtn.disabled = false;
@@ -728,7 +714,12 @@ html
                     toggleIconSpan.className = 'saater-toggle-icon';
 
                     const isCollapsed = saaterStates[`saater_${item.saaterNumber}`] === 'collapsed';
-                    toggleIconSpan.textContent = isCollapsed ? '►' : '▼'; 
+                    toggleIconSpan.classList.remove('expanded', 'collapsed');
+                    if (isCollapsed) {
+                        toggleIconSpan.classList.add('collapsed');
+                    } else {
+                        toggleIconSpan.classList.add('expanded');
+                    }
                     li.onclick = (e) => { 
                         e.stopPropagation();
                         toggleSaaterCollapse(item.saaterNumber);
@@ -1278,31 +1269,28 @@ html
                 saveAllDataToLocalStorage(); 
                 renderShotLogList(); 
                 renderFelledGameReportList(); 
+                activateTab('shotTab'); 
             } 
         }
-        function openHelpOverlay() { if (!helpOverlay) return; const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
-            if (helpContent) { helpContent.innerHTML = `<h4>Grundläggande Användning (V4.29 - Köttfördelningsmallar)</h4>
-            <p>Appen hanterar registrering av skott och fällda vilt, med möjlighet att associera skott till ett specifikt vilt. Hantering av såtar är nu implementerad.</p>
-            <ol>
-                <li><strong>Avlossat Skott:</strong> Loggar tidpunkten för ett skott. Dessa skott har ännu inte tilldelats en färdig såt.</li>
-                <li><strong>Ny Såt (knapp):</strong> Klicka på denna knapp *efter* att du loggat skotten för en såt du vill avsluta och markera. Detta skapar en avdelare (t.ex. "--- Såt 1 ---") som placeras *ovanför* de skott som ännu inte hade en såt, och dessa skott tilldelas då "Såt 1". Nästa gång du klickar skapas "Såt 2" för nästa uppsättning skott, och så vidare. Den föregående såten (om någon) fälls oftast ihop automatiskt för bättre överblick. Du kan även klicka på knappen för att skapa en "tom" såt om inga skott har loggats sedan föregående såt, eller om det är den allra första såten.</li>
-                <li><strong>Skottlistan:</strong> Visar alla loggade skott och såt-avdelare, med de nyaste överst.
-                    <ul>
-                        <li>Varje såt-avdelare (t.ex. "Såt 1") är klickbar för att visa/dölja de skott som tillhör just den såten (de som ligger direkt under avdelaren och har samma såt-nummer).</li>
-                        <li>Långa art- och platsnamn för associerade skott klipps av med (...) för att passa på små skärmar.</li>
-                        <li>Klicka på ett skott (ej på avdelaren) för att associera det med ett fällt vilt eller skapa en ny viltrapport.</li>
-                        <li>Du kan markera skott som "Verifierat" i skottlistan.</li>
-                    </ul>
-                </li>
-                <li><strong>Lägg till Fällt Vilt (knapp):</strong> Skapar en ny rapport för ett fällt vilt.</li>
-                <li><strong>Rapportlista (Fällt Vilt):</strong> Visar alla rapporterade fällda vilt. Status för kött är "Fördelat" / "Ej fördelat". Långa texter i listan klipps av (...). Klicka på raden för att se detaljer.</li>
-                <li><strong>Visa Detaljer (modal):</strong> Detaljerad vy för ett fällt vilt. Rubriken visar en ikon (första bokstaven i art) och viltslagets namn. Köttfördelningsstatus visas med ikon före text. Längst ner finns en lista över "Skott mot Viltet" med deras såt-information (verifieringsstatus visas ej här). Knapparna längst ner heter "Ta bort" och "Redigera".</li>
-                <li><strong>Visa rapport (knapp):</strong> Öppnar en vy "Rapport Köttfördelning". Listar vilt med köttfördelning, grupperat ("Till Slakteri" först, sedan "Övrig Fördelning") och sorterat på viltslag och sedan fördelningstext. Visar även dagens datum. Innehåller knappar för "Kopiera text" och "Dela rapport".</li>
-                <li><strong>Spara full rapport (knapp):</strong> Exporterar en CSV-fil med detaljerad information om alla fällda vilt, inklusive data om associerade skott (tid, verifieringsstatus och såt-nummer, där skott som ännu inte tilldelats en färdig såt kommer att ha såt-nummer 0 eller en beskrivande text).</li>
-                <li><strong>Köttfördelning:</strong> Anges när du skapar/redigerar en viltrapport. Nya snabbval finns nu!</li>
-                <li><strong>Rensa Allt/Övrigt:</strong> Som tidigare. Knapparna ligger nu under varandra.</li>
-            </ol>
-            <h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare (localStorage). Ingen data skickas till någon server.</p>`; } 
+        function openHelpOverlay() { 
+            if (!helpOverlay) return; 
+            const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
+            if (helpContent) { 
+                 helpContent.innerHTML = `<h4>Grundläggande Användning (V5.4 - Läslighet & Pilar)</h4>
+                <p>Ytterligare UI-justeringar för bättre läsbarhet och tydligare interaktionselement.</p>
+                <p><strong>Navigering:</strong> Använd tabbarna "Skott", "Fällt Vilt" och "Rapporter & Admin" högst upp.</p>
+                <ol>
+                    <li><strong>Fliken "Skott":</strong>
+                        <ul>
+                            <li><strong>Ny Såt (knapp):</strong> Avslutar pågående "grupp" av skott, skapar avdelare (t.ex. "Såt 1") ovanför dem.</li>
+                            <li><strong>Skottlistan:</strong> Hopfällda såtar (►) och expanderade såtar (▼) använder nu CSS-genererade pilar som är visuellt lika stora och tydliga.</li>
+                        </ul>
+                    </li>
+                     <li><strong>Fliken "Fällt Vilt" & "Rapporter & Admin":</strong> All text i modalfönster (overlays) är nu korrekt ljus mot den mörka bakgrunden i appens mörka tema, vilket förbättrar läsbarheten avsevärt.</li>
+                    <li><strong>Generellt Tabb-utseende:</strong> Aktiv tabb är tydligt markerad med en bakgrund som matchar innehållsytan och kontrasterande text. Hover-effekten på den aktiva tabben har tagits bort för att undvika förvirring. Inaktiva tabbar har en subtil hover-effekt.</li>
+                </ol>
+                <h4>Datahantering</h4><p>All data sparas lokalt i din webbläsare.</p>`;
+            } 
             closeAllOverlays(helpOverlay); helpOverlay.style.display = 'flex'; document.body.classList.add('overlay-open'); 
         }
         function closeHelpOverlay() { if (helpOverlay) helpOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
