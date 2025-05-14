@@ -93,7 +93,7 @@
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             margin: 0; 
-            /* Flyttad padding härifrån */
+            padding: 10px; /* Återinförd padding här */
             background-color: var(--bg-color); 
             color: var(--text-color); 
             font-size: 16px; 
@@ -102,14 +102,14 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            box-sizing: border-box; /* Viktigt när body har padding och min-height: 100vh */
         }
         body.overlay-open { overflow: hidden; }
         .container { 
             max-width: 700px; 
-            /* Justerad margin, och padding flyttad hit */
-            margin: 10px auto; /* Behåll vertikal marginal, auto för horisontell centrering */
+            margin: 0 auto; /* Vertikal marginal sätts inte här, auto för horisontell centrering inom body:s padding */
             background-color: var(--surface-bg-color); 
-            padding: 10px; /* Padding appliceras nu inuti container-kortet */
+            padding: 0; /* Borttagen padding här, hanteras nu av body och element inuti */
             border-radius: 8px; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
             position: relative; 
@@ -118,40 +118,36 @@
             flex-grow: 1;
             display: flex; 
             flex-direction: column;
-            width: 100%; /* Fyll tillgänglig bredd, max-width begränsar */
-            box-sizing: border-box; /* Se till att padding inkluderas i width */
+            width: 100%; 
         }
         .app-title-bar {
             background-color: var(--primary-color);
             color: var(--primary-text-color);
-            padding: 12px 15px; 
+            padding: 12px 15px; /* Tillbaka till original-padding */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* Kontra container-paddingen för att fylla */
-            margin: -10px -10px 0 -10px; 
-            border-top-left-radius: inherit; /* Ärva från container */
-            border-top-right-radius: inherit;/* Ärva från container */
-            margin-bottom: 10px; /* Lägg till lite space till tab-nav */
+            /* Negativa marginaler borttagna */
+             border-top-left-radius: 8px; /* Matcha container's radius */
+             border-top-right-radius: 8px; /* Matcha container's radius */
+            margin-bottom: 0; 
         }
         .app-title-bar h1 {
             color: var(--primary-text-color);
             text-align: left;
             margin: 0;
             font-size: 1.4em; 
-            /* Added for robustness in flex layout */
-            flex-grow: 0; /* Do not allow title to grow excessively */
-            flex-shrink: 1; /* Allow title to shrink if necessary, but prioritize actions container */
-            white-space: nowrap; /* Prevent title from wrapping to multiple lines */
-            overflow: hidden; /* Hide overflowing text if title is too long */
-            text-overflow: ellipsis; /* Display '...' for hidden overflow */
+            flex-grow: 0; 
+            flex-shrink: 1; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
         }
         .app-header-actions-container {
             display: flex;
             align-items: center;
             gap: 5px;
-            /* Added for robustness */
-            flex-shrink: 0; /* Crucial: Prevent this container of icons from shrinking */
+            flex-shrink: 0; 
         }
          .app-header-actions-container .icon-button { 
             background-color: transparent !important; 
@@ -177,9 +173,7 @@
             border-bottom: 1px solid var(--border-color); 
             position: relative;
             padding: 0 5px; /* Original padding */
-            /* Eventuellt justera marginaler om container nu har padding */
-            margin-left: -10px;
-            margin-right: -10px;
+            /* Negativa marginaler borttagna */
         }
         .tab-button {
             flex-grow: 1;
@@ -222,12 +216,11 @@
             cursor: default; 
         }
         .tab-content {
-            padding: 15px; /* Detta är padding INUTI tab-content området */
+            padding: 15px; 
             background-color: var(--surface-bg-color); 
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            /* Ingen ändring av padding här nödvändigtvis om det ska vara 15px från tab-content kanten */
         }
 
 
