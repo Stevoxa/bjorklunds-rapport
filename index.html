@@ -450,6 +450,21 @@
             height: 100%; 
         }
 
+        /* CSS för customConfirmModal och customAlertModal */
+        #customConfirmModal .overlay-scrollable-content,
+        #customAlertModal .overlay-scrollable-content {
+            margin-bottom: 20px; 
+            text-align: center;
+            padding-left: 10px; 
+            padding-right: 10px;
+        }
+        #customConfirmModal #customConfirmMessage,
+        #customAlertModal #customAlertMessage {
+            margin: 5px 0; 
+            font-size: 1.0em;
+            line-height: 1.4; 
+        }
+
 
         #viewGameDetailsContent .detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--subtle-border-color); align-items: baseline; }
         #viewGameDetailsContent .detail-row[style*="border-bottom: none;"] { border-bottom: none !important; }
@@ -500,7 +515,7 @@
     </style>
 </head>
 <body>
-    <div id="introVideoOverlay" style="display: none;"> <!-- Initialt dold -->
+    <div id="introVideoOverlay" style="display: none;"> 
         <video id="introVideoPlayer" width="100%" height="100%" muted playsinline>
             <source src="videos/intro.mp4" type="video/mp4">
             Din webbläsare stödjer inte video-taggen.
@@ -754,7 +769,6 @@
         </div>
     </div>
     
-    <!-- Anpassad Alert Modal -->
     <div id="customAlertModal" class="content-overlay" style="display: none;">
         <div class="overlay-content-box" style="max-width: 400px;">
             <div class="overlay-header" id="customAlertHeader" style="margin-bottom: 10px; display: none;">
@@ -769,11 +783,29 @@
         </div>
     </div>
 
+    <div id="customConfirmModal" class="content-overlay" style="display: none;">
+        <div class="overlay-content-box" style="max-width: 450px;">
+            <div class="overlay-header" id="customConfirmHeader" style="margin-bottom: 10px;">
+                <h3 id="customConfirmTitle" style="font-size: 1.3em;">Bekräfta åtgärd</h3>
+            </div>
+            <div class="overlay-scrollable-content" style="margin-bottom: 20px; text-align: center; padding-left: 10px; padding-right: 10px;">
+                <p id="customConfirmMessage" style="margin: 5px 0; font-size: 1.0em; line-height: 1.4;"></p>
+            </div>
+            <div style="display:flex; justify-content: space-around; gap: 10px;">
+                <button id="customConfirmCancelBtn" class="button-secondary" style="flex-grow:1;">Avbryt</button>
+                <button id="customConfirmOkBtn" style="flex-grow:1;">OK</button> 
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- DOM ELEMENT REFERENSER ---
         let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
         let introVideoOverlay, introVideoPlayer; 
-        let customAlertModal, customAlertTitle, customAlertHeader, customAlertMessage, customAlertOkBtn; // För anpassad alert
+        let customAlertModal, customAlertTitle, customAlertHeader, customAlertMessage, customAlertOkBtn;
+        let customConfirmModal, customConfirmTitle, customConfirmMessage, customConfirmOkBtn, customConfirmCancelBtn;
+        let currentConfirmCallback = null; 
+        let currentCancelCallback = null; 
 
         // --- GLOBALA VARIABLER ---
         let allReports = [];
@@ -803,11 +835,18 @@
             tabContents = document.querySelectorAll('.tab-content');
             introVideoOverlay = document.getElementById('introVideoOverlay'); 
             introVideoPlayer = document.getElementById('introVideoPlayer'); 
+            
             customAlertModal = document.getElementById('customAlertModal');
             customAlertTitle = document.getElementById('customAlertTitle');
             customAlertHeader = document.getElementById('customAlertHeader'); 
             customAlertMessage = document.getElementById('customAlertMessage');
             customAlertOkBtn = document.getElementById('customAlertOkBtn');
+
+            customConfirmModal = document.getElementById('customConfirmModal');
+            customConfirmTitle = document.getElementById('customConfirmTitle');
+            customConfirmMessage = document.getElementById('customConfirmMessage');
+            customConfirmOkBtn = document.getElementById('customConfirmOkBtn'); // Återanvänd ID för enkelhet (eller byt om det stör)
+            customConfirmCancelBtn = document.getElementById('customConfirmCancelBtn');
 
 
             if (installAppBtn) installAppBtn.style.display = 'none';
@@ -838,12 +877,36 @@
             if (helpOverlayCloseBtn) helpOverlayCloseBtn.addEventListener('click', closeHelpOverlay);
             if (shareOverlayCloseBtn) shareOverlayCloseBtn.addEventListener('click', closeShareOverlay);
             if (saveReportOverlayCloseBtn) saveReportOverlayCloseBtn.addEventListener('click', closeSaveReportOverlay); 
-            if (customAlertOkBtn) {
+            
+            if (customAlertOkBtn) { // For customAlertModal's OK button
                 customAlertOkBtn.addEventListener('click', () => {
                     if (customAlertModal) customAlertModal.style.display = 'none';
                     checkAndCloseBodyOverlay(); 
                 });
             }
+            if (customConfirmOkBtn) { // For customConfirmModal's OK button
+                customConfirmOkBtn.addEventListener('click', () => {
+                    if (customConfirmModal) customConfirmModal.style.display = 'none';
+                    checkAndCloseBodyOverlay();
+                    if (typeof currentConfirmCallback === 'function') {
+                        currentConfirmCallback(); 
+                    }
+                    currentConfirmCallback = null; 
+                    currentCancelCallback = null;  
+                });
+            }
+            if (customConfirmCancelBtn) { // For customConfirmModal's Avbryt button
+                customConfirmCancelBtn.addEventListener('click', () => {
+                    if (customConfirmModal) customConfirmModal.style.display = 'none';
+                    checkAndCloseBodyOverlay();
+                    if (typeof currentCancelCallback === 'function') {
+                        currentCancelCallback(); 
+                    }
+                    currentConfirmCallback = null; 
+                    currentCancelCallback = null;  
+                });
+            }
+
             if (copyMeatReportBtn) copyMeatReportBtn.addEventListener('click', handleCopyMeatReport); 
             if (shareMeatReportBtn) shareMeatReportBtn.addEventListener('click', handleShareMeatReport); 
             if(meatRecipientNameInput) meatRecipientNameInput.addEventListener('input', updateMeatDistributionTextarea);
@@ -852,11 +915,11 @@
             if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.error('SW reg failed:', err)); }
         });
 
-        // --- Anpassad Alert Funktion ---
+        // --- Anpassade Meddelandefunktioner ---
         function showCustomAlert(message, title) { 
             if (!customAlertModal || !customAlertTitle || !customAlertMessage || !customAlertHeader) {
-                console.warn("Custom alert elements not found, falling back to native alert.");
-                alert(message); 
+                console.error("Custom alert DOM elements missing. Falling back to native alert.");
+                alert((title ? title + "\n\n" : "") + message); 
                 return;
             }
 
@@ -873,6 +936,29 @@
             document.body.classList.add('overlay-open');
             if(customAlertOkBtn) customAlertOkBtn.focus(); 
         }
+
+        function showCustomConfirm(message, title, onConfirm, onCancel) {
+            if (!customConfirmModal || !customConfirmTitle || !customConfirmMessage || !customConfirmOkBtn || !customConfirmCancelBtn) {
+                console.error("Custom confirm DOM elements missing. Falling back to native confirm.");
+                if (confirm((title ? title + "\n\n" : "") + message)) { // Använd webbläsarens confirm som fallback
+                    if (onConfirm) onConfirm();
+                } else {
+                    if (onCancel) onCancel();
+                }
+                return;
+            }
+
+            customConfirmTitle.textContent = title || "Bekräfta åtgärd";
+            customConfirmMessage.innerHTML = message;
+            currentConfirmCallback = onConfirm;
+            currentCancelCallback = onCancel;
+            
+            closeAllOverlays(customConfirmModal);
+            customConfirmModal.style.display = 'flex';
+            document.body.classList.add('overlay-open');
+            if (customConfirmOkBtn) customConfirmOkBtn.focus();
+        }
+
 
         // --- Tabbhantering ---
         function initializeTabs() {
@@ -1334,7 +1420,10 @@
                     delBtn.className = 'icon-button delete-btn'; 
                     delBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`; 
                     delBtn.title = "Ta bort skott"; 
-                    delBtn.onclick = (e) => { e.stopPropagation(); handleDeleteItem(item.id, 'shot'); }; 
+                    delBtn.onclick = (e) => { 
+                        e.stopPropagation(); 
+                        handleDeleteItem(item.id, 'shot'); 
+                    }; 
                     shotActionsDiv.appendChild(delBtn); 
                     
                     li.appendChild(shotInfoDiv); 
@@ -1461,64 +1550,78 @@
             document.body.classList.add('overlay-open');
         }
         function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function handleEditFromViewModal() { const gameReportId = parseInt(this.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); }
-        function handleDeleteFromViewModal() { const gameReportId = parseInt(this.dataset.reportId); closeViewGameModal(); handleDeleteItem(gameReportId, 'game'); }
+        function handleEditFromViewModal() { const gameReportId = parseInt(viewGameDeleteBtn.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); } //Rättat viewGameEditBtn.dataset.reportId
+        function handleDeleteFromViewModal() { 
+            const gameReportId = parseInt(viewGameDeleteBtn.dataset.reportId); 
+            closeViewGameModal(); 
+            handleDeleteItem(gameReportId, 'game'); 
+        }
         
         // --- Borttagning (Generell) ---
         function handleDeleteItem(itemId, itemType) {
             const itemIndex = allReports.findIndex(r => r.id === itemId && r.itemType === itemType);
-            if (itemIndex === -1) { console.error(`Kunde inte hitta ${itemType} med ID ${itemId} för borttagning.`); return; }
+            if (itemIndex === -1) { 
+                showCustomAlert(`Kunde inte hitta ${itemType} med ID ${itemId} för borttagning.`, "Fel");
+                return; 
+            }
             
             const itemToDelete = allReports[itemIndex];
-            let confirmMsg = `Ta bort detta ${itemType === 'shot' ? 'skott' : (itemType === 'saaterDivider' ? 'såt-avdelare' : 'fällda vilt')}?`;
+            let confirmMsg = `Vill du verkligen ta bort detta ${itemType === 'shot' ? 'skott' : (itemType === 'saaterDivider' ? 'såt-avdelare' : 'fällda vilt')}?`;
+            let confirmTitle = `Bekräfta Borttagning`;
 
             if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
-                confirmMsg = "Detta skott är associerat med ett fällt vilt. Ta bort skottet och dess association?";
+                confirmMsg = "Detta skott är associerat med ett fällt vilt.<br>Vill du ta bort skottet och dess association?";
             } else if (itemType === 'game' && itemToDelete.felledGameDetails.linkedShotIds?.length > 0) {
-                confirmMsg = "Detta fällda vilt har associerade skott. Ta bort viltet och alla associationer till det?";
+                confirmMsg = "Detta fällda vilt har associerade skott.<br>Vill du ta bort viltet och alla associationer till det?";
             } else if (itemType === 'saaterDivider') {
-                confirmMsg = `Ta bort Såt ${itemToDelete.saaterNumber}? Alla skott som tillhör denna såt kommer inte längre att vara markerade med detta såtnummer (de får såt-nummer 0). Detta kan inte enkelt ångras.`;
+                confirmMsg = `Ta bort Såt ${itemToDelete.saaterNumber}? Alla skott som tillhör denna såt kommer inte längre att vara markerade med detta såtnummer (de får såt-nummer 0).<br>Detta kan inte enkelt ångras.`;
             }
 
-            if (confirm(confirmMsg)) {
-                if (itemType === 'saaterDivider') {
-                    const saaterNumToDelete = itemToDelete.saaterNumber;
-                    allReports.splice(itemIndex, 1); 
-                    allReports.forEach(r => {
-                        if (r.itemType === 'shot' && r.saater === saaterNumToDelete) {
-                            r.saater = 0;
-                        }
-                    });
-                    delete saaterStates[`saater_${saaterNumToDelete}`];
-                    const remainingSaaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
-                    if (remainingSaaterDividers.length > 0) {
-                        nextSaaterToAssign = Math.max(0, ...remainingSaaterDividers.map(d => d.saaterNumber)) + 1;
-                    } else {
-                        nextSaaterToAssign = 1; 
-                    }
-
-                } else { 
-                    allReports.splice(itemIndex, 1);
-                    if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
-                        const game = allReports.find(g => g.itemType === 'game' && g.id === itemToDelete.linkedGameReportId);
-                        if (game && game.felledGameDetails.linkedShotIds) {
-                            game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== itemId);
-                        }
-                    } else if (itemType === 'game') {
-                        const linkedShotIds = itemToDelete.felledGameDetails.linkedShotIds || [];
-                        linkedShotIds.forEach(shotId => {
-                            const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
-                            if (shot) {
-                                shot.linkedGameReportId = null;
+            showCustomConfirm(confirmMsg, confirmTitle, 
+                () => { // onConfirm callback
+                    if (itemType === 'saaterDivider') {
+                        const saaterNumToDelete = itemToDelete.saaterNumber;
+                        allReports.splice(itemIndex, 1); 
+                        allReports.forEach(r => {
+                            if (r.itemType === 'shot' && r.saater === saaterNumToDelete) {
+                                r.saater = 0;
                             }
                         });
+                        delete saaterStates[`saater_${saaterNumToDelete}`];
+                        const remainingSaaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
+                        if (remainingSaaterDividers.length > 0) {
+                            nextSaaterToAssign = Math.max(0, ...remainingSaaterDividers.map(d => d.saaterNumber)) + 1;
+                        } else {
+                            nextSaaterToAssign = 1; 
+                        }
+
+                    } else { 
+                        allReports.splice(itemIndex, 1);
+                        if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
+                            const game = allReports.find(g => g.itemType === 'game' && g.id === itemToDelete.linkedGameReportId);
+                            if (game && game.felledGameDetails.linkedShotIds) {
+                                game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== itemId);
+                            }
+                        } else if (itemType === 'game') {
+                            const linkedShotIds = itemToDelete.felledGameDetails.linkedShotIds || [];
+                            linkedShotIds.forEach(shotId => {
+                                const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
+                                if (shot) {
+                                    shot.linkedGameReportId = null;
+                                }
+                            });
+                        }
                     }
+                    saveAllDataToLocalStorage();
+                    renderShotLogList();
+                    renderFelledGameReportList();
+                    console.log(`Tog bort ${itemType} med ID ${itemId}`);
+                    // Ingen showCustomAlert här längre
+                },
+                () => { // onCancel callback
+                    console.log(`Borttagning av ${itemType} med ID ${itemId} avbröts.`);
                 }
-                saveAllDataToLocalStorage();
-                renderShotLogList();
-                renderFelledGameReportList();
-                console.log(`Tog bort ${itemType} med ID ${itemId}`);
-            }
+            );
         }
         
         // --- "Visa Rapport" (Köttfördelning) Funktioner ---
@@ -1558,6 +1661,7 @@
             meatDistributionReportList.innerHTML = '';
             if (sortedMeatReports.length === 0) {
                 noMeatDistributionReportsInfo.style.display = 'block';
+                 noMeatDistributionReportsInfo.textContent = "Ingen köttfördelning rapporterad ännu."; 
             } else {
                 noMeatDistributionReportsInfo.style.display = 'none';
                 let currentGroup = null; 
@@ -1837,20 +1941,29 @@
 
 
         function handleClearAllData() { 
-            if(confirm("Är du säker på att du vill starta en ny jakt och rensa ALL data? Detta kan inte ångras.")){ 
-                allReports=[];
-                nextSaaterToAssign = 1; 
-                saaterStates = {}; 
-                saveAllDataToLocalStorage(); 
-                
-                localStorage.removeItem(LAST_INTRO_VIDEO_SHOWN_KEY); 
-                checkAndPlayIntroVideo(true); 
+            showCustomConfirm(
+                "Är du säker på att du vill starta en ny jakt och rensa ALL data?<br>Detta kan inte ångras.", 
+                "Rensa All Data",
+                () => { // onConfirm
+                    allReports=[];
+                    nextSaaterToAssign = 1; 
+                    saaterStates = {}; 
+                    saveAllDataToLocalStorage(); 
+                    
+                    localStorage.removeItem(LAST_INTRO_VIDEO_SHOWN_KEY); 
+                    checkAndPlayIntroVideo(true); 
 
-                renderShotLogList(); 
-                renderFelledGameReportList(); 
-                activateTab('shotTab'); 
-            } 
+                    renderShotLogList(); 
+                    renderFelledGameReportList(); 
+                    activateTab('shotTab'); 
+                    // Ingen custom alert här om att data rensats
+                },
+                () => { // onCancel
+                    console.log("Rensning av data avbröts.");
+                }
+            );
         }
+
         function openHelpOverlay() { 
             if (!helpOverlay) return; 
             const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
@@ -1955,8 +2068,9 @@
         function generateQRCode() { if(!qrCodeContainer||"undefined"==typeof QRious)return void(qrCodeContainer&&(qrCodeContainer.textContent="QR-kod kunde inte laddas.")); qrCodeContainer.innerHTML=""; let canvas=document.createElement("canvas"); try{ new QRious({element:canvas,value:appURL,size:188,padding:5,level:"H",background:"white",foreground:"black"}); if(canvas.width>0) qrCodeContainer.appendChild(canvas); else qrCodeContainer.textContent="Fel vid QR-generering."; if(shareableLink){shareableLink.href=appURL;shareableLink.textContent=appURL} }catch(t){qrCodeContainer.textContent="Kunde inte generera QR-kod."} }
         function openShareOverlay() { if (!shareOverlay) return; closeAllOverlays(shareOverlay); generateQRCode(); shareOverlay.style.display = 'flex'; document.body.classList.add('overlay-open');}
         function closeShareOverlay() { if (shareOverlay) shareOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
+        
         function closeAllOverlays(keepOpenOverlay = null) {
-            [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay, customAlertModal].forEach(o => { 
+            [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay, customAlertModal, customConfirmModal].forEach(o => { 
                 if (o && o !== keepOpenOverlay) o.style.display = 'none';
             });
             if (keepOpenOverlay === null) { 
@@ -1974,7 +2088,8 @@
                                     (helpOverlay && helpOverlay.style.display === 'flex') || 
                                     (shareOverlay && shareOverlay.style.display === 'flex') || 
                                     (saveReportOverlay && saveReportOverlay.style.display === 'flex') ||
-                                    (customAlertModal && customAlertModal.style.display === 'flex'); 
+                                    (customAlertModal && customAlertModal.style.display === 'flex') ||
+                                    (customConfirmModal && customConfirmModal.style.display === 'flex'); 
 
             if (!isIntroVideoVisible && !anyOtherModalOpen && document.body.classList.contains('overlay-open')) {
                 document.body.classList.remove('overlay-open');
@@ -1986,4 +2101,4 @@
 
     </script>
 </body>
-</html> 
+</html>
