@@ -90,10 +90,12 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; } /* Ensure html and body can expand */
+
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             margin: 0; 
-            padding: 10px; /* Återinförd padding här */
+            padding: 0; /* Ingen padding på body */
             background-color: var(--bg-color); 
             color: var(--text-color); 
             font-size: 16px; 
@@ -101,36 +103,23 @@
             transition: background-color 0.3s ease, color 0.3s ease; 
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            box-sizing: border-box; /* Viktigt när body har padding och min-height: 100vh */
+            min-height: 100vh; /* Body tar minst upp hela skärmhöjden */
         }
         body.overlay-open { overflow: hidden; }
-        .container { 
-            max-width: 700px; 
-            margin: 0 auto; /* Vertikal marginal sätts inte här, auto för horisontell centrering inom body:s padding */
-            background-color: var(--surface-bg-color); 
-            padding: 0; /* Borttagen padding här, hanteras nu av body och element inuti */
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-            position: relative; 
-            transition: background-color 0.3s ease;
-            overflow: hidden; 
-            flex-grow: 1;
-            display: flex; 
-            flex-direction: column;
-            width: 100%; 
-        }
+        
+        /* Borttaget .container block helt för huvudvy-styling. CSS för .container är inte relevant här längre. */
+        /* Modaler använder sin egen .overlay-content-box som är lik en container */
+
         .app-title-bar {
             background-color: var(--primary-color);
             color: var(--primary-text-color);
-            padding: 12px 15px; /* Tillbaka till original-padding */
+            padding: 12px 15px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* Negativa marginaler borttagna */
-             border-top-left-radius: 8px; /* Matcha container's radius */
-             border-top-right-radius: 8px; /* Matcha container's radius */
-            margin-bottom: 0; 
+            border-radius: 0; /* Inga rundade hörn */
+            width: 100%; /* Fyll hela bredden */
+            flex-shrink: 0; /* Förhindra att title-bar krymper */
         }
         .app-title-bar h1 {
             color: var(--primary-text-color);
@@ -171,9 +160,10 @@
             display: flex;
             background-color: var(--tab-inactive-bg); 
             border-bottom: 1px solid var(--border-color); 
-            position: relative;
-            padding: 0 5px; /* Original padding */
-            /* Negativa marginaler borttagna */
+            position: relative; /* Behålls för active tab's z-index etc. */
+            padding: 0 5px; /* Intern padding för tab-knappar, ej för hela nav */
+            width: 100%; /* Fyll hela bredden */
+            flex-shrink: 0; /* Förhindra att tabs-nav krymper */
         }
         .tab-button {
             flex-grow: 1;
@@ -187,7 +177,7 @@
             text-align: center;
             transition: background-color 0.2s ease, color 0.2s ease;
             font-family: inherit;
-            border-top-left-radius: 5px;
+            border-top-left-radius: 5px; /* Behåll dessa för knapparnas estetik */
             border-top-right-radius: 5px; 
             margin-top: 1px; 
             border-bottom: none; 
@@ -216,11 +206,12 @@
             cursor: default; 
         }
         .tab-content {
-            padding: 15px; 
+            padding: 15px; /* Intern padding för innehållet i tabben */
             background-color: var(--surface-bg-color); 
-            flex-grow: 1;
-            display: flex;
+            flex-grow: 1; /* Tar upp resten av höjden */
+            display: flex; /* För att dess barn ska kunna layoutas (t.ex. om listan ska scrolla) */
             flex-direction: column;
+            width: 100%; /* Fyll hela bredden */
         }
 
 
@@ -366,51 +357,51 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="app-title-bar">
-            <h1>Björklunds Rapport</h1>
-            <div class="app-header-actions-container">
-                <button id="themeToggleBtn" class="icon-button" title="Växla tema">
-                    <svg id="themeIconMoon" viewBox="0 0 24 24" style="display: none;"><path d="M12 1.993C11.419 1.993 10.847 2.022 10.285 2.076C5.262 2.58 1.993 6.832 1.993 11.999C1.993 17.635 6.365 22 11.999 22C16.957 22 21.145 18.053 21.904 13.269C21.951 12.989 21.979 12.705 21.993 12.416C21.964 12.393 21.938 12.372 21.911 12.353C16.334 11.653 12.707 7.586 12.085 1.993H12Z"/></svg>
-                    <svg id="themeIconSun" viewBox="0 0 16 16" style="display: block;"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>
-                </button>
-                <button id="helpBtn" class="icon-button" title="Hjälp"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z"/></svg></button>
-                <button id="shareBtn" class="icon-button" title="Dela appen"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.81C7.5 8.31 6.79 8 6 8c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg></button>
-                <button id="installAppBtn" class="icon-button" title="Installera appen" style="display: none;"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></button>
-            </div>
+    <!-- Container div är borttagen härifrån -->
+    <div class="app-title-bar">
+        <h1>Björklunds Rapport</h1>
+        <div class="app-header-actions-container">
+            <button id="themeToggleBtn" class="icon-button" title="Växla tema">
+                <svg id="themeIconMoon" viewBox="0 0 24 24" style="display: none;"><path d="M12 1.993C11.419 1.993 10.847 2.022 10.285 2.076C5.262 2.58 1.993 6.832 1.993 11.999C1.993 17.635 6.365 22 11.999 22C16.957 22 21.145 18.053 21.904 13.269C21.951 12.989 21.979 12.705 21.993 12.416C21.964 12.393 21.938 12.372 21.911 12.353C16.334 11.653 12.707 7.586 12.085 1.993H12Z"/></svg>
+                <svg id="themeIconSun" viewBox="0 0 16 16" style="display: block;"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>
+            </button>
+            <button id="helpBtn" class="icon-button" title="Hjälp"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z"/></svg></button>
+            <button id="shareBtn" class="icon-button" title="Dela appen"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.81C7.5 8.31 6.79 8 6 8c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg></button>
+            <button id="installAppBtn" class="icon-button" title="Installera appen" style="display: none;"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></button>
         </div>
-
-        <nav class="tabs-nav">
-            <button class="tab-button active" data-tab="shotTab">Skott</button>
-            <button class="tab-button" data-tab="gameTab">Fällt vilt</button>
-            <button class="tab-button" data-tab="adminTab">Rapporter & admin</button>
-        </nav>
-
-        <section id="shotTab" class="tab-content">
-            <h2>Snabbregistrera Skott</h2>
-            <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 10px;">Avlossat skott</button>
-            <button id="newSaaterBtn" style="width:100%; font-size: 1.1em; padding: 12px;" class="button-secondary" disabled>Ny såt</button>
-            <ul id="shotLogList"></ul>
-            <p id="noLoggedShotsInfo" class="info-text" style="display: block;">Inga skott loggade ännu.</p>
-        </section>
-
-        <section id="gameTab" class="tab-content" style="display: none;">
-            <h2>Rapportera Fällt Vilt</h2>
-            <button id="addFelledGameBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 15px;">Lägg till</button>
-            <ul id="reportList"></ul>
-            <p id="noReportsInfo" class="info-text" style="display: block;">Inget fält vilt rapporterat ännu.</p>
-        </section>
-
-        <section id="adminTab" class="tab-content" style="display: none;">
-            <h2>Rapporter & Administration</h2>
-            <div class="bottom-actions">
-                <button id="viewMeatReportBtn" class="button-secondary">Visa köttfördelning</button>
-                <button id="exportFullGameReportBtn" class="button-secondary">Spara fullständig CSV-rapport</button>
-                <hr style="margin: 10px 0;">
-                <button id="clearAllDataBtn" class="button-secondary">Påbörja ny jakt / Rensa all data</button>
-            </div>
-        </section>
     </div>
+
+    <nav class="tabs-nav">
+        <button class="tab-button active" data-tab="shotTab">Skott</button>
+        <button class="tab-button" data-tab="gameTab">Fällt vilt</button>
+        <button class="tab-button" data-tab="adminTab">Rapporter & admin</button>
+    </nav>
+
+    <section id="shotTab" class="tab-content">
+        <h2>Snabbregistrera Skott</h2>
+        <button id="logShotBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 10px;">Avlossat skott</button>
+        <button id="newSaaterBtn" style="width:100%; font-size: 1.1em; padding: 12px;" class="button-secondary" disabled>Ny såt</button>
+        <ul id="shotLogList"></ul>
+        <p id="noLoggedShotsInfo" class="info-text" style="display: block;">Inga skott loggade ännu.</p>
+    </section>
+
+    <section id="gameTab" class="tab-content" style="display: none;">
+        <h2>Rapportera Fällt Vilt</h2>
+        <button id="addFelledGameBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 15px;">Lägg till</button>
+        <ul id="reportList"></ul>
+        <p id="noReportsInfo" class="info-text" style="display: block;">Inget fält vilt rapporterat ännu.</p>
+    </section>
+
+    <section id="adminTab" class="tab-content" style="display: none;">
+        <h2>Rapporter & Administration</h2>
+        <div class="bottom-actions">
+            <button id="viewMeatReportBtn" class="button-secondary">Visa köttfördelning</button>
+            <button id="exportFullGameReportBtn" class="button-secondary">Spara fullständig CSV-rapport</button>
+            <hr style="margin: 10px 0;">
+            <button id="clearAllDataBtn" class="button-secondary">Påbörja ny jakt / Rensa all data</button>
+        </div>
+    </section>
+    <!-- Container div slutar här -->
 
     <!-- Modal för att lägga till/redigera Fällt Vilt -->
     <div id="addGameModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="gameModalTitle">Fällt Vilt</h3> <button id="cancelGameModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="currentShotLogIdInput"> <input type="hidden" id="triggeringShotIdInput"> <div class="form-group"> <label for="gameSpeciesInput">Viltslag:</label> <select id="gameSpeciesInput"> <option value="">-- Välj --</option><option value="Dovhjort kapital">Dovhjort kapital</option><option value="Dovhjort">Dovhjort</option> <option value="Dovhind">Dovhind</option><option value="Dovspets">Dovspets</option><option value="Dovkalv">Dovkalv</option><option value="Kronhjort kapital">Kronhjort kapital</option><option value="Kronhjort">Kronhjort</option><option value="Kronhind">Kronhind</option><option value="Kronspets">Kronspets</option><option value="Kronkalv">Kronkalv</option><option value="Rådjursbock">Rådjursbock</option><option value="Rådjur">Rådjur</option><option value="Vildsvin">Vildsvin</option><option value="Älgtjur">Älgtjur</option><option value="Älgko">Älgko</option><option value="Älgkalv">Älgkalv</option><option value="Räv">Räv</option><option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> <button id="speakShooterBtn" class="icon-button speech-button button-secondary" title="Tala in skytt"> <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.58 14.34 14.5 16 12 16s-4.58-1.66-4.93-4.15a1 1 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14C5.55 15.18 8.41 17 12 17s6.45-1.82 6.91-4.86c.09-.6-.39-1.14-1-1.14z"/><path d="M12 19c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg> </button> </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> <hr style="margin: 15px 0;"><h4>Köttfördelning</h4> <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> 
