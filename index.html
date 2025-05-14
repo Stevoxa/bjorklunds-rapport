@@ -464,6 +464,12 @@
             font-size: 1.0em;
             line-height: 1.4; 
         }
+        #saveReportOverlay #reportDateDisplay {
+            font-style: italic; 
+            margin-top: 5px; /* Justerat från -10px */
+            margin-bottom: 15px; 
+            color: var(--secondary-text-color);
+        }
 
 
         #viewGameDetailsContent .detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--subtle-border-color); align-items: baseline; }
@@ -590,7 +596,7 @@
 <option value="Annat">Annat</option> </select> </div> <div class="form-group"> <label for="gameShooterInput">Skytt:</label> <div class="input-group"> <input type="text" id="gameShooterInput" placeholder="Skyttens namn"> 
  </div> </div> <div class="form-group"> <label for="gamePassLocationInput">Pass/Plats:</label> <input type="text" id="gamePassLocationInput" placeholder="T.ex. Pass 7"> </div> <div class="form-group"> <label for="gameReportTimeInput">Tid för rapport/hantering:</label> <input type="time" id="gameReportTimeInput"> </div> 
  <hr style="margin-top: 25px; margin-bottom: 15px;"><h4>Köttfördelning</h4> 
- <div class="form-group"> <label for="meatRecipientNameInput">Namn (frivilligt):</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Kalle Anka"> </div> 
+ <div class="form-group"> <label for="meatRecipientNameInput">Namn:</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Sven Svensson"> </div> 
             <div class="form-group">
                 <label for="meatQuickChoiceSelect">Snabbval:</label>
                 <select id="meatQuickChoiceSelect">
@@ -758,7 +764,7 @@
                 </button>
             </div>
             <div class="overlay-scrollable-content">
-                <p id="reportDateDisplay" style="font-style: italic; margin-top: -10px; margin-bottom: 15px; color: var(--secondary-text-color);"></p>
+                <p id="reportDateDisplay" style="font-style: italic; margin-top: 5px; margin-bottom: 15px; color: var(--secondary-text-color);"></p>
                 <ul id="meatDistributionReportList" style="list-style-type: none; padding: 0;"></ul>
                 <p id="noMeatDistributionReportsInfo" class="info-text" style="display: none;">Ingen köttfördelning rapporterad ännu.</p>
             </div>
@@ -774,8 +780,8 @@
             <div class="overlay-header" id="customAlertHeader" style="margin-bottom: 10px; display: none;">
                 <h3 id="customAlertTitle" style="font-size: 1.3em;">Meddelande</h3>
             </div>
-            <div class="overlay-scrollable-content" style="margin-bottom: 15px; text-align: center;">
-                <p id="customAlertMessage" style="margin: 5px 0; font-size: 1.0em;"></p>
+            <div class="overlay-scrollable-content" style="margin-bottom: 15px; text-align: center; padding-left: 10px; padding-right: 10px;">
+                <p id="customAlertMessage" style="margin: 5px 0; font-size: 1.0em; line-height: 1.4;"></p>
             </div>
             <div style="display:flex; justify-content: center;">
                 <button id="customAlertOkBtn" style="min-width: 100px;">OK</button>
@@ -845,7 +851,7 @@
             customConfirmModal = document.getElementById('customConfirmModal');
             customConfirmTitle = document.getElementById('customConfirmTitle');
             customConfirmMessage = document.getElementById('customConfirmMessage');
-            customConfirmOkBtn = document.getElementById('customConfirmOkBtn'); // Återanvänd ID för enkelhet (eller byt om det stör)
+            customConfirmOkBtn = document.getElementById('customConfirmOkBtn'); 
             customConfirmCancelBtn = document.getElementById('customConfirmCancelBtn');
 
 
@@ -878,24 +884,28 @@
             if (shareOverlayCloseBtn) shareOverlayCloseBtn.addEventListener('click', closeShareOverlay);
             if (saveReportOverlayCloseBtn) saveReportOverlayCloseBtn.addEventListener('click', closeSaveReportOverlay); 
             
-            if (customAlertOkBtn) { // For customAlertModal's OK button
+            if (customAlertOkBtn) { 
                 customAlertOkBtn.addEventListener('click', () => {
                     if (customAlertModal) customAlertModal.style.display = 'none';
                     checkAndCloseBodyOverlay(); 
                 });
             }
-            if (customConfirmOkBtn) { // For customConfirmModal's OK button
-                customConfirmOkBtn.addEventListener('click', () => {
-                    if (customConfirmModal) customConfirmModal.style.display = 'none';
-                    checkAndCloseBodyOverlay();
-                    if (typeof currentConfirmCallback === 'function') {
-                        currentConfirmCallback(); 
-                    }
-                    currentConfirmCallback = null; 
-                    currentCancelCallback = null;  
-                });
+            if (customConfirmOkBtn && customConfirmModal) { // Check if it's the OK for confirm
+                 // Find the OK button within the customConfirmModal
+                const confirmOkButton = customConfirmModal.querySelector('#customConfirmOkBtn');
+                if(confirmOkButton) {
+                    confirmOkButton.addEventListener('click', () => {
+                        if (customConfirmModal) customConfirmModal.style.display = 'none';
+                        checkAndCloseBodyOverlay();
+                        if (typeof currentConfirmCallback === 'function') {
+                            currentConfirmCallback(); 
+                        }
+                        currentConfirmCallback = null; 
+                        currentCancelCallback = null;  
+                    });
+                }
             }
-            if (customConfirmCancelBtn) { // For customConfirmModal's Avbryt button
+            if (customConfirmCancelBtn) { 
                 customConfirmCancelBtn.addEventListener('click', () => {
                     if (customConfirmModal) customConfirmModal.style.display = 'none';
                     checkAndCloseBodyOverlay();
@@ -917,7 +927,7 @@
 
         // --- Anpassade Meddelandefunktioner ---
         function showCustomAlert(message, title) { 
-            if (!customAlertModal || !customAlertTitle || !customAlertMessage || !customAlertHeader) {
+            if (!customAlertModal || !customAlertTitle || !customAlertMessage || !customAlertHeader || !customAlertOkBtn) {
                 console.error("Custom alert DOM elements missing. Falling back to native alert.");
                 alert((title ? title + "\n\n" : "") + message); 
                 return;
@@ -934,13 +944,13 @@
             closeAllOverlays(customAlertModal); 
             customAlertModal.style.display = 'flex';
             document.body.classList.add('overlay-open');
-            if(customAlertOkBtn) customAlertOkBtn.focus(); 
+            customAlertOkBtn.focus(); 
         }
 
         function showCustomConfirm(message, title, onConfirm, onCancel) {
             if (!customConfirmModal || !customConfirmTitle || !customConfirmMessage || !customConfirmOkBtn || !customConfirmCancelBtn) {
                 console.error("Custom confirm DOM elements missing. Falling back to native confirm.");
-                if (confirm((title ? title + "\n\n" : "") + message)) { // Använd webbläsarens confirm som fallback
+                if (confirm((title ? title + "\n\n" : "") + message)) { 
                     if (onConfirm) onConfirm();
                 } else {
                     if (onCancel) onCancel();
@@ -953,10 +963,13 @@
             currentConfirmCallback = onConfirm;
             currentCancelCallback = onCancel;
             
+            // Ensure correct OK button is targeted if IDs were reused
+            const confirmModalOkButton = customConfirmModal.querySelector('#customConfirmOkBtn');
+            
             closeAllOverlays(customConfirmModal);
             customConfirmModal.style.display = 'flex';
             document.body.classList.add('overlay-open');
-            if (customConfirmOkBtn) customConfirmOkBtn.focus();
+            if (confirmModalOkButton) confirmModalOkButton.focus();
         }
 
 
@@ -1550,7 +1563,7 @@
             document.body.classList.add('overlay-open');
         }
         function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function handleEditFromViewModal() { const gameReportId = parseInt(viewGameDeleteBtn.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); } //Rättat viewGameEditBtn.dataset.reportId
+        function handleEditFromViewModal() { const gameReportId = parseInt(viewGameEditBtn.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); }
         function handleDeleteFromViewModal() { 
             const gameReportId = parseInt(viewGameDeleteBtn.dataset.reportId); 
             closeViewGameModal(); 
@@ -1616,7 +1629,7 @@
                     renderShotLogList();
                     renderFelledGameReportList();
                     console.log(`Tog bort ${itemType} med ID ${itemId}`);
-                    // Ingen showCustomAlert här längre
+                    // showCustomAlert(`${itemType === 'shot' ? 'Skottet' : (itemType === 'game' ? 'Viltrapporten' : 'Såten')} har tagits bort.`, "Borttaget"); // Borttagen
                 },
                 () => { // onCancel callback
                     console.log(`Borttagning av ${itemType} med ID ${itemId} avbröts.`);
@@ -1956,7 +1969,7 @@
                     renderShotLogList(); 
                     renderFelledGameReportList(); 
                     activateTab('shotTab'); 
-                    // Ingen custom alert här om att data rensats
+                    // showCustomAlert("All data har rensats.", "Data Rensad"); // BORTTAGEN
                 },
                 () => { // onCancel
                     console.log("Rensning av data avbröts.");
