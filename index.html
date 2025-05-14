@@ -99,6 +99,9 @@
             font-size: 16px; 
             line-height: 1.6; 
             transition: background-color 0.3s ease, color 0.3s ease; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         body.overlay-open { overflow: hidden; }
         .container { 
@@ -111,6 +114,9 @@
             position: relative; 
             transition: background-color 0.3s ease;
             overflow: hidden; 
+            flex-grow: 1;
+            display: flex; 
+            flex-direction: column; 
         }
         .app-title-bar {
             background-color: var(--primary-color);
@@ -125,11 +131,19 @@
             text-align: left;
             margin: 0;
             font-size: 1.4em; 
+            /* Added for robustness in flex layout */
+            flex-grow: 0; /* Do not allow title to grow excessively */
+            flex-shrink: 1; /* Allow title to shrink if necessary, but prioritize actions container */
+            white-space: nowrap; /* Prevent title from wrapping to multiple lines */
+            overflow: hidden; /* Hide overflowing text if title is too long */
+            text-overflow: ellipsis; /* Display '...' for hidden overflow */
         }
         .app-header-actions-container {
             display: flex;
             align-items: center;
             gap: 5px;
+            /* Added for robustness */
+            flex-shrink: 0; /* Crucial: Prevent this container of icons from shrinking */
         }
          .app-header-actions-container .icon-button { 
             background-color: transparent !important; 
@@ -199,6 +213,9 @@
         .tab-content {
             padding: 15px; 
             background-color: var(--surface-bg-color); 
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
 
