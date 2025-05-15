@@ -302,7 +302,6 @@
              outline-offset: 2px;
         }
         
-        /* Specific styles for danger secondary buttons */
         #clearAllDataBtn.button-secondary, 
         #unlinkShotBtn.button-secondary, 
         #viewGameDeleteBtn.button-secondary,
@@ -338,7 +337,6 @@
         input[type="text"]::placeholder { color: var(--secondary-text-color); opacity: 1; }
         input[type="checkbox"] { width: 18px; height: 18px; margin-right: 5px; flex-shrink: 0; accent-color: var(--primary-color); }
         
-        /* Styling for #openQuickChoiceModalBtn to look like an input */
         #openQuickChoiceModalBtn {
             background-color: var(--surface-bg-color);
             color: var(--text-color);
@@ -346,20 +344,20 @@
             text-align: left;
             font-family: inherit;
             font-size: 1em;
-            height: 40px; /* Match input height */
-            padding: 0 10px; /* Adjusted padding for icon */
+            height: 40px;
+            padding: 0 10px; 
             border-radius: 4px;
-            justify-content: space-between; /* Keep for icon positioning */
-            width: 100%; /* Already set inline, but good to have base */
+            justify-content: space-between; 
+            width: 100%;
         }
         #openQuickChoiceModalBtn svg {
-            fill: var(--text-color); /* Match text color */
-            margin-left: 8px; /* Retain original margin */
+            fill: var(--text-color); 
+            margin-left: 8px; 
         }
         #openQuickChoiceModalBtn:hover,
         #openQuickChoiceModalBtn:focus {
-            border-color: var(--primary-color); /* Or a slightly darker border-color */
-            background-color: var(--surface-bg-color); /* Keep background same or slightly adjust */
+            border-color: var(--primary-color); 
+            background-color: var(--surface-bg-color); 
             outline: 1px solid var(--primary-color);
             outline-offset: 1px;
         }
@@ -661,7 +659,13 @@
                 </button>
             </div>
             <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Sven Svensson tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="deleteGameFromEditModalBtn" class="button-secondary" style="flex-grow:1; display: none;">Ta bort</button> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara</button> </div> </div> </div>
-    <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Associera Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att associera till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att associera skottet.</p> </div> <div class="modal-actions"> <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till fällt vilt & Associera</button> <button id="unlinkShotBtn" class="button-secondary">Ta bort association / Ingen association</button> </div> </div> </div>
+    <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Associera Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att associera till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att associera skottet.</p> </div> 
+        <div class="modal-actions">
+            <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till fällt vilt & Associera</button>
+            <button id="unlinkShotBtn" class="button-secondary" style="display: none;">Ta bort association</button>
+            <button id="cancelLinkActionBtn" class="button-secondary" style="display: none;">Avbryt</button>
+        </div> 
+    </div> </div>
     <div id="viewGameModal" class="content-overlay" style="display: none;">
         <div class="overlay-content-box">
             <div class="overlay-header">
@@ -875,7 +879,7 @@
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
-        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gameShooterInput, gamePassLocationInput, gameReportTimeInput,meatRecipientNameInput, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn, deleteGameFromEditModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
+        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gameShooterInput, gamePassLocationInput, gameReportTimeInput,meatRecipientNameInput, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn, deleteGameFromEditModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkActionBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
         let introVideoOverlay, introVideoPlayer; 
         let customAlertModal, customAlertTitle, customAlertHeader, customAlertMessage, customAlertOkBtn;
         let customConfirmModal, customConfirmTitle, customConfirmMessage, /* customConfirmOkBtn definieras specifikt i eventlisteners */ customConfirmCancelBtn;
@@ -916,7 +920,6 @@
                     updateMeatDistributionTextarea(templateText);
                     if (quickChoiceModal) {
                         quickChoiceModal.style.display = 'none';
-                        // addGameModal ska förbli öppen.
                     }
                 };
                 quickChoiceList.appendChild(li);
@@ -925,14 +928,12 @@
 
         function openQuickChoiceModal() {
             if (!quickChoiceModal) return;
-            // Denna modal öppnas OVANPÅ addGameModal. Ingen annan modal ska stängas.
             quickChoiceModal.style.display = 'flex';
-            // document.body.classList.add('overlay-open') bör redan vara satt av addGameModal.
-            // Om inte, säkerställ att den är det:
             if (!document.body.classList.contains('overlay-open')) {
                  document.body.classList.add('overlay-open'); 
             }
         }
+
 
         // --- INITIERING VID LADDNING AV SIDAN ---
         document.addEventListener('DOMContentLoaded', () => { 
@@ -940,7 +941,7 @@
             viewMeatReportBtn = document.getElementById('viewMeatReportBtn'); 
             exportFullGameReportBtn = document.getElementById('exportFullGameReportBtn'); 
             newSaaterBtn = document.getElementById('newSaaterBtn');
-            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gameShooterInput = document.getElementById('gameShooterInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); deleteGameFromEditModalBtn = document.getElementById('deleteGameFromEditModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
+            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gameShooterInput = document.getElementById('gameShooterInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); deleteGameFromEditModalBtn = document.getElementById('deleteGameFromEditModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkActionBtn = document.getElementById('cancelLinkActionBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
             saveReportOverlay = document.getElementById('saveReportOverlay');
             saveReportOverlayCloseBtn = document.getElementById('saveReportOverlayCloseBtn');
             meatDistributionReportList = document.getElementById('meatDistributionReportList');
@@ -996,10 +997,11 @@
             if (clearAllDataBtn) clearAllDataBtn.addEventListener('click', handleClearAllData);
             if (saveGameDetailsBtn) saveGameDetailsBtn.addEventListener('click', handleSaveGameDetails);
             if (cancelGameModalBtn) cancelGameModalBtn.addEventListener('click', closeAddGameModal);
-            // Event listener för den nya delete-knappen i addGameModal kommer att sättas i openAddGameModal
-            if (cancelLinkShotModalBtn) cancelLinkShotModalBtn.addEventListener('click', closeLinkShotModal);
+            if (deleteGameFromEditModalBtn) deleteGameFromEditModalBtn.onclick = () => { /* Logic in openAddGameModal */ };
+            if (cancelLinkShotModalBtn) cancelLinkShotModalBtn.addEventListener('click', closeLinkShotModal); // X-knapp i LinkShotModal
             if (createNewGameFromLinkBtn) createNewGameFromLinkBtn.addEventListener('click', handleCreateNewGameFromLinkModal);
-            if (unlinkShotBtn) unlinkShotBtn.addEventListener('click', handleUnlinkShotFromLinkModal);
+            if (unlinkShotBtn) unlinkShotBtn.addEventListener('click', handleUnlinkShotFromLinkModal); // Denna hanteras dynamiskt
+            if (cancelLinkActionBtn) cancelLinkActionBtn.addEventListener('click', closeLinkShotModal); // Nya "Avbryt"-knappen
             if (viewGameCloseBtn) viewGameCloseBtn.addEventListener('click', closeViewGameModal);
             if (viewGameEditBtn) viewGameEditBtn.addEventListener('click', handleEditFromViewModal);
             if (viewGameDeleteBtn) viewGameDeleteBtn.addEventListener('click', handleDeleteFromViewModal);
@@ -1043,14 +1045,12 @@
                 closeQuickChoiceModalBtn.addEventListener('click', (event) => {
                     event.stopPropagation();
                     if (quickChoiceModal) quickChoiceModal.style.display = 'none';
-                    // addGameModal förblir öppen.
                 });
             }
             if (cancelQuickChoiceModalBtn) { 
                 cancelQuickChoiceModalBtn.addEventListener('click', (event) => {
                     event.stopPropagation();
                     if (quickChoiceModal) quickChoiceModal.style.display = 'none';
-                    // addGameModal förblir öppen.
                 });
             }
             
@@ -1338,7 +1338,7 @@
             const scrollableContent = addGameModal.querySelector('.overlay-scrollable-content');
             if(scrollableContent) scrollableContent.scrollTop = 0;
 
-            if (gameReportId !== null) { // Edit mode
+            if (gameReportId !== null) { 
                 const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
                 if (!report) { 
                     showCustomAlert("Fel: Hittade inte viltrapport för redigering.", "Fel"); 
@@ -1355,12 +1355,12 @@
                 deleteGameFromEditModalBtn.style.display = 'inline-flex';
                 deleteGameFromEditModalBtn.onclick = () => {
                     const idToDelete = parseInt(currentShotLogIdInput.value);
-                    if (idToDelete) {
+                    if (idToDelete && !currentShotLogIdInput.value.startsWith('new_')) {
                         closeAddGameModal(); 
                         handleDeleteItem(idToDelete, 'game');
                     }
                 };
-            } else { // New mode
+            } else { 
                 gameModalTitle.textContent = "Lägg till fällt vilt"; 
                 currentShotLogIdInput.value = 'new_' + Date.now(); 
                 const n = new Date(); 
@@ -1376,7 +1376,7 @@
                     hiddenTriggerInput.value = triggeringShotId; 
                 } 
                 deleteGameFromEditModalBtn.style.display = 'none';
-                deleteGameFromEditModalBtn.onclick = null; // Ta bort gammal listener
+                deleteGameFromEditModalBtn.onclick = null;
             } 
             closeAllOverlays(addGameModal); 
             addGameModal.style.display = 'flex'; 
@@ -1384,11 +1384,33 @@
             gameSpeciesInput.focus();
         }
         function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
+        
         // --- Koppling Skott <-> Vilt (Link Modal) ---
         function openLinkShotModal(shotId) { 
-            if (!linkShotModal || !linkableGameList || !linkShotModalShotId) return; 
+            if (!linkShotModal || !linkableGameList || !linkShotModalShotId || !unlinkShotBtn || !cancelLinkActionBtn || !createNewGameFromLinkBtn) return; 
+            
             linkShotModalShotId.value = shotId; 
             linkShotModalTitle.textContent = "Associera Skott till Fällt Vilt"; 
+            
+            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId);
+            if (!shot) {
+                showCustomAlert("Fel: Skottet kunde inte hittas.", "Fel");
+                closeLinkShotModal();
+                return;
+            }
+
+            // Ställ in knappar baserat på om skottet har en association
+            if (shot.linkedGameReportId) { // Har association
+                unlinkShotBtn.textContent = "Ta bort association";
+                unlinkShotBtn.style.display = 'inline-flex';
+                cancelLinkActionBtn.style.display = 'none';
+                createNewGameFromLinkBtn.style.display = 'inline-flex'; // Behåll denna? Kan vilja skapa nytt och länka om.
+            } else { // Har ingen association
+                unlinkShotBtn.style.display = 'none';
+                cancelLinkActionBtn.style.display = 'inline-flex';
+                createNewGameFromLinkBtn.style.display = 'inline-flex';
+            }
+
             linkableGameList.innerHTML = ''; 
             const gameReports = allReports.filter(r => r.itemType === 'game').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); 
             if (gameReports.length === 0) { 
@@ -1406,10 +1428,10 @@
                     linkableGameList.appendChild(li); 
                 }); 
             } 
+            
             const pInfo = linkShotModal.querySelector('.overlay-scrollable-content > p.info-text'); 
             if(pInfo) pInfo.textContent = "Klicka på ett vilt i listan för att associera skottet."; 
-            if(createNewGameFromLinkBtn) createNewGameFromLinkBtn.textContent = "Lägg till fällt vilt & Associera"; 
-            if(unlinkShotBtn) unlinkShotBtn.textContent = "Ta bort association / Ingen association"; 
+             
             closeAllOverlays(linkShotModal); 
             linkShotModal.style.display = 'flex'; 
             document.body.classList.add('overlay-open'); 
@@ -1543,7 +1565,7 @@
                     const shotInfoDiv = document.createElement('div'); 
                     shotInfoDiv.className = 'shot-info'; 
                     shotInfoDiv.title = 'Klicka för att associera/ändra association'; 
-                    shotInfoDiv.onclick = () => { const gameReportsExist = allReports.some(r => r.itemType === 'game'); if (gameReportsExist) { openLinkShotModal(item.id); } else { openAddGameModal(null, item.id); } }; 
+                    shotInfoDiv.onclick = () => { openLinkShotModal(item.id); };  // Ändrad här, nu anropas alltid openLinkShotModal
                     const timeSpan = document.createElement('span'); 
                     timeSpan.className = 'shot-time'; 
                     timeSpan.textContent = `Skott kl. ${item.shotTime}`; 
