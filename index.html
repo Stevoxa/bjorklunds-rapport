@@ -469,7 +469,25 @@
             margin-bottom: 15px; 
             color: var(--secondary-text-color);
         }
-
+        #quickChoiceList li {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--subtle-border-color);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            text-align: left; 
+        }
+        #quickChoiceList li:last-child {
+            border-bottom: none;
+        }
+        #quickChoiceList li:hover {
+            background-color: color-mix(in srgb, var(--surface-bg-color) 90%, var(--secondary-text-color) 10%);
+        }
+        #quickChoiceModal .overlay-header .icon-button svg { 
+             fill: var(--icon-fill-color);
+        }
+        #quickChoiceModal .overlay-header .icon-button:hover svg {
+            fill: var(--icon-hover-fill-color);
+        }
 
         #viewGameDetailsContent .detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--subtle-border-color); align-items: baseline; }
         #viewGameDetailsContent .detail-row[style*="border-bottom: none;"] { border-bottom: none !important; }
@@ -597,18 +615,13 @@
  <hr style="margin-top: 25px; margin-bottom: 15px;"><h4>Köttfördelning</h4> 
  <div class="form-group"> <label for="meatRecipientNameInput">Namn:</label> <input type="text" id="meatRecipientNameInput" placeholder="T.ex. Sven Svensson"> </div> 
             <div class="form-group">
-                <label for="meatQuickChoiceSelect">Snabbval:</label>
-                <select id="meatQuickChoiceSelect">
-                    <option value="">-- Välj eller skriv fritt nedan --</option>
-                    <option value="köper köttet. Hänger endast upp i slakteriet.">Köper, endast upphängning</option>
-                    <option value="köper köttet. Hänger upp i slakteriet och TM styckar.">Köper, upphängning &amp; styckning (TM)</option>
-                    <option value="tilldelas köttet. Hänger endast upp i slakteriet.">Tilldelas, endast upphängning</option>
-                    <option value="tilldelas köttet. Hänger upp i slakteriet och TM styckar.">Tilldelas, upphängning &amp; styckning (TM)</option>
-                    <option value="Jaktklubben tar köttet. Hänger upp i slakteriet och TM styckar.">Jaktklubben, upphängning &amp; styckning (TM)</option>
-                    <option value="köper köttet och tar med sig hem.">Köper, tar med hem</option>
-                    <option value="tilldelas köttet och tar med sig hem.">Tilldelas, tar med hem</option>
-                    <option value="Jaktklubben tar köttet.">Jaktklubben tar köttet</option>
-                </select>
+                <label for="openQuickChoiceModalBtn">Snabbval för köttfördelning:</label>
+                <button id="openQuickChoiceModalBtn" type="button" class="button-secondary" style="width:100%; justify-content: space-between;">
+                    <span>Välj från mall...</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </button>
             </div>
             <div class="form-group"> <label for="gameMeatDistributionTextarea">Fullständig text för köttfördelning:</label> <textarea id="gameMeatDistributionTextarea" rows="3" placeholder="Ex: Sven Svensson tar hem kött och delar med Stina"></textarea> </div> </div> <div style="display:flex; gap:10px; margin-top:15px;"> <button id="saveGameDetailsBtn" style="flex-grow:1;">Spara</button> </div> </div> </div>
     <div id="linkShotModal" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3 id="linkShotModalTitle">Associera Skott till Fällt Vilt</h3> <button id="cancelLinkShotModalBtn" class="icon-button" title="Avbryt/Stäng"> <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </div> <div class="overlay-scrollable-content"> <input type="hidden" id="linkShotModalShotId"> <h4>Välj fällt vilt:</h4> <ul id="linkableGameList"> <li class="info-text">Inget fällt vilt att associera till ännu.</li> </ul> <p class="info-text" style="margin-top: -10px; margin-bottom: 15px;">Klicka på ett vilt i listan för att associera skottet.</p> </div> <div class="modal-actions"> <button id="createNewGameFromLinkBtn" class="button-secondary">Lägg till fällt vilt & Associera</button> <button id="unlinkShotBtn" class="button-secondary">Ta bort association / Ingen association</button> </div> </div> </div>
@@ -719,7 +732,7 @@
                     <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
                     <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
                     <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
-                    <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
+                    <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
                 </ul>
             </li>
             <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
@@ -803,14 +816,36 @@
         </div>
     </div>
 
+    <div id="quickChoiceModal" class="content-overlay" style="display: none;">
+        <div class="overlay-content-box" style="max-width: 500px;"> 
+            <div class="overlay-header">
+                <h3 id="quickChoiceModalTitle">Snabbval</h3>
+                <button id="closeQuickChoiceModalBtn" class="icon-button" title="Stäng">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
+            <div class="overlay-scrollable-content">
+                <ul id="quickChoiceList" style="list-style: none; padding: 0; margin: 0;">
+                    <!-- Malltexter kommer att populeras här av JavaScript -->
+                </ul>
+            </div>
+             <div style="display:flex; justify-content: flex-end; margin-top: 15px;">
+                <button id="cancelQuickChoiceModalBtn" type="button" class="button-secondary">Avbryt</button>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         // --- DOM ELEMENT REFERENSER ---
-        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, meatRecipientNameInput, meatQuickChoiceSelect, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
+        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gamePassLocationInput, gameReportTimeInput,gameShooterInput, meatRecipientNameInput, /* meatQuickChoiceSelect, */ gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
         let introVideoOverlay, introVideoPlayer; 
         let customAlertModal, customAlertTitle, customAlertHeader, customAlertMessage, customAlertOkBtn;
-        let customConfirmModal, customConfirmTitle, customConfirmMessage, customConfirmOkBtn, customConfirmCancelBtn;
+        let customConfirmModal, customConfirmTitle, customConfirmMessage, /* customConfirmOkBtn definieras specifikt i eventlisteners */ customConfirmCancelBtn;
         let currentConfirmCallback = null; 
         let currentCancelCallback = null; 
+        let openQuickChoiceModalBtn, quickChoiceModal, quickChoiceModalTitleElement, quickChoiceList, closeQuickChoiceModalBtn, cancelQuickChoiceModalBtn;
+
 
         // --- GLOBALA VARIABLER ---
         let allReports = [];
@@ -821,6 +856,47 @@
         let saaterStates = {}; 
         const LAST_ACTIVE_TAB_KEY = 'bjorklundsRapportLastActiveTab';
         const LAST_INTRO_VIDEO_SHOWN_KEY = 'bjorklundsRapportLastIntroVideoShown'; 
+        const meatDistributionTemplates = [ 
+            "köper köttet. Hänger endast upp i slakteriet.",
+            "köper köttet. Hänger upp i slakteriet och TM styckar.",
+            "tilldelas köttet. Hänger endast upp i slakteriet.",
+            "tilldelas köttet. Hänger upp i slakteriet och TM styckar.",
+            "Jaktklubben tar köttet. Hänger upp i slakteriet och TM styckar.",
+            "köper köttet och tar med sig hem.",
+            "tilldelas köttet och tar med sig hem.",
+            "Jaktklubben tar köttet."
+        ];
+
+        // --- Funktioner för Snabbvalsmodal ---
+        function populateQuickChoiceModal() {
+            if (!quickChoiceList) return;
+            quickChoiceList.innerHTML = ''; 
+            meatDistributionTemplates.forEach(templateText => {
+                const li = document.createElement('li');
+                li.textContent = templateText;
+                li.onclick = (event) => {
+                    event.stopPropagation(); // Viktigt för att förhindra oönskad stängning av addGameModal
+                    updateMeatDistributionTextarea(templateText);
+                    if (quickChoiceModal) {
+                        quickChoiceModal.style.display = 'none';
+                        // addGameModal ska förbli öppen, så ingen ändring av body.overlay-open här
+                    }
+                };
+                quickChoiceList.appendChild(li);
+            });
+        }
+
+        function openQuickChoiceModal() {
+            if (!quickChoiceModal) return;
+            // ANROPA INTE closeAllOverlays() HÄR. Denna modal ska öppnas OVANPÅ addGameModal.
+            quickChoiceModal.style.display = 'flex';
+            if (!document.body.classList.contains('overlay-open')) {
+                 document.body.classList.add('overlay-open'); // Bör redan vara satt av addGameModal
+            }
+        }
+
+        // closeQuickChoiceModal används inte explicit, stängning hanteras av knappar och val.
+
 
         // --- INITIERING VID LADDNING AV SIDAN ---
         document.addEventListener('DOMContentLoaded', () => { 
@@ -828,7 +904,7 @@
             viewMeatReportBtn = document.getElementById('viewMeatReportBtn'); 
             exportFullGameReportBtn = document.getElementById('exportFullGameReportBtn'); 
             newSaaterBtn = document.getElementById('newSaaterBtn');
-            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); gameShooterInput = document.getElementById('gameShooterInput'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); meatQuickChoiceSelect = document.getElementById('meatQuickChoiceSelect'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
+            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); gameShooterInput = document.getElementById('gameShooterInput'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
             saveReportOverlay = document.getElementById('saveReportOverlay');
             saveReportOverlayCloseBtn = document.getElementById('saveReportOverlayCloseBtn');
             meatDistributionReportList = document.getElementById('meatDistributionReportList');
@@ -850,8 +926,16 @@
             customConfirmModal = document.getElementById('customConfirmModal');
             customConfirmTitle = document.getElementById('customConfirmTitle');
             customConfirmMessage = document.getElementById('customConfirmMessage');
-            customConfirmOkBtn = document.getElementById('customConfirmOkBtn'); // Note: ID conflict if not careful, see specific listeners below
+            const confirmOkButtonForListener = customConfirmModal.querySelector('#customConfirmOkBtn'); 
             customConfirmCancelBtn = document.getElementById('customConfirmCancelBtn');
+
+            openQuickChoiceModalBtn = document.getElementById('openQuickChoiceModalBtn');
+            quickChoiceModal = document.getElementById('quickChoiceModal');
+            quickChoiceModalTitleElement = document.getElementById('quickChoiceModalTitle');
+            if(quickChoiceModalTitleElement) quickChoiceModalTitleElement.textContent = "Snabbval";
+            quickChoiceList = document.getElementById('quickChoiceList');
+            closeQuickChoiceModalBtn = document.getElementById('closeQuickChoiceModalBtn');
+            cancelQuickChoiceModalBtn = document.getElementById('cancelQuickChoiceModalBtn');
 
 
             if (installAppBtn) installAppBtn.style.display = 'none';
@@ -860,6 +944,9 @@
             loadAllDataFromLocalStorage(); 
             renderShotLogList();
             renderFelledGameReportList();
+            
+            populateQuickChoiceModal(); 
+
             checkAndPlayIntroVideo(); 
 
             if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
@@ -883,18 +970,14 @@
             if (shareOverlayCloseBtn) shareOverlayCloseBtn.addEventListener('click', closeShareOverlay);
             if (saveReportOverlayCloseBtn) saveReportOverlayCloseBtn.addEventListener('click', closeSaveReportOverlay); 
             
-            // Ensure distinct OK button for customAlertModal is used here
-            const alertOkButton = customAlertModal.querySelector('#customAlertOkBtn');
-            if (alertOkButton) { 
-                alertOkButton.addEventListener('click', () => {
+            if (customAlertOkBtn) { 
+                customAlertOkBtn.addEventListener('click', () => {
                     if (customAlertModal) customAlertModal.style.display = 'none';
                     checkAndCloseBodyOverlay(); 
                 });
             }
-             // Ensure distinct OK button for customConfirmModal is used here
-            const confirmOkButton = customConfirmModal.querySelector('#customConfirmOkBtn');
-            if (confirmOkButton) {
-                confirmOkButton.addEventListener('click', () => {
+            if (confirmOkButtonForListener) { 
+                confirmOkButtonForListener.addEventListener('click', () => {
                     if (customConfirmModal) customConfirmModal.style.display = 'none';
                     checkAndCloseBodyOverlay();
                     if (typeof currentConfirmCallback === 'function') {
@@ -916,21 +999,37 @@
                 });
             }
 
-            if (copyMeatReportBtn) copyMeatReportBtn.addEventListener('click', handleCopyMeatReport); 
-            if (shareMeatReportBtn) shareMeatReportBtn.addEventListener('click', handleShareMeatReport); 
-            if(meatRecipientNameInput) meatRecipientNameInput.addEventListener('input', updateMeatDistributionTextarea);
-            if(meatQuickChoiceSelect) meatQuickChoiceSelect.addEventListener('change', updateMeatDistributionTextarea);
+            if (openQuickChoiceModalBtn) {
+                openQuickChoiceModalBtn.addEventListener('click', openQuickChoiceModal);
+            }
+            if (closeQuickChoiceModalBtn) { 
+                closeQuickChoiceModalBtn.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    if (quickChoiceModal) quickChoiceModal.style.display = 'none';
+                });
+            }
+            if (cancelQuickChoiceModalBtn) { 
+                cancelQuickChoiceModalBtn.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    if (quickChoiceModal) quickChoiceModal.style.display = 'none';
+                });
+            }
+            
+            if(meatRecipientNameInput) meatRecipientNameInput.addEventListener('input', () => updateMeatDistributionTextarea(null));
+
             setupPWAInstallation();
             if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.error('SW reg failed:', err)); }
         });
 
         // --- Anpassade Meddelandefunktioner ---
         function showCustomAlert(message, title) { 
-            if (!customAlertModal || !customAlertTitle || !customAlertMessage || !customAlertHeader || !customAlertOkBtn) {
+            if (!customAlertModal || !customAlertTitle || !customAlertMessage || !customAlertHeader || !customAlertModal.querySelector('#customAlertOkBtn')) {
                 console.error("Custom alert DOM elements missing. Falling back to native alert.");
                 alert((title ? title + "\n\n" : "") + message); 
                 return;
             }
+            const alertOkButton = customAlertModal.querySelector('#customAlertOkBtn');
+
 
             if (title) {
                 customAlertTitle.textContent = title;
@@ -943,12 +1042,11 @@
             closeAllOverlays(customAlertModal); 
             customAlertModal.style.display = 'flex';
             document.body.classList.add('overlay-open');
-            const alertModalOkButton = customAlertModal.querySelector('#customAlertOkBtn');
-            if(alertModalOkButton) alertModalOkButton.focus(); 
+            if(alertOkButton) alertOkButton.focus(); 
         }
 
         function showCustomConfirm(message, title, onConfirm, onCancel) {
-            if (!customConfirmModal || !customConfirmTitle || !customConfirmMessage || !customConfirmOkBtn || !customConfirmCancelBtn) {
+            if (!customConfirmModal || !customConfirmTitle || !customConfirmMessage || !customConfirmModal.querySelector('#customConfirmOkBtn') || !customConfirmCancelBtn) {
                 console.error("Custom confirm DOM elements missing. Falling back to native confirm.");
                 if (confirm((title ? title + "\n\n" : "") + message)) { 
                     if (onConfirm) onConfirm();
@@ -1194,9 +1292,13 @@
             closeAddGameModal(); 
         }
         function openAddGameModal(gameReportId, triggeringShotId = null) { 
-            if (!addGameModal) return; 
+            if (!addGameModal || !gameSpeciesInput) return; 
             const hiddenTriggerInput = document.getElementById('triggeringShotIdInput'); 
             if (hiddenTriggerInput) hiddenTriggerInput.value = ''; 
+            
+            const scrollableContent = addGameModal.querySelector('.overlay-scrollable-content');
+            if(scrollableContent) scrollableContent.scrollTop = 0;
+
             if (gameReportId !== null) { 
                 const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
                 if (!report) { 
@@ -1211,7 +1313,6 @@
                 gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || ''; 
                 gameReportTimeInput.value = report.felledGameDetails.reportTime || ''; 
                 meatRecipientNameInput.value = ''; 
-                meatQuickChoiceSelect.value = ''; 
             } else { 
                 gameModalTitle.textContent = "Lägg till fällt vilt"; 
                 currentShotLogIdInput.value = 'new_' + Date.now(); 
@@ -1224,7 +1325,6 @@
                 gameShooterInput.value = ''; 
                 gameMeatDistributionTextarea.value = ''; 
                 meatRecipientNameInput.value = ''; 
-                meatQuickChoiceSelect.value = ''; 
                 if (triggeringShotId && hiddenTriggerInput) { 
                     hiddenTriggerInput.value = triggeringShotId; 
                 } 
@@ -1232,6 +1332,7 @@
             closeAllOverlays(addGameModal); 
             addGameModal.style.display = 'flex'; 
             document.body.classList.add('overlay-open'); 
+            gameSpeciesInput.focus();
         }
         function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
         // --- Koppling Skott <-> Vilt (Link Modal) ---
@@ -1628,7 +1729,6 @@
                     renderShotLogList();
                     renderFelledGameReportList();
                     console.log(`Tog bort ${itemType} med ID ${itemId}`);
-                    // Ingen bekräftelse-alert visas längre
                 },
                 () => { // onCancel callback
                     console.log(`Borttagning av ${itemType} med ID ${itemId} avbröts.`);
@@ -1968,7 +2068,6 @@
                     renderShotLogList(); 
                     renderFelledGameReportList(); 
                     activateTab('shotTab'); 
-                    // showCustomAlert("All data har rensats.", "Data Rensad"); // Borttagen
                 },
                 () => { // onCancel
                     console.log("Rensning av data avbröts.");
@@ -2040,7 +2139,7 @@
             <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
             <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
             <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
-            <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn (frivilligt) eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
+            <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
         </ul>
     </li>
     <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
@@ -2082,8 +2181,10 @@
         function closeShareOverlay() { if (shareOverlay) shareOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
         
         function closeAllOverlays(keepOpenOverlay = null) {
-            [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay, customAlertModal, customConfirmModal].forEach(o => { 
-                if (o && o !== keepOpenOverlay) o.style.display = 'none';
+            [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay, customAlertModal, customConfirmModal, quickChoiceModal].forEach(o => { 
+                if (o && o !== keepOpenOverlay) {
+                     o.style.display = 'none';
+                }
             });
             if (keepOpenOverlay === null) { 
                 checkAndCloseBodyOverlay();
@@ -2101,7 +2202,8 @@
                                     (shareOverlay && shareOverlay.style.display === 'flex') || 
                                     (saveReportOverlay && saveReportOverlay.style.display === 'flex') ||
                                     (customAlertModal && customAlertModal.style.display === 'flex') ||
-                                    (customConfirmModal && customConfirmModal.style.display === 'flex'); 
+                                    (customConfirmModal && customConfirmModal.style.display === 'flex') ||
+                                    (quickChoiceModal && quickChoiceModal.style.display === 'flex'); 
 
             if (!isIntroVideoVisible && !anyOtherModalOpen && document.body.classList.contains('overlay-open')) {
                 document.body.classList.remove('overlay-open');
@@ -2109,31 +2211,77 @@
                 document.body.classList.add('overlay-open');
             }
         }
-        function updateMeatDistributionTextarea() { 
-            if (!meatRecipientNameInput || !meatQuickChoiceSelect || !gameMeatDistributionTextarea) return; 
+        function updateMeatDistributionTextarea(selectedTemplate) { 
+            if (!meatRecipientNameInput || !gameMeatDistributionTextarea) return; 
             const recipient = meatRecipientNameInput.value.trim(); 
-            const quickChoiceValue = meatQuickChoiceSelect.value; 
-            let fullText = gameMeatDistributionTextarea.value; 
+            let fullText = gameMeatDistributionTextarea.value;
 
-            if (quickChoiceValue) { 
+            if (selectedTemplate) { 
                 if (recipient) {
-                    fullText = `${recipient} ${quickChoiceValue}`;
+                    fullText = `${recipient} ${selectedTemplate}`;
                 } else {
-                    fullText = quickChoiceValue.charAt(0).toUpperCase() + quickChoiceValue.slice(1);
+                    fullText = selectedTemplate.charAt(0).toUpperCase() + selectedTemplate.slice(1);
                 }
-            } else if (recipient) { // Om bara mottagarnamn är ifyllt
-                if (gameMeatDistributionTextarea.value.trim() === '' || gameMeatDistributionTextarea.value.trim() === quickChoiceValue) { // Om textarea är tom eller bara innehöll det tidigare snabbvalet
-                     fullText = recipient;
-                } else if (!gameMeatDistributionTextarea.value.toLowerCase().startsWith(recipient.toLowerCase())) {
-                     // Behåll befintlig text och lägg till namn om den inte redan börjar med namnet
-                    // fullText = recipient + " " + gameMeatDistributionTextarea.value; // Kan leda till dubbletter om man ändrar
-                } // Annars om den redan börjar med recipient, gör inget med fullText
-            }
-            // Om varken recipient eller quickChoiceValue finns, eller om inget matchar ovan, behålls det som var i textarea (t.ex. om användaren skrivit manuellt)
+            } else if (recipient) { 
+                const currentTextareaValue = gameMeatDistributionTextarea.value.trim();
+                let baseText = currentTextareaValue;
+                let wasTemplate = false;
 
+                meatDistributionTemplates.forEach(template => {
+                    if (currentTextareaValue.endsWith(" " + template)) { 
+                        const potentialRecipient = currentTextareaValue.substring(0, currentTextareaValue.length - template.length -1).trim();
+                         if(potentialRecipient.length > 0){ 
+                            baseText = template; 
+                            wasTemplate = true;
+                         }
+                    } else if (currentTextareaValue === template) { 
+                        baseText = template;
+                        wasTemplate = true;
+                    }
+                });
+                
+                if (recipient) { 
+                    if (wasTemplate) { 
+                         fullText = `${recipient} ${baseText}`;
+                    } else if (currentTextareaValue === "" || currentTextareaValue === meatRecipientNameInput.dataset.previousRecipient) { 
+                        fullText = recipient;
+                    } else if (!currentTextareaValue.toLowerCase().startsWith(recipient.toLowerCase())) {
+                        fullText = recipient; 
+                    }
+                }
+                meatRecipientNameInput.dataset.previousRecipient = recipient;
+
+            } else { 
+                 let baseText = gameMeatDistributionTextarea.value.trim();
+                 let wasTemplate = false;
+                 meatDistributionTemplates.forEach(template => {
+                    if (baseText.endsWith(" " + template)) {
+                        const potentialRecipient = baseText.substring(0, baseText.length - template.length -1).trim();
+                         if(potentialRecipient === meatRecipientNameInput.dataset.previousRecipient){ 
+                            baseText = template;
+                            wasTemplate = true;
+                         }
+                    } else if (baseText === template) {
+                        baseText = template;
+                        wasTemplate = true;
+                    }
+                });
+                 if(wasTemplate){
+                    fullText = baseText.charAt(0).toUpperCase() + baseText.slice(1);
+                 } else {
+                    const prevRec = meatRecipientNameInput.dataset.previousRecipient;
+                    if (prevRec && gameMeatDistributionTextarea.value.startsWith(prevRec + " ")) {
+                        fullText = gameMeatDistributionTextarea.value.substring(prevRec.length + 1);
+                    } else if (prevRec && gameMeatDistributionTextarea.value === prevRec) {
+                        fullText = "";
+                    }
+                 }
+                 meatRecipientNameInput.dataset.previousRecipient = ""; 
+            }
             gameMeatDistributionTextarea.value = fullText; 
         }
 
     </script>
 </body>
 </html>
+```
