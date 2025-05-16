@@ -320,13 +320,15 @@
         
         #unlinkShotBtn.button-secondary, 
         #viewGameDeleteBtn.button-secondary,
-        #deleteGameFromEditModalBtn.button-secondary { 
+        #deleteGameFromEditModalBtn.button-secondary,
+        #dangerZoneClearAllBtn.button-secondary {
             background-color: var(--danger-secondary-bg) !important; 
             color: var(--danger-secondary-text-color) !important; 
             border-color: var(--danger-color) !important; 
         }
         
         body[data-theme="dark"] #unlinkShotBtn.button-secondary, 
+        body[data-theme="dark"] #dangerZoneClearAllBtn.button-secondary,
         body[data-theme="dark"] #viewGameDeleteBtn.button-secondary,
         body[data-theme="dark"] #deleteGameFromEditModalBtn.button-secondary {
              border-color: #FF8A80 !important; 
@@ -338,18 +340,19 @@
             color: var(--primary-text-color);
             border: none; 
         }
-        #dangerZoneClearAllBtn { 
+        /* #dangerZoneClearAllBtn { 
             background-color: var(--danger-color) !important;
             color: var(--danger-text-color-on-danger-bg) !important;
             border: 1px solid color-mix(in srgb, var(--danger-color) 80%, black) !important;
         }
          body[data-theme="dark"] #dangerZoneClearAllBtn {
              border-color: color-mix(in srgb, var(--danger-color) 80%, black) !important;
-         }
+         } */
 
 
         #unlinkShotBtn.button-secondary:hover:not(:disabled), 
         #viewGameDeleteBtn.button-secondary:hover:not(:disabled),
+        #dangerZoneClearAllBtn.button-secondary:hover:not(:disabled), /* Added for hover */
         #deleteGameFromEditModalBtn.button-secondary:hover:not(:disabled),
         #unlinkShotBtn.button-secondary:focus:not(:disabled), 
         #viewGameDeleteBtn.button-secondary:focus:not(:disabled),
@@ -359,27 +362,29 @@
         #startNewHuntBtn:hover:not(:disabled), #startNewHuntBtn:focus:not(:disabled) {
              background-color: color-mix(in srgb, var(--primary-color) 85%, black) !important;
         }
-         #dangerZoneClearAllBtn:hover:not(:disabled), #dangerZoneClearAllBtn:focus:not(:disabled) {
+         /* #dangerZoneClearAllBtn:hover:not(:disabled), #dangerZoneClearAllBtn:focus:not(:disabled) {
             background-color: color-mix(in srgb, var(--danger-color) 80%, black) !important;
-        }
+        } */
 
         #unlinkShotBtn.button-secondary:focus:not(:disabled), 
         #viewGameDeleteBtn.button-secondary:focus:not(:disabled),
-        #deleteGameFromEditModalBtn.button-secondary:focus:not(:disabled) { 
+        #deleteGameFromEditModalBtn.button-secondary:focus:not(:disabled),
+        #dangerZoneClearAllBtn.button-secondary:focus:not(:disabled) { /* Added for focus */
             outline: 2px solid #DC3545; 
             outline-offset: 1px;
         }
          body[data-theme="dark"] #unlinkShotBtn.button-secondary:focus:not(:disabled), 
          body[data-theme="dark"] #viewGameDeleteBtn.button-secondary:focus:not(:disabled),
-         body[data-theme="dark"] #deleteGameFromEditModalBtn.button-secondary:focus:not(:disabled) {
+         body[data-theme="dark"] #deleteGameFromEditModalBtn.button-secondary:focus:not(:disabled),
+         body[data-theme="dark"] #dangerZoneClearAllBtn.button-secondary:focus:not(:disabled) { /* Added for focus */
             outline-color: #FF8A80; 
          }
 
 
-        #dangerZoneClearAllBtn:focus:not(:disabled) { 
+        /* #dangerZoneClearAllBtn:focus:not(:disabled) { 
              outline: 2px solid var(--danger-color); 
              outline-offset: 1px;
-        }
+        } */
          #startNewHuntBtn:focus:not(:disabled) {
             outline: 2px solid color-mix(in srgb, var(--primary-color) 50%, black);
             outline-offset: 1px;
@@ -708,7 +713,7 @@
             </div>
             
             <hr style="margin: 25px 0 15px 0;">
-            <button id="dangerZoneClearAllBtn" style="width:100%; flex-shrink:0;">Rensa all data (ALLA Jakter)</button>
+            <button id="dangerZoneClearAllBtn" class="button-secondary" style="width:100%; flex-shrink:0;">Rensa all data (ALLA Jakter)</button>
         </section>
     </div> 
 
@@ -805,76 +810,22 @@
         <hr>
         <h5>Installera Appen på Din Hemskärm</h5>
         <p>För enklare åtkomst kan du lägga till Björklunds Rapport på din mobils hemskärm. Den kommer då att fungera mer som en vanlig app.</p>
-        <p><strong>Android (t.ex. Chrome):</strong></p>
-        <ol>
-            <li>Öppna appen i din Chrome-webbläsare.</li>
-            <li>Tryck på menyknappen (ofta tre prickar uppe till höger).</li>
-            <li>Välj "Installera appen" eller "Lägg till på startskärmen".</li>
-            <li>Följ instruktionerna.</li>
-        </ol>
+        <p><strong>Android (t.ex. Chrome):</strong></p><ol><li>Öppna appen i din Chrome-webbläsare.</li><li>Tryck på menyknappen (ofta tre prickar uppe till höger).</li><li>Välj "Installera appen" eller "Lägg till på startskärmen".</li><li>Följ instruktionerna.</li></ol>
         <p><em>Alternativt kan en "Installera App"-knapp (med en nedåtpil ikon) dyka upp automatiskt högst upp i appen när du använt sidan ett tag.</em></p>
-        <p><strong>iOS (iPhone/iPad - Safari):</strong></p>
-        <ol>
-            <li>Öppna appen i Safari-webbläsaren.</li>
-            <li>Tryck på Dela-ikonen (en ruta med en pil som pekar uppåt) längst ner (eller uppe) i webbläsaren.</li>
-            <li>Skrolla ner i delningsmenyn och välj "Lägg till på hemskärmen".</li>
-            <li>Bekräfta namnet och tryck "Lägg till".</li>
-        </ol>
-
-        <hr>
-        <h5>Så här fungerar appen</h5>
-        <p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
-        <ul>
-            <li><strong>Skott:</strong> För snabb registrering av avlossade skott för den *aktiva* jakten.</li>
-            <li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts under den *aktiva* jakten.</li>
-            <li><strong>Rapporter & Admin:</strong> För att se sammanställningar, hantera sparade jakter och allmän administration.</li>
-        </ul>
-
-        <h6>Fliken "Skott" - Registrera dina skott</h6>
-        <ol>
-            <li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas under den pågående jakten. Tiden för skottet sparas automatiskt.</li>
-            <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten. Såtindelning är specifik för varje jakt.</li>
-            <li><strong>Loggade skott:</strong> Dina registrerade skott för den aktiva jakten visas i en lista. Du kan verifiera tiden, associera skottet till ett fällt vilt från samma jakt, eller ta bort skottet.</li>
-        </ol>
-
-        <h6>Fliken "Fällt vilt" - Rapportera fällt vilt</h6>
-        <p>Här hanterar du vilt som fällts under den *aktiva* jakten. Funktionaliteten för att lägga till, redigera och visa detaljer är densamma som tidigare, men all data är kopplad till den jakt som just nu är laddad.</p>
-
-        <h6>Fliken "Rapporter & Admin" - Sammanställningar och datahantering</h6>
-        <ul>
-            <li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats för den *aktuellt laddade* jakten.</li>
-            <li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en CSV-fil med all information om det fällda viltet för den *aktuellt laddade* jakten. Filnamnet kommer att inkludera jaktens datum.</li>
-            <li><strong>Starta Ny Jakt:</strong>
-                <ul>
-                    <li>Om du har en pågående jakt med osparade ändringar (t.ex. nya skott) kommer denna först att sparas automatiskt i listan nedan.</li>
-                    <li>Därefter startas en helt ny, tom jakt. Datumet för denna nya jakt sätts till dagens datum.</li>
-                    <li>Introvideo spelas upp.</li>
-                </ul>
-            </li>
-            <li><strong>Sparade Jakter (Lista):</strong>
-                <ul>
-                    <li>Här listas alla dina tidigare sparade jakter, sorterade med den senaste överst. Varje jakt visas med sitt startdatum.</li>
-                    <li><strong>Ladda Jakt:</strong> Klickar du här sparas den nuvarande aktiva jakten (om den har data) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den laddade jakten. Introvideo spelas upp.</li>
-                    <li><strong>Ta bort (soptunna-ikon):</strong> Tar permanent bort den specifika jakten från listan och all dess lagrade data efter att du bekräftat åtgärden.</li>
-                </ul>
-            </li>
-            <li><strong>Rensa all data (ALLA Jakter):</strong> Denna röda knapp längst ner är för en total återställning.
-                <ul>
-                    <li>OBS! Denna knapp tar bort ALLA sparade jakter och all information om den nuvarande aktiva jakten. Detta kan inte ångras.</li>
-                    <li>Du får en extra fråga för att bekräfta innan något raderas.</li>
-                </ul>
-            </li>
-        </ul>
-    
-        <h5>Övriga funktioner:</h5>
-        <ul>
-            <li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li>
-            <li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li>
-            <li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li>
-            <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas högst upp. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
-        </ul>
-    
-        <p>Lycka till med jakten och rapporteringen!</p>
+        <p><strong>iOS (iPhone/iPad - Safari):</strong></p><ol><li>Öppna appen i Safari-webbläsaren.</li><li>Tryck på Dela-ikonen (en ruta med en pil som pekar uppåt) längst ner (eller uppe) i webbläsaren.</li><li>Skrolla ner i delningsmenyn och välj "Lägg till på hemskärmen".</li><li>Bekräfta namnet och tryck "Lägg till".</li></ol>
+<hr>
+<h5>Så här fungerar appen</h5>
+<p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
+<ul><li><strong>Skott:</strong> För snabb registrering av avlossade skott för den *aktiva* jakten.</li><li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts under den *aktiva* jakten.</li><li><strong>Rapporter & Admin:</strong> För att se sammanställningar, hantera sparade jakter och allmän administration.</li></ul>
+<h6>Fliken "Skott" - Registrera dina skott</h6>
+<ol><li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas under den pågående jakten. Tiden för skottet sparas automatiskt.</li><li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten. Såtindelning är specifik för varje jakt.</li><li><strong>Loggade skott:</strong> Dina registrerade skott för den aktiva jakten visas i en lista. Du kan verifiera tiden, associera skottet till ett fällt vilt från samma jakt, eller ta bort skottet.</li></ol>
+<h6>Fliken "Fällt vilt" - Rapportera fällt vilt</h6>
+<p>Här hanterar du vilt som fällts under den *aktiva* jakten. Funktionaliteten för att lägga till, redigera och visa detaljer är densamma som tidigare, men all data är kopplad till den jakt som just nu är laddad.</p>
+<h6>Fliken "Rapporter & Admin" - Sammanställningar och datahantering</h6>
+<ul><li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats för den *aktuellt laddade* jakten.</li><li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en CSV-fil med all information om det fällda viltet för den *aktuellt laddade* jakten. Filnamnet kommer att inkludera jaktens datum.</li><li><strong>Starta Ny Jakt:</strong><ul><li>Om du har en pågående jakt med osparade ändringar (t.ex. nya skott) kommer denna först att sparas automatiskt i listan nedan.</li><li>Därefter startas en helt ny, tom jakt. Datumet för denna nya jakt sätts till dagens datum.</li><li>Introvideo spelas upp.</li></ul></li><li><strong>Sparade Jakter (Lista):</strong><ul><li>Här listas alla dina tidigare sparade jakter, sorterade med den senaste överst. Varje jakt visas med sitt startdatum.</li><li><strong>Ladda Jakt:</strong> Klickar du här sparas den nuvarande aktiva jakten (om den har data) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den laddade jakten. Introvideo spelas upp.</li><li><strong>Ta bort (soptunna-ikon):</strong> Tar permanent bort den specifika jakten från listan och all dess lagrade data efter att du bekräftat åtgärden.</li></ul></li><li><strong>Rensa all data (ALLA Jakter):</strong> Denna röda knapp längst ner är för en total återställning.<ul><li>OBS! Denna knapp tar bort ALLA sparade jakter och all information om den nuvarande aktiva jakten. Detta kan inte ångras.</li><li>Du får en extra fråga för att bekräfta innan något raderas.</li></ul></li></ul>    
+<h5>Övriga funktioner:</h5>
+<ul><li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li><li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li><li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li><li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas högst upp. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li></ul>
+<p>Lycka till med jakten och rapporteringen!</p>
     </div> </div> </div>
     <div id="shareOverlay" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3>Dela Appen</h3> <button id="shareOverlayCloseBtn" class="icon-button" title="Stäng"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button> </div> <div class="overlay-scrollable-content" style="text-align: center;"> <div id="qrCodeContainer"></div> <p><a id="shareableLink" href="#" target="_blank"></a></p> </div> </div> </div>
     <div id="saveReportOverlay" class="content-overlay" style="display: none;">
@@ -1556,11 +1507,7 @@
                     const li = document.createElement('li');
                     li.className = 'saved-hunt-item';
                     li.dataset.huntId = huntMeta.id;
-                    if (huntMeta.id === currentActiveHuntId) {
-                        li.style.borderColor = 'var(--primary-color)'; 
-                        li.style.boxShadow = '0 0 3px var(--primary-color)';
-                    }
-
+                    
                     const dateSpan = document.createElement('span');
                     dateSpan.className = 'hunt-date';
                     try {
@@ -1574,8 +1521,16 @@
 
                     const loadBtn = document.createElement('button');
                     loadBtn.className = 'button-secondary load-hunt-btn';
-                    loadBtn.textContent = 'Ladda Jakt';
-                    loadBtn.disabled = (huntMeta.id === currentActiveHuntId); 
+                    
+                    if (huntMeta.id === currentActiveHuntId) {
+                        li.style.borderColor = 'var(--primary-color)'; 
+                        li.style.boxShadow = '0 0 3px var(--primary-color)';
+                        loadBtn.textContent = 'Aktiv Jakt';
+                        loadBtn.disabled = true; 
+                    } else {
+                        loadBtn.textContent = 'Öppna Jakt';
+                        loadBtn.disabled = false;
+                    }
                     loadBtn.onclick = () => handleLoadSavedHunt(huntMeta.id);
 
                     const deleteBtn = document.createElement('button');
