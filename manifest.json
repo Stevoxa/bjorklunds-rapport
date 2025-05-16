@@ -1,7 +1,7 @@
 {
     "name": "Björklunds Rapport",
     "short_name": "Rapport",
-    "description": "App för att rapportera skott och fällt vilt under jakt.",
+    "description": "Rapportera skott och fällt vilt under jakt.",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#fdfcf7",
