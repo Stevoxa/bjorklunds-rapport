@@ -646,6 +646,10 @@
         .saved-hunt-item .hunt-actions .load-hunt-btn {
              font-size: 0.9em; padding: 6px 10px; height: auto;
         }
+	.saved-hunt-item .hunt-actions .load-hunt-active-btn {
+             font-size: 0.9em; padding: 6px 16px; height: auto;
+        }
+
          .saved-hunt-item .hunt-actions .delete-hunt-btn {
              width: 30px; height: 30px; padding: 0; 
         }
@@ -1520,14 +1524,15 @@
                     actionsDiv.className = 'hunt-actions';
 
                     const loadBtn = document.createElement('button');
-                    loadBtn.className = 'button-secondary load-hunt-btn';
-                    
+                                        
                     if (huntMeta.id === currentActiveHuntId) {
+			loadBtn.className = 'button-secondary load-hunt-active-btn';
                         li.style.borderColor = 'var(--primary-color)'; 
                         li.style.boxShadow = '0 0 3px var(--primary-color)';
                         loadBtn.textContent = 'Aktiv Jakt';
                         loadBtn.disabled = true; 
                     } else {
+			loadBtn.className = 'button-secondary load-hunt-btn';
                         loadBtn.textContent = 'Öppna Jakt';
                         loadBtn.disabled = false;
                     }
