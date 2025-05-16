@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Björklunds Rapport V5.7 - Manual text changes</title>
+    <title>Björklunds Rapport V5.8.20 - Återställda Funktioner</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -12,7 +12,7 @@
         :root {
             --primary-color: #344a34; 
             --primary-color-rgb: 52, 74, 52; 
-            --primary-text-color: #FFFFFF;
+            --primary-text-color: #FFFFFF; 
             --bg-color: #F8F9FA; 
             --surface-bg-color: #FFFFFF; 
             --text-color: #212529; 
@@ -25,6 +25,8 @@
             --secondary-button-border-color: var(--primary-color); 
             
             --danger-color: #DC3545; 
+            --danger-rgb: 220, 53, 69;
+            --danger-text-color-on-danger-bg: #FFFFFF; 
             --danger-secondary-bg: #F8D7DA;
             --danger-secondary-text-color: #721C24;
             --success-color: #198754; 
@@ -65,9 +67,12 @@
             --secondary-button-text-color: var(--text-color);
             --secondary-button-border-color: #555;
 
-            --danger-color: #FF8A80;
-            --danger-secondary-bg: #5C2B2B;
-            --danger-secondary-text-color: #FFCDD2;
+            --danger-color: #B71C1C; 
+            --danger-rgb: 183, 28, 28;
+            --danger-text-color-on-danger-bg: #FFFFFF; 
+            --danger-secondary-bg: #5C2B2B; 
+            --danger-secondary-text-color: #FFCDD2; 
+
             --success-color: #66BB6A;
             --success-bg-color: #2E3C32;
             
@@ -229,9 +234,18 @@
             overflow-y: auto; 
         }
 
-
         h2 { color: var(--primary-color); text-align: left; margin-top: 0; margin-bottom: 20px; font-size: 1.3em; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);}
         hr { border: 0; height: 1px; background-color: var(--border-color); margin: 20px 0; }
+        
+        #adminTab h4 { 
+            color: var(--primary-color);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--subtle-border-color);
+            font-size: 1.1em;
+        }
+
         #helpOverlay .overlay-scrollable-content hr {
             margin-top: 1em;
             margin-bottom: 1em;
@@ -241,6 +255,8 @@
             color: var(--overlay-header-text-color);
             margin-top: 0; 
             margin-bottom: 0.75em;
+            border-bottom: none;
+            padding-bottom: 0;
         }
         #helpOverlay .overlay-scrollable-content h5 { 
             font-size: 1.2em;
@@ -302,7 +318,6 @@
              outline-offset: 2px;
         }
         
-        #clearAllDataBtn.button-secondary, 
         #unlinkShotBtn.button-secondary, 
         #viewGameDeleteBtn.button-secondary,
         #deleteGameFromEditModalBtn.button-secondary { 
@@ -310,24 +325,65 @@
             color: var(--danger-secondary-text-color) !important; 
             border-color: var(--danger-color) !important; 
         }
+        
+        body[data-theme="dark"] #unlinkShotBtn.button-secondary, 
+        body[data-theme="dark"] #viewGameDeleteBtn.button-secondary,
+        body[data-theme="dark"] #deleteGameFromEditModalBtn.button-secondary {
+             border-color: #FF8A80 !important; 
+        }
 
-        #clearAllDataBtn.button-secondary:hover:not(:disabled), 
+
+        #startNewHuntBtn { 
+            background-color: var(--primary-color);
+            color: var(--primary-text-color);
+            border: none; 
+        }
+        #dangerZoneClearAllBtn { 
+            background-color: var(--danger-color) !important;
+            color: var(--danger-text-color-on-danger-bg) !important;
+            border: 1px solid color-mix(in srgb, var(--danger-color) 80%, black) !important;
+        }
+         body[data-theme="dark"] #dangerZoneClearAllBtn {
+             border-color: color-mix(in srgb, var(--danger-color) 80%, black) !important;
+         }
+
+
         #unlinkShotBtn.button-secondary:hover:not(:disabled), 
         #viewGameDeleteBtn.button-secondary:hover:not(:disabled),
         #deleteGameFromEditModalBtn.button-secondary:hover:not(:disabled),
-        #clearAllDataBtn.button-secondary:focus:not(:disabled), 
         #unlinkShotBtn.button-secondary:focus:not(:disabled), 
         #viewGameDeleteBtn.button-secondary:focus:not(:disabled),
         #deleteGameFromEditModalBtn.button-secondary:focus:not(:disabled) { 
             background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important; 
         }
-        #clearAllDataBtn.button-secondary:focus:not(:disabled), 
+        #startNewHuntBtn:hover:not(:disabled), #startNewHuntBtn:focus:not(:disabled) {
+             background-color: color-mix(in srgb, var(--primary-color) 85%, black) !important;
+        }
+         #dangerZoneClearAllBtn:hover:not(:disabled), #dangerZoneClearAllBtn:focus:not(:disabled) {
+            background-color: color-mix(in srgb, var(--danger-color) 80%, black) !important;
+        }
+
         #unlinkShotBtn.button-secondary:focus:not(:disabled), 
         #viewGameDeleteBtn.button-secondary:focus:not(:disabled),
         #deleteGameFromEditModalBtn.button-secondary:focus:not(:disabled) { 
-             outline-color: var(--danger-color); 
+            outline: 2px solid #DC3545; 
+            outline-offset: 1px;
         }
+         body[data-theme="dark"] #unlinkShotBtn.button-secondary:focus:not(:disabled), 
+         body[data-theme="dark"] #viewGameDeleteBtn.button-secondary:focus:not(:disabled),
+         body[data-theme="dark"] #deleteGameFromEditModalBtn.button-secondary:focus:not(:disabled) {
+            outline-color: #FF8A80; 
+         }
 
+
+        #dangerZoneClearAllBtn:focus:not(:disabled) { 
+             outline: 2px solid var(--danger-color); 
+             outline-offset: 1px;
+        }
+         #startNewHuntBtn:focus:not(:disabled) {
+            outline: 2px solid color-mix(in srgb, var(--primary-color) 50%, black);
+            outline-offset: 1px;
+        }
 
         input[type="text"], input[type="time"], select, textarea { 
             flex-grow: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1em; font-family: inherit; box-sizing: border-box; background-color: var(--surface-bg-color); color: var(--text-color); min-width: 150px; 
@@ -366,7 +422,6 @@
             border-color: var(--primary-color);
             outline: 1px solid var(--primary-color);
         }
-
 
         .icon-button { background: transparent; border: none; padding: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
         .icon-button svg { width: 18px; height: 18px; fill: var(--icon-fill-color); transition: fill 0.2s ease; }
@@ -565,9 +620,32 @@
         #linkShotModal .modal-actions { display: flex; flex-direction: column; gap: 10px; }
         #linkShotModal .modal-actions button { width: 100%; }
         
-        #reportsDataSection .bottom-actions button { 
-            width: 100%;
-            margin-bottom: 5px; 
+        #savedHuntsList { list-style-type: none; padding: 0; margin: 0 0 20px 0; }
+        #savedHuntsSection { margin-top: 15px; margin-bottom: 20px;}
+        .saved-hunt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid var(--subtle-border-color);
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .saved-hunt-item .hunt-date {
+            font-weight: bold;
+        }
+        .saved-hunt-item .hunt-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .saved-hunt-item .hunt-actions .load-hunt-btn {
+             font-size: 0.9em; padding: 6px 10px; height: auto;
+        }
+         .saved-hunt-item .hunt-actions .delete-hunt-btn {
+             width: 30px; height: 30px; padding: 0; 
+        }
+         .saved-hunt-item .hunt-actions .delete-hunt-btn svg {
+            width: 16px; height: 16px; 
         }
 
     </style>
@@ -615,14 +693,22 @@
             <p id="noReportsInfo" class="info-text" style="display: block;">Inget fält vilt rapporterat ännu.</p>
         </section>
 
-        <section id="adminTab" class="tab-content" style="display: none;">
+        <section id="adminTab" class="tab-content" style="display:none; flex-direction:column;">
             <h2>Rapporter & Administration</h2>
-            <div class="bottom-actions">
+            <div class="bottom-actions" style="flex-grow: 0; margin-bottom: 20px;">
                 <button id="viewMeatReportBtn" class="button-secondary">Visa köttfördelning</button>
                 <button id="exportFullGameReportBtn" class="button-secondary">Spara fullständig CSV-rapport</button>
-                <hr style="margin: 10px 0;">
-                <button id="clearAllDataBtn" class="button-secondary">Påbörja ny jakt / Rensa all data</button>
             </div>
+            <hr style="margin: 15px 0;">
+            <button id="startNewHuntBtn" style="width:100%; font-size: 1.1em; padding: 12px; margin-bottom: 20px;">Starta Ny Jakt</button>
+            
+            <div id="savedHuntsSection" style="flex-grow: 1; overflow-y: auto; min-height: 100px;">
+                <ul id="savedHuntsList"></ul>
+                <p id="noSavedHuntsInfo" class="info-text" style="display: none; margin-top:0; margin-bottom: 20px;">Inga jakter sparade ännu.</p>
+            </div>
+            
+            <hr style="margin: 25px 0 15px 0;">
+            <button id="dangerZoneClearAllBtn" style="width:100%; flex-shrink:0;">Rensa all data (ALLA Jakter)</button>
         </section>
     </div> 
 
@@ -714,12 +800,11 @@
     <div id="helpOverlay" class="content-overlay" style="display: none;"> <div class="overlay-content-box"> <div class="overlay-header"> <h3>Hjälp & Information</h3> <button id="helpOverlayCloseBtn" class="icon-button" title="Stäng"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button> </div> 
     <div class="overlay-scrollable-content">
         <h4>Välkommen till Björklunds Rapport!</h4>
-        <p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare.</p>
-        
+        <p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare, organiserat per jakttillfälle.</p>
+
         <hr>
         <h5>Installera Appen på Din Hemskärm</h5>
         <p>För enklare åtkomst kan du lägga till Björklunds Rapport på din mobils hemskärm. Den kommer då att fungera mer som en vanlig app.</p>
-        
         <p><strong>Android (t.ex. Chrome):</strong></p>
         <ol>
             <li>Öppna appen i din Chrome-webbläsare.</li>
@@ -728,7 +813,6 @@
             <li>Följ instruktionerna.</li>
         </ol>
         <p><em>Alternativt kan en "Installera App"-knapp (med en nedåtpil ikon) dyka upp automatiskt högst upp i appen när du använt sidan ett tag.</em></p>
-
         <p><strong>iOS (iPhone/iPad - Safari):</strong></p>
         <ol>
             <li>Öppna appen i Safari-webbläsaren.</li>
@@ -741,60 +825,45 @@
         <h5>Så här fungerar appen</h5>
         <p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
         <ul>
-            <li><strong>Skott:</strong> För snabb registrering av avlossade skott.</li>
-            <li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts.</li>
-            <li><strong>Rapporter & Admin:</strong> För att se sammanställningar och hantera jaktdata.</li>
+            <li><strong>Skott:</strong> För snabb registrering av avlossade skott för den *aktiva* jakten.</li>
+            <li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts under den *aktiva* jakten.</li>
+            <li><strong>Rapporter & Admin:</strong> För att se sammanställningar, hantera sparade jakter och allmän administration.</li>
         </ul>
-    
+
         <h6>Fliken "Skott" - Registrera dina skott</h6>
         <ol>
-            <li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas. Tiden för skottet sparas automatiskt.</li>
-            <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten.
-                <ul>
-                    <li>Du kan se vilken såt ett skott tillhör under skottinformationen.</li>
-                    <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼). När en ny såt skapas fälls alla såtar ihop automatiskt.</li>
-                </ul>
-            </li>
-            <li><strong>Loggade skott:</strong> Dina registrerade skott visas i en lista under knapparna.
-                <ul>
-                    <li><strong>Verifierat:</strong> Bocka i rutan "Verifierat" för att markera att tiden för skottet stämmer med verkligheten.</li>
-                    <li><strong>Associera skott:</strong> Klicka på ett skott i listan för att koppla det till ett fällt vilt. Du kan antingen välja ett redan rapporterat vilt eller skapa en ny viltrapport direkt. Detta är viktigt för att veta vilka skott som hör till vilket djur.</li>
-                    <li><strong>Ta bort:</strong> Klicka på soptunnan för att ta bort ett felaktigt loggat skott.</li>
-                </ul>
-            </li>
+            <li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas under den pågående jakten. Tiden för skottet sparas automatiskt.</li>
+            <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten. Såtindelning är specifik för varje jakt.</li>
+            <li><strong>Loggade skott:</strong> Dina registrerade skott för den aktiva jakten visas i en lista. Du kan verifiera tiden, associera skottet till ett fällt vilt från samma jakt, eller ta bort skottet.</li>
         </ol>
-    
+
         <h6>Fliken "Fällt vilt" - Rapportera fällt vilt</h6>
-        <ol>
-            <li><strong>Lägg till:</strong> Klicka på knappen "Lägg till" för att skapa en ny rapport för ett fällt vilt.</li>
-            <li><strong>Fyll i detaljer:</strong>
-                <ul>
-                    <li><strong>Viltslag:</strong> Välj från listan.</li>
-                    <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
-                    <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
-                    <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
-                    <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
-                </ul>
-            </li>
-            <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
-            <li><strong>Lista över fällt vilt:</strong> Alla rapporterade vilt visas i en lista.
-                <ul>
-                    <li><strong>Status:</strong> Visar om köttfördelning är ifylld ("Fördelat") eller inte ("Ej fördelat").</li>
-                    <li><strong>Klicka på ett vilt:</strong>
-                        <ul>
-                            <li>Om status är <strong>"Ej fördelat"</strong> (röd varningstriangel) kommer du direkt till redigeringsläget för att fylla i köttfördelningen.</li>
-                            <li>Om status är <strong>"Fördelat"</strong> (grön bock) visas först detaljer om viltet. Härifrån kan du välja att "Redigera" eller "Ta bort" rapporten.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ol>
-    
+        <p>Här hanterar du vilt som fällts under den *aktiva* jakten. Funktionaliteten för att lägga till, redigera och visa detaljer är densamma som tidigare, men all data är kopplad till den jakt som just nu är laddad.</p>
+
         <h6>Fliken "Rapporter & Admin" - Sammanställningar och datahantering</h6>
         <ul>
-            <li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats. Du kan kopiera texten eller dela rapporten direkt från denna vy.</li>
-            <li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en fil till din enhet (oftast i "Hämtade filer") som kan öppnas i t.ex. Excel. Den innehåller all information om det fällda viltet.</li>
-            <li><strong>Påbörja ny jakt / Rensa all data:</strong> OBS! Denna knapp tar bort ALL sparad information om skott och fällt vilt. Används när en helt ny jakt ska startas och all gammal data ska raderas. Du får en extra fråga för att bekräfta.</li>
+            <li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats för den *aktuellt laddade* jakten.</li>
+            <li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en CSV-fil med all information om det fällda viltet för den *aktuellt laddade* jakten. Filnamnet kommer att inkludera jaktens datum.</li>
+            <li><strong>Starta Ny Jakt:</strong>
+                <ul>
+                    <li>Om du har en pågående jakt med osparade ändringar (t.ex. nya skott) kommer denna först att sparas automatiskt i listan nedan.</li>
+                    <li>Därefter startas en helt ny, tom jakt. Datumet för denna nya jakt sätts till dagens datum.</li>
+                    <li>Introvideo spelas upp.</li>
+                </ul>
+            </li>
+            <li><strong>Sparade Jakter (Lista):</strong>
+                <ul>
+                    <li>Här listas alla dina tidigare sparade jakter, sorterade med den senaste överst. Varje jakt visas med sitt startdatum.</li>
+                    <li><strong>Ladda Jakt:</strong> Klickar du här sparas den nuvarande aktiva jakten (om den har data) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den laddade jakten. Introvideo spelas upp.</li>
+                    <li><strong>Ta bort (soptunna-ikon):</strong> Tar permanent bort den specifika jakten från listan och all dess lagrade data efter att du bekräftat åtgärden.</li>
+                </ul>
+            </li>
+            <li><strong>Rensa all data (ALLA Jakter):</strong> Denna röda knapp längst ner är för en total återställning.
+                <ul>
+                    <li>OBS! Denna knapp tar bort ALLA sparade jakter och all information om den nuvarande aktiva jakten. Detta kan inte ångras.</li>
+                    <li>Du får en extra fråga för att bekräfta innan något raderas.</li>
+                </ul>
+            </li>
         </ul>
     
         <h5>Övriga funktioner:</h5>
@@ -879,17 +948,24 @@
 
     <script>
         // --- DOM ELEMENT REFERENSER ---
-        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, clearAllDataBtn,addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gameShooterInput, gamePassLocationInput, gameReportTimeInput,meatRecipientNameInput, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn, deleteGameFromEditModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkActionBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
+        let themeToggleBtn, themeIconSun, themeIconMoon, helpBtn, shareBtn, installAppBtn,logShotBtn, newSaaterBtn, shotLogList, noLoggedShotsInfo,addFelledGameBtn, reportListContainer, noReportsInfo, viewMeatReportBtn, exportFullGameReportBtn, addGameModal, gameModalTitle, currentShotLogIdInput, triggeringShotIdInput,gameSpeciesInput, gameShooterInput, gamePassLocationInput, gameReportTimeInput,meatRecipientNameInput, gameMeatDistributionTextarea,saveGameDetailsBtn, cancelGameModalBtn, deleteGameFromEditModalBtn,linkShotModal, linkShotModalTitle, linkShotModalShotId, linkableGameList,createNewGameFromLinkBtn, unlinkShotBtn, cancelLinkActionBtn, cancelLinkShotModalBtn,viewGameModal, viewGameModalTitle, viewGameDetailsContent, viewGameCloseBtn,viewGameEditBtn, viewGameDeleteBtn, viewLinkedShotsList,helpOverlay, helpOverlayCloseBtn, shareOverlay, shareOverlayCloseBtn,qrCodeContainer, shareableLink, saveReportOverlay, saveReportOverlayCloseBtn, meatDistributionReportList, noMeatDistributionReportsInfo, reportDateDisplay, copyMeatReportBtn, shareMeatReportBtn, tabButtons, tabContents;
         let introVideoOverlay, introVideoPlayer; 
         let customAlertModal, customAlertTitle, customAlertHeader, customAlertMessage, customAlertOkBtn;
-        let customConfirmModal, customConfirmTitle, customConfirmMessage, /* customConfirmOkBtn definieras specifikt i eventlisteners */ customConfirmCancelBtn;
+        let customConfirmModal, customConfirmTitle, customConfirmMessage, customConfirmCancelBtn;
         let currentConfirmCallback = null; 
         let currentCancelCallback = null; 
         let openQuickChoiceModalBtn, quickChoiceModal, quickChoiceModalTitleElement, quickChoiceList, closeQuickChoiceModalBtn, cancelQuickChoiceModalBtn;
+        let startNewHuntBtn, savedHuntsSection, savedHuntsList, noSavedHuntsInfo, dangerZoneClearAllBtn;
 
 
         // --- GLOBALA VARIABLER ---
-        let allReports = [];
+        const APP_DATA_KEY_PREFIX = 'bjorklundsRapportHunt_'; 
+        const ACTIVE_HUNT_ID_KEY = 'bjorklundsRapportActiveHuntId';
+        const SAVED_HUNTS_INDEX_KEY = 'bjorklundsRapportSavedHuntsIndex'; 
+
+        let allReports = []; 
+        let currentActiveHuntId = null; 
+
         let currentTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         let deferredPrompt;
         const appURL = window.location.href;
@@ -941,7 +1017,13 @@
             viewMeatReportBtn = document.getElementById('viewMeatReportBtn'); 
             exportFullGameReportBtn = document.getElementById('exportFullGameReportBtn'); 
             newSaaterBtn = document.getElementById('newSaaterBtn');
-            clearAllDataBtn = document.getElementById('clearAllDataBtn'); addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gameShooterInput = document.getElementById('gameShooterInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); deleteGameFromEditModalBtn = document.getElementById('deleteGameFromEditModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkActionBtn = document.getElementById('cancelLinkActionBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
+            startNewHuntBtn = document.getElementById('startNewHuntBtn');
+            savedHuntsSection = document.getElementById('savedHuntsSection');
+            savedHuntsList = document.getElementById('savedHuntsList');
+            noSavedHuntsInfo = document.getElementById('noSavedHuntsInfo');
+            dangerZoneClearAllBtn = document.getElementById('dangerZoneClearAllBtn');
+
+            addGameModal = document.getElementById('addGameModal'); gameModalTitle = document.getElementById('gameModalTitle'); currentShotLogIdInput = document.getElementById('currentShotLogIdInput'); triggeringShotIdInput = document.getElementById('triggeringShotIdInput'); gameSpeciesInput = document.getElementById('gameSpeciesInput'); gameShooterInput = document.getElementById('gameShooterInput'); gamePassLocationInput = document.getElementById('gamePassLocationInput'); gameReportTimeInput = document.getElementById('gameReportTimeInput'); meatRecipientNameInput = document.getElementById('meatRecipientNameInput'); gameMeatDistributionTextarea = document.getElementById('gameMeatDistributionTextarea'); saveGameDetailsBtn = document.getElementById('saveGameDetailsBtn'); cancelGameModalBtn = document.getElementById('cancelGameModalBtn'); deleteGameFromEditModalBtn = document.getElementById('deleteGameFromEditModalBtn'); linkShotModal = document.getElementById('linkShotModal'); linkShotModalTitle = document.getElementById('linkShotModalTitle'); linkShotModalShotId = document.getElementById('linkShotModalShotId'); linkableGameList = document.getElementById('linkableGameList'); createNewGameFromLinkBtn = document.getElementById('createNewGameFromLinkBtn'); unlinkShotBtn = document.getElementById('unlinkShotBtn'); cancelLinkActionBtn = document.getElementById('cancelLinkActionBtn'); cancelLinkShotModalBtn = document.getElementById('cancelLinkShotModalBtn'); viewGameModal = document.getElementById('viewGameModal'); viewGameModalTitle = document.getElementById('viewGameModalTitle'); viewGameDetailsContent = document.getElementById('viewGameDetailsContent'); viewGameCloseBtn = document.getElementById('viewGameCloseBtn'); viewGameEditBtn = document.getElementById('viewGameEditBtn'); viewGameDeleteBtn = document.getElementById('viewGameDeleteBtn'); viewLinkedShotsList = document.getElementById('viewLinkedShotsList'); helpOverlay = document.getElementById('helpOverlay'); helpOverlayCloseBtn = document.getElementById('helpOverlayCloseBtn'); shareOverlay = document.getElementById('shareOverlay'); shareOverlayCloseBtn = document.getElementById('shareOverlayCloseBtn'); qrCodeContainer = document.getElementById('qrCodeContainer'); shareableLink = document.getElementById('shareableLink');
             saveReportOverlay = document.getElementById('saveReportOverlay');
             saveReportOverlayCloseBtn = document.getElementById('saveReportOverlayCloseBtn');
             meatDistributionReportList = document.getElementById('meatDistributionReportList');
@@ -978,37 +1060,41 @@
             if (installAppBtn) installAppBtn.style.display = 'none';
             applyTheme(currentTheme);
             initializeTabs();
-            loadAllDataFromLocalStorage(); 
-            renderShotLogList();
-            renderFelledGameReportList();
+            loadAndInitializeHuntApp(); 
             
             populateQuickChoiceModal(); 
-
             checkAndPlayIntroVideo(); 
 
             if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
             if (helpBtn) helpBtn.addEventListener('click', openHelpOverlay);
             if (shareBtn) shareBtn.addEventListener('click', openShareOverlay);
             if (logShotBtn) logShotBtn.addEventListener('click', handleLogShot);
-            if (newSaaterBtn) newSaaterBtn.addEventListener('click', handleNewSaater);
+            if (newSaaterBtn) newSaaterBtn.addEventListener('click', handleNewSaater); 
             if (addFelledGameBtn) addFelledGameBtn.addEventListener('click', () => openAddGameModal(null));
             if (viewMeatReportBtn) viewMeatReportBtn.addEventListener('click', openSaveReportOverlay); 
             if (exportFullGameReportBtn) exportFullGameReportBtn.addEventListener('click', exportFullGameReportToCSV); 
-            if (clearAllDataBtn) clearAllDataBtn.addEventListener('click', handleClearAllData);
+            
+            if (startNewHuntBtn) startNewHuntBtn.addEventListener('click', handleStartNewHunt);
+            if (dangerZoneClearAllBtn) dangerZoneClearAllBtn.addEventListener('click', handleDangerZoneClearAll);
+            
             if (saveGameDetailsBtn) saveGameDetailsBtn.addEventListener('click', handleSaveGameDetails);
             if (cancelGameModalBtn) cancelGameModalBtn.addEventListener('click', closeAddGameModal);
             if (deleteGameFromEditModalBtn) deleteGameFromEditModalBtn.onclick = () => { /* Logic in openAddGameModal */ };
-            if (cancelLinkShotModalBtn) cancelLinkShotModalBtn.addEventListener('click', closeLinkShotModal); // X-knapp i LinkShotModal
+            if (cancelLinkShotModalBtn) cancelLinkShotModalBtn.addEventListener('click', closeLinkShotModal); 
             if (createNewGameFromLinkBtn) createNewGameFromLinkBtn.addEventListener('click', handleCreateNewGameFromLinkModal);
-            if (unlinkShotBtn) unlinkShotBtn.addEventListener('click', handleUnlinkShotFromLinkModal); // Denna hanteras dynamiskt
-            if (cancelLinkActionBtn) cancelLinkActionBtn.addEventListener('click', closeLinkShotModal); // Nya "Avbryt"-knappen
-            if (viewGameCloseBtn) viewGameCloseBtn.addEventListener('click', closeViewGameModal);
-            if (viewGameEditBtn) viewGameEditBtn.addEventListener('click', handleEditFromViewModal);
+            if (unlinkShotBtn) unlinkShotBtn.addEventListener('click', handleUnlinkShotFromLinkModal); 
+            if (cancelLinkActionBtn) cancelLinkActionBtn.addEventListener('click', closeLinkShotModal); 
+            if (viewGameCloseBtn) viewGameCloseBtn.addEventListener('click', closeViewGameModal); 
+            if (viewGameEditBtn) viewGameEditBtn.addEventListener('click', handleEditFromViewModal); 
             if (viewGameDeleteBtn) viewGameDeleteBtn.addEventListener('click', handleDeleteFromViewModal);
             if (helpOverlayCloseBtn) helpOverlayCloseBtn.addEventListener('click', closeHelpOverlay);
             if (shareOverlayCloseBtn) shareOverlayCloseBtn.addEventListener('click', closeShareOverlay);
             if (saveReportOverlayCloseBtn) saveReportOverlayCloseBtn.addEventListener('click', closeSaveReportOverlay); 
             
+            if (copyMeatReportBtn) copyMeatReportBtn.addEventListener('click', handleCopyMeatReport); 
+            if (shareMeatReportBtn) shareMeatReportBtn.addEventListener('click', handleShareMeatReport);
+
+
             if (customAlertOkBtn) { 
                 customAlertOkBtn.addEventListener('click', () => {
                     if (customAlertModal) customAlertModal.style.display = 'none';
@@ -1127,7 +1213,10 @@
         }
         function activateTab(tabId) {
             tabContents.forEach(content => {
-                content.style.display = content.id === tabId ? 'block' : 'none';
+                content.style.display = content.id === tabId ? 'flex' : 'none'; 
+                 if (content.id === tabId && content.id === "adminTab") { 
+                    content.style.flexDirection = "column";
+                }
             });
             tabButtons.forEach(button => {
                 button.classList.toggle('active', button.dataset.tab === tabId);
@@ -1157,359 +1246,9 @@
         function toggleTheme() { currentTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(currentTheme); }
         function setupPWAInstallation() { window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if (installAppBtn) { installAppBtn.style.display = 'inline-flex'; const newInstallBtn = installAppBtn.cloneNode(true); if(installAppBtn.parentNode) installAppBtn.parentNode.replaceChild(newInstallBtn, installAppBtn); installAppBtn = newInstallBtn; installAppBtn.onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; if(installAppBtn) installAppBtn.style.display = 'none'; } else { const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; if (isIOS) showCustomAlert("För att installera på iOS: Klicka på Dela-ikonen i Safari och välj sedan 'Lägg till på hemskärmen'.", "Installationsguide"); else if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) showCustomAlert("Appen är redan installerad!", "Information"); else showCustomAlert("Installationsprompt ej tillgänglig. Försök igen senare eller följ webbläsarens instruktioner för att lägga till på hemskärmen.", "Information");} }; } }); window.addEventListener('appinstalled', () => { if (installAppBtn) installAppBtn.style.display = 'none'; deferredPrompt = null; }); }
         
-        // --- Datahantering & Migrering ---
-        function saveAllDataToLocalStorage() {
-            try {
-                const dataToSave = {
-                    reports: allReports,
-                    nextSaaterToAssign: nextSaaterToAssign,
-                    saaterDisplayStates: saaterStates
-                };
-                localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(dataToSave)); 
-            } catch (e) {
-                console.error("Fel vid sparande till localStorage:", e);
-                showCustomAlert("Fel: Kunde inte spara data.", "Dataproblem");
-            }
-        }
-
-        function loadAllDataFromLocalStorage() {
-            const dataV5 = localStorage.getItem('bjorklundsAllRapporter_v5_tabs'); 
-            if (dataV5) {
-                 try {
-                    const parsedData = JSON.parse(dataV5);
-                    allReports = parsedData.reports || [];
-                    saaterStates = parsedData.saaterDisplayStates || {};
-                    nextSaaterToAssign = parsedData.nextSaaterToAssign || 1;
-                    console.log("Loaded v5 (tabs) data.");
-                    return;
-                } catch (e) {
-                    console.error("Kunde inte ladda v5 (tabs) data.", e);
-                    allReports = []; nextSaaterToAssign = 1; saaterStates = {};
-                }
-            } else { 
-                const dataV4 = localStorage.getItem('bjorklundsAllRapporter_v4_saater');
-                if (dataV4) {
-                    try {
-                        const parsedData = JSON.parse(dataV4);
-                        allReports = parsedData.reports || [];
-                        saaterStates = parsedData.saaterDisplayStates || {};
-                        if (parsedData.nextSaaterToAssign) {
-                            nextSaaterToAssign = parsedData.nextSaaterToAssign;
-                        } else { 
-                            const saaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
-                            if (saaterDividers.length > 0) {
-                                nextSaaterToAssign = Math.max(0, ...saaterDividers.map(d => d.saaterNumber)) + 1;
-                            } else { nextSaaterToAssign = 1; }
-                        }
-                        console.log("Migrated data from v4_saater to v5_tabs.");
-                        saveAllDataToLocalStorage(); 
-                        // localStorage.removeItem('bjorklundsAllRapporter_v4_saater'); 
-                    } catch (e) {
-                        console.error("Kunde inte ladda/migrera v4_saater data.", e);
-                        allReports = []; nextSaaterToAssign = 1; saaterStates = {};
-                    }
-                } else {
-                     allReports = []; nextSaaterToAssign = 1; saaterStates = {};
-                     console.log("No data found in localStorage.");
-                }
-            }
-             const storedData = JSON.parse(localStorage.getItem('bjorklundsAllRapporter_v5_tabs') || '{}');
-            if (storedData.hasOwnProperty('currentSaaterNumber')) { 
-                delete storedData.currentSaaterNumber;
-                localStorage.setItem('bjorklundsAllRapporter_v5_tabs', JSON.stringify(storedData));
-            }
-        }
-
-        // --- Videohantering ---
-        function checkAndPlayIntroVideo(forcePlay = false) {
-            if (!introVideoOverlay || !introVideoPlayer) {
-                console.warn("Intro video elements not found.");
-                return;
-            }
-
-            const today = new Date().toDateString(); 
-            const lastShownDate = localStorage.getItem(LAST_INTRO_VIDEO_SHOWN_KEY);
-
-            if (forcePlay || lastShownDate !== today) {
-                introVideoOverlay.style.display = 'flex';
-                document.body.classList.add('overlay-open'); 
-
-                introVideoPlayer.currentTime = 0; 
-                introVideoPlayer.play().then(() => {
-                    // Video playing
-                }).catch(error => {
-                    console.error("Error playing intro video:", error);
-                    hideIntroVideo();
-                });
-
-                const onVideoEnd = () => {
-                    hideIntroVideo();
-                    localStorage.setItem(LAST_INTRO_VIDEO_SHOWN_KEY, today);
-                    introVideoPlayer.removeEventListener('ended', onVideoEnd);
-                    introVideoPlayer.removeEventListener('click', skipVideo); 
-                };
-                introVideoPlayer.addEventListener('ended', onVideoEnd);
-                
-                const skipVideo = () => {
-                    introVideoPlayer.pause();
-                    onVideoEnd(); 
-                };
-                introVideoPlayer.addEventListener('click', skipVideo);
-
-            } else {
-                hideIntroVideo();
-            }
-        }
-
-        function hideIntroVideo() {
-            if (introVideoOverlay) {
-                introVideoOverlay.style.display = 'none';
-            }
-            checkAndCloseBodyOverlay(); 
-        }
-
-
-        // --- Skotthantering ---
-        function handleLogShot() {
-            const n = new Date();
-            const h = String(n.getHours()).padStart(2, '0');
-            const m = String(n.getMinutes()).padStart(2, '0');
-            
-            const newShot = {
-                id: Date.now(), itemType: 'shot', shotTime: `${h}:${m}`, isVerified: false, createdAt: n.toISOString(), linkedGameReportId: null, saater: 0 
-            };
-            allReports.unshift(newShot); 
-            if (newSaaterBtn) newSaaterBtn.disabled = false;
-            saveAllDataToLocalStorage();
-            renderShotLogList(); 
-        }
-        function handleToggleShotVerification(shotId, checkboxElement) { const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); if (shot) { shot.isVerified = checkboxElement.checked; saveAllDataToLocalStorage(); } }
-        
-        // --- Viltrapporthantering (Add/Edit Modal) ---
-        function handleSaveGameDetails() { 
-            if (!currentShotLogIdInput || !gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionTextarea || !gameReportTimeInput) { 
-                console.error("Formulärelement saknas."); 
-                showCustomAlert("Internt fel (formulärfält saknas).", "Fel"); 
-                return; 
-            } 
-            if (!gameSpeciesInput.value) { 
-                showCustomAlert("Välj ett viltslag.", "Obligatoriskt fält"); 
-                gameSpeciesInput.focus(); 
-                return; 
-            } 
-            if (!gameReportTimeInput.value) { 
-                showCustomAlert("Ange tid för rapport/hantering.", "Obligatoriskt fält"); 
-                gameReportTimeInput.focus(); 
-                return; 
-            } 
-            const details = { species: gameSpeciesInput.value, passLocation: gamePassLocationInput.value.trim(), shooter: gameShooterInput.value.trim(), reportTime: gameReportTimeInput.value, meatDistribution: gameMeatDistributionTextarea.value.trim(), }; 
-            const gameReportIdValue = currentShotLogIdInput.value; 
-            const triggeringShotId = parseInt(document.getElementById('triggeringShotIdInput')?.value) || null; 
-            let savedGameReportId = null; 
-            if (gameReportIdValue.startsWith('new_')) { 
-                const newReportId = parseInt(gameReportIdValue.split('_')[1]) || Date.now(); 
-                const newReport = { id: newReportId, itemType: 'game', createdAt: new Date().toISOString(), felledGameDetails: { ...details, linkedShotIds: [] } }; 
-                allReports.unshift(newReport); 
-                savedGameReportId = newReport.id; 
-            } else { 
-                const gameReportId = parseInt(gameReportIdValue); 
-                const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
-                if (!report) { 
-                    showCustomAlert("Fel: Kunde inte hitta viltrapporten att spara till.", "Fel"); 
-                    closeAddGameModal(); 
-                    return; 
-                } 
-                report.felledGameDetails = { ...report.felledGameDetails, ...details }; 
-                savedGameReportId = report.id; 
-            } 
-            saveAllDataToLocalStorage(); 
-            if (triggeringShotId && savedGameReportId && gameReportIdValue.startsWith('new_')) { 
-                linkShotToGame(triggeringShotId, savedGameReportId, false); 
-            } 
-            renderShotLogList(); 
-            renderFelledGameReportList(); 
-            closeAddGameModal(); 
-        }
-        function openAddGameModal(gameReportId, triggeringShotId = null) { 
-            if (!addGameModal || !gameSpeciesInput || !deleteGameFromEditModalBtn) return; 
-            const hiddenTriggerInput = document.getElementById('triggeringShotIdInput'); 
-            if (hiddenTriggerInput) hiddenTriggerInput.value = ''; 
-            
-            const scrollableContent = addGameModal.querySelector('.overlay-scrollable-content');
-            if(scrollableContent) scrollableContent.scrollTop = 0;
-
-            if (gameReportId !== null) { 
-                const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
-                if (!report) { 
-                    showCustomAlert("Fel: Hittade inte viltrapport för redigering.", "Fel"); 
-                    return; 
-                } 
-                currentShotLogIdInput.value = gameReportId; 
-                gameModalTitle.textContent = "Redigera Fällt Vilt"; 
-                gameSpeciesInput.value = report.felledGameDetails.species || ''; 
-                gamePassLocationInput.value = report.felledGameDetails.passLocation || ''; 
-                gameShooterInput.value = report.felledGameDetails.shooter || ''; 
-                gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || ''; 
-                gameReportTimeInput.value = report.felledGameDetails.reportTime || ''; 
-                meatRecipientNameInput.value = ''; 
-                deleteGameFromEditModalBtn.style.display = 'inline-flex';
-                deleteGameFromEditModalBtn.onclick = () => {
-                    const idToDelete = parseInt(currentShotLogIdInput.value);
-                    if (idToDelete && !currentShotLogIdInput.value.startsWith('new_')) {
-                        closeAddGameModal(); 
-                        handleDeleteItem(idToDelete, 'game');
-                    }
-                };
-            } else { 
-                gameModalTitle.textContent = "Lägg till fällt vilt"; 
-                currentShotLogIdInput.value = 'new_' + Date.now(); 
-                const n = new Date(); 
-                const h = String(n.getHours()).padStart(2, '0'); 
-                const m = String(n.getMinutes()).padStart(2, '0'); 
-                gameReportTimeInput.value = `${h}:${m}`; 
-                gameSpeciesInput.value = ''; 
-                gamePassLocationInput.value = ''; 
-                gameShooterInput.value = ''; 
-                gameMeatDistributionTextarea.value = ''; 
-                meatRecipientNameInput.value = ''; 
-                if (triggeringShotId && hiddenTriggerInput) { 
-                    hiddenTriggerInput.value = triggeringShotId; 
-                } 
-                deleteGameFromEditModalBtn.style.display = 'none';
-                deleteGameFromEditModalBtn.onclick = null;
-            } 
-            closeAllOverlays(addGameModal); 
-            addGameModal.style.display = 'flex'; 
-            document.body.classList.add('overlay-open'); 
-            gameSpeciesInput.focus();
-        }
-        function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        
-        // --- Koppling Skott <-> Vilt (Link Modal) ---
-        function openLinkShotModal(shotId) { 
-            if (!linkShotModal || !linkableGameList || !linkShotModalShotId || !unlinkShotBtn || !cancelLinkActionBtn || !createNewGameFromLinkBtn) return; 
-            
-            linkShotModalShotId.value = shotId; 
-            linkShotModalTitle.textContent = "Associera Skott till Fällt Vilt"; 
-            
-            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId);
-            if (!shot) {
-                showCustomAlert("Fel: Skottet kunde inte hittas.", "Fel");
-                closeLinkShotModal();
-                return;
-            }
-
-            // Ställ in knappar baserat på om skottet har en association
-            if (shot.linkedGameReportId) { // Har association
-                unlinkShotBtn.textContent = "Ta bort association";
-                unlinkShotBtn.style.display = 'inline-flex';
-                cancelLinkActionBtn.style.display = 'none';
-                createNewGameFromLinkBtn.style.display = 'inline-flex'; // Behåll denna? Kan vilja skapa nytt och länka om.
-            } else { // Har ingen association
-                unlinkShotBtn.style.display = 'none';
-                cancelLinkActionBtn.style.display = 'inline-flex';
-                createNewGameFromLinkBtn.style.display = 'inline-flex';
-            }
-
-            linkableGameList.innerHTML = ''; 
-            const gameReports = allReports.filter(r => r.itemType === 'game').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); 
-            if (gameReports.length === 0) { 
-                linkableGameList.innerHTML = '<li class="info-text">Inget fällt vilt att associera till ännu.</li>'; 
-            } else { 
-                gameReports.forEach(game => { 
-                    const li = document.createElement('li'); 
-                    li.className = 'linkable-game-item'; 
-                    li.dataset.gameId = game.id; 
-                    const species = game.felledGameDetails.species || 'Okänt Vilt'; 
-                    const shooter = game.felledGameDetails.shooter || '-'; 
-                    const location = game.felledGameDetails.passLocation || '-'; 
-                    li.innerHTML = `<span class="species">${species}</span><span class="details">Skytt: ${shooter}, Plats: ${location}</span>`; 
-                    li.onclick = () => { linkShotToGame(shotId, game.id); }; 
-                    linkableGameList.appendChild(li); 
-                }); 
-            } 
-            
-            const pInfo = linkShotModal.querySelector('.overlay-scrollable-content > p.info-text'); 
-            if(pInfo) pInfo.textContent = "Klicka på ett vilt i listan för att associera skottet."; 
-             
-            closeAllOverlays(linkShotModal); 
-            linkShotModal.style.display = 'flex'; 
-            document.body.classList.add('overlay-open'); 
-        }
-        function closeLinkShotModal() { if (linkShotModal) linkShotModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function handleCreateNewGameFromLinkModal() { 
-            const shotIdToLink = parseInt(linkShotModalShotId.value); 
-            if (!shotIdToLink) { 
-                showCustomAlert("Internt fel: Kunde inte hitta skott-ID för association.", "Fel"); 
-                return; 
-            } 
-            closeLinkShotModal(); 
-            openAddGameModal(null, shotIdToLink); 
-        }
-        function handleUnlinkShotFromLinkModal() { 
-            const shotIdToUnlink = parseInt(linkShotModalShotId.value); 
-            if (shotIdToUnlink) { 
-                unlinkShotFromGame(shotIdToUnlink); 
-            } else { 
-                showCustomAlert("Internt fel: Kunde inte hitta skott-ID för att ta bort association.", "Fel"); 
-            } 
-        }
-        function linkShotToGame(shotId, gameReportId, closeModal = true) { 
-            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); 
-            const game = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
-            if (!shot || !game) { 
-                console.error(`Kunde inte hitta skott ${shotId} eller vilt ${gameReportId} för association.`); 
-                showCustomAlert("Kunde inte utföra associationen.", "Fel"); 
-                return; 
-            } 
-            if (shot.linkedGameReportId && shot.linkedGameReportId !== gameReportId) { 
-                const oldGame = allReports.find(r => r.itemType === 'game' && r.id === shot.linkedGameReportId); 
-                if (oldGame && oldGame.felledGameDetails.linkedShotIds) { 
-                    oldGame.felledGameDetails.linkedShotIds = oldGame.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
-                } 
-            } 
-            allReports.forEach(g => { 
-                if(g.itemType === 'game' && g.id !== gameReportId && g.felledGameDetails.linkedShotIds?.includes(shotId)) { 
-                    g.felledGameDetails.linkedShotIds = g.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
-                } 
-            }); 
-            shot.linkedGameReportId = gameReportId; 
-            if (!game.felledGameDetails.linkedShotIds) { 
-                game.felledGameDetails.linkedShotIds = []; 
-            } 
-            if (!game.felledGameDetails.linkedShotIds.includes(shotId)) { 
-                game.felledGameDetails.linkedShotIds.push(shotId); 
-            } 
-            console.log(`Associerade skott ${shotId} till vilt ${gameReportId}`); 
-            saveAllDataToLocalStorage(); 
-            renderShotLogList(); 
-            renderFelledGameReportList(); 
-            if (closeModal) closeLinkShotModal(); 
-        }
-        function unlinkShotFromGame(shotId, closeModal = true) { 
-            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); 
-            if (!shot) { 
-                console.error(`Kunde inte hitta skott ${shotId} för att ta bort association.`); 
-                return; 
-            } 
-            const linkedGameId = shot.linkedGameReportId; 
-            shot.linkedGameReportId = null; 
-            if (linkedGameId) { 
-                const game = allReports.find(r => r.itemType === 'game' && r.id === linkedGameId); 
-                if (game && game.felledGameDetails.linkedShotIds) { 
-                    game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
-                } 
-            } 
-            console.log(`Tog bort association för skott ${shotId}`); 
-            saveAllDataToLocalStorage(); 
-            renderShotLogList(); 
-            renderFelledGameReportList(); 
-            if (closeModal) closeLinkShotModal(); 
-        }
-
-        // --- Rendering av Listor ---
+        // --- Rendering av Listor --- 
         function renderShotLogList() {
-            if (!shotLogList || !noLoggedShotsInfo || !newSaaterBtn) return;
+            if (!shotLogList || !noLoggedShotsInfo || !newSaaterBtn) {console.error("renderShotLogList: Något DOM-element saknas"); return;}
             shotLogList.innerHTML = '';
 
             const sortedItems = allReports.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -1565,7 +1304,8 @@
                     const shotInfoDiv = document.createElement('div'); 
                     shotInfoDiv.className = 'shot-info'; 
                     shotInfoDiv.title = 'Klicka för att associera/ändra association'; 
-                    shotInfoDiv.onclick = () => { openLinkShotModal(item.id); };  // Ändrad här, nu anropas alltid openLinkShotModal
+                    shotInfoDiv.onclick = () => { openLinkShotModal(item.id); };
+
                     const timeSpan = document.createElement('span'); 
                     timeSpan.className = 'shot-time'; 
                     timeSpan.textContent = `Skott kl. ${item.shotTime}`; 
@@ -1617,9 +1357,9 @@
             });
         }
 
-
         function renderFelledGameReportList() {
-            if (!reportListContainer || !noReportsInfo) return; reportListContainer.innerHTML = '';
+            if (!reportListContainer || !noReportsInfo) { console.error("renderFelledGameReportList: Något DOM-element saknas"); return; }
+            reportListContainer.innerHTML = '';
             const gameReports = allReports.filter(report => report.itemType === 'game').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             noReportsInfo.style.display = gameReports.length === 0 ? 'block' : 'none';
             if (gameReports.length > 0) {
@@ -1643,7 +1383,6 @@
                     const speciesForIcon = report.felledGameDetails.species || 'Okänt vilt';
                     placeholder.textContent = speciesForIcon ? speciesForIcon.substring(0, 1).toUpperCase() : "V";
 
-
                     const mainInfo = document.createElement('div'); mainInfo.classList.add('item-main-info'); const speciesDiv = document.createElement('div'); speciesDiv.classList.add('species'); speciesDiv.textContent = report.felledGameDetails.species || '-'; const detailsDiv = document.createElement('div'); detailsDiv.classList.add('details'); detailsDiv.innerHTML = `<span>${report.felledGameDetails.shooter || '-'}</span><span>${report.felledGameDetails.passLocation || '-'}</span>`; mainInfo.appendChild(speciesDiv); mainInfo.appendChild(detailsDiv);
 
                     const statusActions = document.createElement('div'); statusActions.classList.add('item-status-actions');
@@ -1665,158 +1404,369 @@
                 });
             }
         }
-
-        // --- Visa Detaljer (View Modal) ---
-        function openViewGameModal(gameReportId) {
-            const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId);
-            if (!report || !viewGameModal) return;
-
-            const modalTitleIcon = viewGameModalTitle.querySelector('.modal-title-icon');
-            const modalTitleText = viewGameModalTitle.querySelector('.modal-title-text');
-            const speciesName = report.felledGameDetails.species || 'Okänt Vilt';
-            
-            modalTitleIcon.textContent = speciesName ? speciesName.substring(0,1).toUpperCase() : "V";
-
-            if (modalTitleText) modalTitleText.textContent = speciesName;
-
-            viewGameDetailsContent.querySelector('[data-field="species"]').textContent = report.felledGameDetails.species || '-';
-            viewGameDetailsContent.querySelector('[data-field="shooter"]').textContent = report.felledGameDetails.shooter || '-';
-            viewGameDetailsContent.querySelector('[data-field="passLocation"]').textContent = report.felledGameDetails.passLocation || '-';
-            viewGameDetailsContent.querySelector('[data-field="reportTime"]').textContent = report.felledGameDetails.reportTime || '-';
-
-            const meatStatusIconEl = viewGameDetailsContent.querySelector('#viewMeatStatusIcon');
-            const meatTextEl = viewGameDetailsContent.querySelector('#viewMeatDistributionText');
-            const meatSectionEl = viewGameDetailsContent.querySelector('#viewMeatDistributionSection');
-            const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
-
-            if (isDistributed) {
-                meatSectionEl.style.display = 'block';
-                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
-                meatTextEl.textContent = report.felledGameDetails.meatDistribution;
-                meatTextEl.style.color = 'var(--success-color)';
-                const iconSvg = meatStatusIconEl.querySelector('svg');
-                if (iconSvg) iconSvg.style.fill = 'var(--success-color)';
-            } else {
-                meatSectionEl.style.display = 'block';
-                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
-                meatTextEl.textContent = "Ej fördelat";
-                meatTextEl.style.color = 'var(--danger-color)';
-                const iconSvg = meatStatusIconEl.querySelector('svg');
-                if (iconSvg) iconSvg.style.fill = 'var(--danger-color)';
-            }
-
-            if (!viewLinkedShotsList) { console.error("Element #viewLinkedShotsList saknas i viewGameModal"); }
-            else {
-                viewLinkedShotsList.innerHTML = '';
-                const linkedShotIds = report.felledGameDetails.linkedShotIds || [];
-                if (linkedShotIds.length === 0) {
-                    viewLinkedShotsList.innerHTML = '<li class="info-text">Inga skott registrerade mot detta vilt.</li>';
-                } else {
-                    linkedShotIds.forEach(shotId => {
-                        const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
-                        const li = document.createElement('li');
-                        if (shot) {
-                            let saaterText = "";
-                            if (shot.saater > 0) saaterText = `, Såt ${shot.saater}`;
-                            li.textContent = `Skott kl. ${shot.shotTime}${saaterText}`; 
-                        } else {
-                            li.textContent = `Skott ID: ${shotId} (Data saknas?)`;
-                            li.style.color = 'var(--danger-color)';
-                        }
-                        viewLinkedShotsList.appendChild(li);
-                    });
-                }
-            }
-            viewGameEditBtn.dataset.reportId = gameReportId;
-            viewGameDeleteBtn.dataset.reportId = gameReportId;
-            closeAllOverlays(viewGameModal);
-            viewGameModal.style.display = 'flex';
-            document.body.classList.add('overlay-open');
-        }
-        function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
-        function handleEditFromViewModal() { const gameReportId = parseInt(viewGameEditBtn.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); } 
-        function handleDeleteFromViewModal() { 
-            const gameReportId = parseInt(viewGameDeleteBtn.dataset.reportId); 
-            closeViewGameModal(); 
-            handleDeleteItem(gameReportId, 'game'); 
+        
+        // --- Datahantering för flera jakter ---
+        function getActiveHuntDataOrDefault() {
+            return {
+                reports: allReports || [], 
+                nextSaaterToAssign: nextSaaterToAssign || 1,
+                saaterDisplayStates: saaterStates || {},
+            };
         }
         
-        // --- Borttagning (Generell) ---
-        function handleDeleteItem(itemId, itemType) {
-            const itemIndex = allReports.findIndex(r => r.id === itemId && r.itemType === itemType);
-            if (itemIndex === -1) { 
-                showCustomAlert(`Kunde inte hitta ${itemType} med ID ${itemId} för borttagning.`, "Fel");
-                return; 
+        function saveCurrentHuntData(huntId, huntCreationDateString, isNewEmptyHunt = false) {
+            console.log(`saveCurrentHuntData: ID: ${huntId}, Datum: ${huntCreationDateString}, NyTomJakt: ${isNewEmptyHunt}, Rapporter: ${allReports.length}`);
+            if (!huntId) {
+                console.error("SPARNING MISSLYCKADES: Försöker spara jakt utan ID.");
+                return false;
             }
             
-            const itemToDelete = allReports[itemIndex];
-            let confirmMsg = `Vill du verkligen ta bort detta ${itemType === 'shot' ? 'skott' : (itemType === 'saaterDivider' ? 'såt-avdelare' : 'fällda vilt')}?`;
-            let confirmTitle = `Bekräfta Borttagning`;
-
-            if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
-                confirmMsg = "Detta skott är associerat med ett fällt vilt.<br>Vill du ta bort skottet och dess association?";
-            } else if (itemType === 'game' && itemToDelete.felledGameDetails.linkedShotIds?.length > 0) {
-                confirmMsg = "Detta fällda vilt har associerade skott.<br>Vill du ta bort viltet och alla associationer till det?";
-            } else if (itemType === 'saaterDivider') {
-                confirmMsg = `Ta bort Såt ${itemToDelete.saaterNumber}? Alla skott som tillhör denna såt kommer inte längre att vara markerade med detta såtnummer (de får såt-nummer 0).<br>Detta kan inte enkelt ångras.`;
+            const dataToSave = getActiveHuntDataOrDefault();
+            dataToSave.creationDate = huntCreationDateString || (dataToSave.creationDate || new Date().toISOString()); 
+            
+            if (!isNewEmptyHunt || dataToSave.reports.length > 0) { 
+                localStorage.setItem(APP_DATA_KEY_PREFIX + huntId, JSON.stringify(dataToSave));
+                console.log(`Sparade jaktdata för ${huntId}.`);
+            } else {
+                console.log(`Sippar lagring av data för ny tom jakt ${huntId}.`);
             }
 
-            showCustomConfirm(confirmMsg, confirmTitle, 
-                () => { // onConfirm callback
-                    if (itemType === 'saaterDivider') {
-                        const saaterNumToDelete = itemToDelete.saaterNumber;
-                        allReports.splice(itemIndex, 1); 
-                        allReports.forEach(r => {
-                            if (r.itemType === 'shot' && r.saater === saaterNumToDelete) {
-                                r.saater = 0;
-                            }
-                        });
-                        delete saaterStates[`saater_${saaterNumToDelete}`];
-                        const remainingSaaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
-                        if (remainingSaaterDividers.length > 0) {
-                            nextSaaterToAssign = Math.max(0, ...remainingSaaterDividers.map(d => d.saaterNumber)) + 1;
-                        } else {
-                            nextSaaterToAssign = 1; 
-                        }
+            let huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+            const existingIndexEntry = huntsIndex.find(h => h.id === huntId);
 
+            if (existingIndexEntry) {
+                existingIndexEntry.dateString = dataToSave.creationDate; 
+                existingIndexEntry.itemCount = dataToSave.reports.length; 
+            } else {
+                huntsIndex.push({ 
+                    id: huntId, 
+                    dateString: dataToSave.creationDate,
+                    itemCount: dataToSave.reports.length 
+                });
+            }
+            localStorage.setItem(SAVED_HUNTS_INDEX_KEY, JSON.stringify(huntsIndex));
+            console.log("Uppdaterat jaktindex:", huntsIndex);
+            renderSavedHuntsList(); 
+            return true;
+        }
+
+        function initializeNewHuntState(makeActive = true, playVideo = false) {
+            console.log(`initializeNewHuntState anropad. makeActive: ${makeActive}, playVideo: ${playVideo}`);
+            allReports = [];
+            nextSaaterToAssign = 1;
+            saaterStates = {};
+            
+            if (makeActive) {
+                currentActiveHuntId = 'hunt_' + Date.now(); 
+                localStorage.setItem(ACTIVE_HUNT_ID_KEY, currentActiveHuntId);
+                const newHuntCreationDate = new Date().toISOString();
+                saveCurrentHuntData(currentActiveHuntId, newHuntCreationDate, true); 
+            } else {
+                currentActiveHuntId = null; 
+            }
+
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            renderSavedHuntsList();
+            
+            if (playVideo) {
+                localStorage.removeItem(LAST_INTRO_VIDEO_SHOWN_KEY); 
+                checkAndPlayIntroVideo(true);
+            }
+            if(makeActive) activateTab('shotTab');
+            console.log("Ny jakt initierad/rensad. Aktivt ID:", currentActiveHuntId);
+        }
+        
+        function loadHuntData(huntId) {
+             const huntDataRaw = localStorage.getItem(APP_DATA_KEY_PREFIX + huntId);
+             console.log(`loadHuntData: Försöker ladda data för huntId: ${huntId}.`);
+            if (huntDataRaw) {
+                try {
+                    const parsedData = JSON.parse(huntDataRaw);
+                    allReports = parsedData.reports || [];
+                    saaterStates = parsedData.saaterDisplayStates || {};
+                    nextSaaterToAssign = parsedData.nextSaaterToAssign || 1;
+                    console.log(`Jaktdata laddad för ${huntId}. Antal rapporter: ${allReports.length}`);
+                    return true; 
+                } catch (e) { 
+                    console.error("Fel vid deserialisering av jaktdata för ID", huntId, e);
+                    showCustomAlert(`Fel: Kunde inte läsa data för jakten (ID: ${huntId}). Den kan vara korrupt.`, "Laddningsfel");
+                    return false; 
+                }
+            } else {
+                 console.warn(`Varning: Ingen data hittades för jakten (ID: ${huntId}). Behandlar som tom.`, "Laddningsvarning");
+                 allReports = []; 
+                 saaterStates = {};
+                 nextSaaterToAssign = 1;
+                 return true; 
+            }
+        }
+
+        function loadAndInitializeHuntApp() {
+            console.log("--- loadAndInitializeHuntApp START ---");
+            currentActiveHuntId = localStorage.getItem(ACTIVE_HUNT_ID_KEY);
+            console.log("1. Hämtat ACTIVE_HUNT_ID_KEY:", currentActiveHuntId);
+
+            if (currentActiveHuntId) {
+                console.log("2. Aktivt jakt-ID finns:", currentActiveHuntId);
+                if (!loadHuntData(currentActiveHuntId)) { 
+                    console.warn("2a. Laddning av aktiv jakt", currentActiveHuntId, "misslyckades. Försöker hitta senaste giltiga eller startar ny.");
+                    const huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+                    if (huntsIndex.length > 0) {
+                         huntsIndex.sort((a,b) => new Date(b.dateString) - new Date(a.dateString));
+                         const latestHuntId = huntsIndex[0].id;
+                         if(loadHuntData(latestHuntId)) { 
+                            currentActiveHuntId = latestHuntId;
+                            localStorage.setItem(ACTIVE_HUNT_ID_KEY, currentActiveHuntId);
+                            console.log("2b. Laddade senaste sparade jakten istället:", currentActiveHuntId);
+                         } else { 
+                            console.log("2c. Laddning av senaste sparade misslyckades också. Initierar ny jakt.");
+                            initializeNewHuntState(true, false);
+                         }
                     } else { 
-                        allReports.splice(itemIndex, 1);
-                        if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
-                            const game = allReports.find(g => g.itemType === 'game' && g.id === itemToDelete.linkedGameReportId);
-                            if (game && game.felledGameDetails.linkedShotIds) {
-                                game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== itemId);
-                            }
-                        } else if (itemType === 'game') {
-                            const linkedShotIds = itemToDelete.felledGameDetails.linkedShotIds || [];
-                            linkedShotIds.forEach(shotId => {
-                                const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
-                                if (shot) {
-                                    shot.linkedGameReportId = null;
-                                }
-                            });
-                        }
+                        console.log("2d. Inga sparade jakter finns. Initierar ny jakt.");
+                        initializeNewHuntState(true, false);
                     }
-                    saveAllDataToLocalStorage();
-                    renderShotLogList();
-                    renderFelledGameReportList();
-                    console.log(`Tog bort ${itemType} med ID ${itemId}`);
-                },
-                () => { // onCancel callback
-                    console.log(`Borttagning av ${itemType} med ID ${itemId} avbröts.`);
+                } else {
+                     console.log("2e. Aktiv jakt", currentActiveHuntId, "laddades framgångsrikt eller behandlades som tom.");
+                }
+            } else {
+                console.log("3. Inget aktivt jakt-ID hittades. Skapar och aktiverar en ny.");
+                initializeNewHuntState(true, false);
+            }
+            console.log("4. Efter initial laddning/initiering. currentActiveHuntId:", currentActiveHuntId, "Antal rapporter i allReports:", allReports.length);
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            renderSavedHuntsList();
+            console.log("--- loadAndInitializeHuntApp SLUT ---");
+        }
+        
+        function renderSavedHuntsList() {
+            if (!savedHuntsList || !noSavedHuntsInfo) { console.error("RenderSavedHuntsList: DOM-element saknas."); return;}
+            const savedHuntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+            
+            savedHuntsList.innerHTML = '';
+            if (savedHuntsIndex.length === 0) {
+                noSavedHuntsInfo.style.display = 'block';
+            } else {
+                noSavedHuntsInfo.style.display = 'none';
+                savedHuntsIndex.sort((a,b) => new Date(b.dateString) - new Date(a.dateString)); 
+
+                savedHuntsIndex.forEach(huntMeta => {
+                    const li = document.createElement('li');
+                    li.className = 'saved-hunt-item';
+                    li.dataset.huntId = huntMeta.id;
+                    if (huntMeta.id === currentActiveHuntId) {
+                        li.style.borderColor = 'var(--primary-color)'; 
+                        li.style.boxShadow = '0 0 3px var(--primary-color)';
+                    }
+
+                    const dateSpan = document.createElement('span');
+                    dateSpan.className = 'hunt-date';
+                    try {
+                        dateSpan.textContent = `Jakt: ${new Date(huntMeta.dateString).toLocaleDateString('sv-SE', { year: 'numeric', month: '2-digit', day: '2-digit' })}`;
+                    } catch {
+                        dateSpan.textContent = `Jakt: Ogiltigt datum`;
+                    }
+                    
+                    const actionsDiv = document.createElement('div');
+                    actionsDiv.className = 'hunt-actions';
+
+                    const loadBtn = document.createElement('button');
+                    loadBtn.className = 'button-secondary load-hunt-btn';
+                    loadBtn.textContent = 'Ladda Jakt';
+                    loadBtn.disabled = (huntMeta.id === currentActiveHuntId); 
+                    loadBtn.onclick = () => handleLoadSavedHunt(huntMeta.id);
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'icon-button delete-hunt-btn delete-btn'; 
+                    deleteBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+                    deleteBtn.title = "Ta bort denna jakt";
+                    deleteBtn.onclick = (e) => { e.stopPropagation(); handleDeleteSingleHunt(huntMeta.id); };
+
+                    actionsDiv.appendChild(loadBtn);
+                    actionsDiv.appendChild(deleteBtn);
+                    li.appendChild(dateSpan);
+                    li.appendChild(actionsDiv);
+                    savedHuntsList.appendChild(li);
+                });
+            }
+             console.log("renderSavedHuntsList klar. Antal jakter i listan:", savedHuntsIndex.length);
+        }
+        
+        function handleStartNewHunt() {
+            console.log("handleStartNewHunt: Startar. Nuvarande aktivt ID:", currentActiveHuntId);
+            
+            if (currentActiveHuntId) { 
+                const currentData = getActiveHuntDataOrDefault();
+                const huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+                const existingHuntMeta = huntsIndex.find(h => h.id === currentActiveHuntId);
+                const dateStringToUse = existingHuntMeta ? existingHuntMeta.dateString : new Date().toISOString(); 
+                
+                if (currentData.reports.length > 0 || existingHuntMeta) {
+                    saveCurrentHuntData(currentActiveHuntId, dateStringToUse, false); 
+                    console.log(`Nuvarande jakten (${currentActiveHuntId}) sparad/uppdaterad.`);
+                } else {
+                     console.log(`Nuvarande jakten (${currentActiveHuntId}) var ny och tom, sparas ej explicit, index skapas vid init av ny.`);
+                     saveCurrentHuntData(currentActiveHuntId, dateStringToUse, true); 
+                }
+            }
+            initializeNewHuntState(true, true); 
+            console.log("Ny jakt initierad. Nytt aktivt ID:", currentActiveHuntId);
+        }
+
+
+        function handleLoadSavedHunt(huntIdToLoad) {
+            console.log(`handleLoadSavedHunt: Försöker ladda jakt: ${huntIdToLoad}. Nuvarande aktiv: ${currentActiveHuntId}`);
+            
+            if (currentActiveHuntId && currentActiveHuntId !== huntIdToLoad) {
+                const currentData = getActiveHuntDataOrDefault();
+                if (currentData.reports.length > 0) { 
+                    const huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+                    const existingHuntMeta = huntsIndex.find(h => h.id === currentActiveHuntId);
+                    const dateStringToUse = existingHuntMeta ? existingHuntMeta.dateString : new Date().toISOString();
+                    saveCurrentHuntData(currentActiveHuntId, dateStringToUse, false);
+                } else {
+                     const huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+                     const existingHuntMeta = huntsIndex.find(h => h.id === currentActiveHuntId);
+                     if (existingHuntMeta) { 
+                        saveCurrentHuntData(currentActiveHuntId, existingHuntMeta.dateString, true);
+                     }
+                     console.log(`Föregående aktiva jakten (${currentActiveHuntId}) var tom.`);
+                }
+            } else if (currentActiveHuntId === huntIdToLoad) {
+                showCustomAlert("Den valda jakten är redan aktiv.", "Information");
+                return;
+            }
+
+            if (loadHuntData(huntIdToLoad)) { 
+                currentActiveHuntId = huntIdToLoad; 
+                localStorage.setItem(ACTIVE_HUNT_ID_KEY, currentActiveHuntId);
+                console.log(`Jakt ${huntIdToLoad} laddad och satt som aktiv.`);
+                renderShotLogList(); 
+                renderFelledGameReportList();
+                renderSavedHuntsList(); 
+                checkAndPlayIntroVideo(true);
+                activateTab('shotTab'); 
+            } else {
+                 console.error(`Misslyckades med att ladda jaktdata för ${huntIdToLoad} i handleLoadSavedHunt.`);
+            }
+        }
+
+        function handleDeleteSingleHunt(huntIdToDelete) {
+            const huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+            const huntMeta = huntsIndex.find(h => h.id === huntIdToDelete);
+            const huntDateStr = huntMeta ? new Date(huntMeta.dateString).toLocaleDateString('sv-SE') : 'Okänt datum';
+
+            showCustomConfirm(
+                `Är du säker på att du vill ta bort jakten från ${huntDateStr}?<br>Detta kan inte ångras.`,
+                "Ta bort Sparad Jakt",
+                () => {
+                    console.log("handleDeleteSingleHunt: Tar bort jakt:", huntIdToDelete);
+                    localStorage.removeItem(APP_DATA_KEY_PREFIX + huntIdToDelete);
+                    let updatedHuntsIndex = huntsIndex.filter(h => h.id !== huntIdToDelete);
+                    localStorage.setItem(SAVED_HUNTS_INDEX_KEY, JSON.stringify(updatedHuntsIndex));
+                    
+                    if (currentActiveHuntId === huntIdToDelete) {
+                        console.log("Raderade aktiv jakt. Laddar senaste eller startar ny.");
+                        if (updatedHuntsIndex.length > 0) {
+                             updatedHuntsIndex.sort((a,b) => new Date(b.dateString) - new Date(a.dateString)); 
+                             const nextHuntIdToLoad = updatedHuntsIndex[0].id;
+                             if(loadHuntData(nextHuntIdToLoad)){ 
+                                currentActiveHuntId = nextHuntIdToLoad;
+                                localStorage.setItem(ACTIVE_HUNT_ID_KEY, currentActiveHuntId); 
+                             } else { initializeNewHuntState(true, false); }
+                        } else { 
+                            initializeNewHuntState(true, false); 
+                        }
+                        renderShotLogList(); 
+                        renderFelledGameReportList(); 
+                    }
+                    renderSavedHuntsList(); 
+                    showCustomAlert(`Jakten från ${huntDateStr} har tagits bort.`, "Borttagen");
                 }
             );
         }
         
-        // --- "Visa Rapport" (Köttfördelning) Funktioner ---
+        function handleDangerZoneClearAll() {
+            showCustomConfirm(
+                "Är du helt säker på att du vill radera ALLA sparade jakter och all aktiv data?<br>Detta kan ABSOLUT INTE ångras!", 
+                "VARNING: Rensa All Data",
+                () => {
+                    console.log("handleDangerZoneClearAll: Rensar all jaktdata...");
+                    const huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+                    huntsIndex.forEach(huntMeta => {
+                        localStorage.removeItem(APP_DATA_KEY_PREFIX + huntMeta.id);
+                    });
+                    localStorage.removeItem(SAVED_HUNTS_INDEX_KEY);
+                    
+                    initializeNewHuntState(true, true); 
+                    console.log("All jaktdata rensad. Ny aktiv jakt skapad:", currentActiveHuntId);
+                }
+            );
+        }
+
+        // --- Videohantering ---
+        function checkAndPlayIntroVideo(forcePlay = false) {
+            if (!introVideoOverlay || !introVideoPlayer) {
+                console.warn("Intro video elements not found.");
+                return;
+            }
+            const today = new Date().toDateString(); 
+            const lastShownDate = localStorage.getItem(LAST_INTRO_VIDEO_SHOWN_KEY);
+
+            if (forcePlay || lastShownDate !== today) {
+                closeAllOverlays(introVideoOverlay);
+                introVideoOverlay.style.display = 'flex';
+                document.body.classList.add('overlay-open'); 
+
+                introVideoPlayer.currentTime = 0; 
+                introVideoPlayer.play().then(() => {}).catch(error => {
+                    console.error("Error playing intro video:", error);
+                    hideIntroVideo();
+                });
+                const onVideoEnd = () => {
+                    hideIntroVideo();
+                    if (forcePlay || lastShownDate !== today) localStorage.setItem(LAST_INTRO_VIDEO_SHOWN_KEY, today); 
+                    introVideoPlayer.removeEventListener('ended', onVideoEnd);
+                    introVideoPlayer.removeEventListener('click', skipVideo); 
+                };
+                introVideoPlayer.addEventListener('ended', onVideoEnd);
+                const skipVideo = () => {
+                    introVideoPlayer.pause();
+                    onVideoEnd(); 
+                };
+                introVideoPlayer.addEventListener('click', skipVideo);
+            } else {
+                hideIntroVideo();
+            }
+        }
+
+        function hideIntroVideo() {
+            if (introVideoOverlay) {
+                introVideoOverlay.style.display = 'none';
+            }
+            checkAndCloseBodyOverlay(); 
+        }
+
+// --- "Visa Rapport" (Köttfördelning) Funktioner --- 
         function openSaveReportOverlay() { 
             if (!saveReportOverlay || !meatDistributionReportList || !noMeatDistributionReportsInfo || !reportDateDisplay) return;
 
             const gameReportsWithMeat = allReports.filter(r => r.itemType === 'game' && r.felledGameDetails.meatDistribution && r.felledGameDetails.meatDistribution.trim() !== '');
             
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
+            let huntDate = new Date(); 
+            const huntsIndex = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]');
+            const activeHuntMeta = huntsIndex.find(h => h.id === currentActiveHuntId);
+            if (activeHuntMeta && activeHuntMeta.dateString) {
+                try {
+                    huntDate = new Date(activeHuntMeta.dateString);
+                } catch (e) { console.error("Kunde inte parse:a datum från activeHuntMeta", activeHuntMeta.dateString); }
+            }
+            
+            const yyyy = huntDate.getFullYear();
+            const mm = String(huntDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(huntDate.getDate()).padStart(2, '0');
             reportDateDisplay.textContent = `Jakt: ${yyyy}-${mm}-${dd}`;
 
             let slakteriItems = [];
@@ -1902,12 +1852,10 @@
             saveReportOverlay.style.display = 'flex';
             document.body.classList.add('overlay-open');
         }
-
-        function closeSaveReportOverlay() {
-            if (saveReportOverlay) saveReportOverlay.style.display = 'none';
-            checkAndCloseBodyOverlay();
+        function closeSaveReportOverlay() { 
+            if (saveReportOverlay) saveReportOverlay.style.display = 'none'; 
+            checkAndCloseBodyOverlay(); 
         }
-
         function generateMeatReportText() {
             let reportText = "";
             if (reportDateDisplay && reportDateDisplay.textContent) {
@@ -1950,8 +1898,7 @@
             }
             return reportText.trim();
         }
-
-        function handleCopyMeatReport() {
+        function handleCopyMeatReport() { 
             const reportText = generateMeatReportText();
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(reportText).then(() => {
@@ -1976,8 +1923,7 @@
                 document.body.removeChild(textArea);
             }
         }
-
-        async function handleShareMeatReport() {
+        async function handleShareMeatReport() { 
             const reportText = generateMeatReportText();
             const shareData = {
                 title: 'Rapport köttfördelning',
@@ -1998,10 +1944,10 @@
             }
         }
         
-        function exportFullGameReportToCSV() {
+        function exportFullGameReportToCSV() { 
             const gameReports = allReports.filter(r => r.itemType === 'game');
             if(gameReports.length === 0) {
-                showCustomAlert("Ingen data om fällt vilt att exportera.", "Information");
+                showCustomAlert("Ingen data om fällt vilt att exportera för den aktiva jakten.", "Information");
                 return;
             }
 
@@ -2012,6 +1958,9 @@
             csvContent += headers.join(",") + "\r\n";
 
             const sortedGameReports = gameReports.slice().sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+            const activeHuntMeta = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]').find(h => h.id === currentActiveHuntId);
+            const baseExportDate = activeHuntMeta ? new Date(activeHuntMeta.dateString) : new Date();
+
 
             sortedGameReports.forEach(report => {
                 const details = report.felledGameDetails;
@@ -2033,9 +1982,8 @@
                     }
                 }
 
-
-                const reportDate = new Date(report.createdAt);
-                const formattedDate = `${reportDate.getFullYear()}-${String(reportDate.getMonth() + 1).padStart(2, '0')}-${String(reportDate.getDate()).padStart(2, '0')}`;
+                const reportCreationDate = new Date(report.createdAt);
+                const formattedDate = `${reportCreationDate.getFullYear()}-${String(reportCreationDate.getMonth() + 1).padStart(2, '0')}-${String(reportCreationDate.getDate()).padStart(2, '0')}`;
 
                 let row = [
                     formattedDate,
@@ -2053,15 +2001,47 @@
             let encodedUri = encodeURI(csvContent);
             let link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            const exportDate = new Date().toISOString().slice(0,10).replace(/-/g,"");
-            link.setAttribute("download", `Vilt_Rapport_${exportDate}.csv`);
+            const exportDateStr = `${baseExportDate.getFullYear()}${String(baseExportDate.getMonth() + 1).padStart(2, '0')}${String(baseExportDate.getDate()).padStart(2, '0')}`;
+            link.setAttribute("download", `Vilt_Rapport_Jakt_${exportDateStr}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
+
+        // --- Skotthantering ---
+        function handleLogShot() {
+            if (!currentActiveHuntId) { 
+                showCustomAlert("Ingen aktiv jakt vald. Starta en ny eller ladda en befintlig jakt först.", "Fel");
+                activateTab('adminTab'); 
+                return;
+            }
+            const n = new Date();
+            const h = String(n.getHours()).padStart(2, '0');
+            const m = String(n.getMinutes()).padStart(2, '0');
+            
+            const newShot = {
+                id: Date.now(), itemType: 'shot', shotTime: `${h}:${m}`, isVerified: false, createdAt: n.toISOString(), linkedGameReportId: null, saater: 0 
+            };
+            allReports.unshift(newShot); 
+            if (newSaaterBtn) newSaaterBtn.disabled = false;
+            saveCurrentHuntData(currentActiveHuntId); 
+            renderShotLogList();
+        }
+        function handleToggleShotVerification(shotId, checkboxElement) { 
+            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); 
+            if (shot) { 
+                shot.isVerified = checkboxElement.checked; 
+                saveCurrentHuntData(currentActiveHuntId); 
+            } 
+        }
         
-        // --- Såt Funktioner ---
-        function handleNewSaater() {
+   	// --- Såthantering --- 
+	function handleNewSaater() {
+            if (!currentActiveHuntId) { 
+                showCustomAlert("Ingen aktiv jakt vald. Starta en ny eller ladda en befintlig jakt först.", "Fel");
+                activateTab('adminTab'); 
+                return;
+            }
             const unassignedShots = allReports.filter(r => r.itemType === 'shot' && r.saater === 0);
             const currentSaaterForAssignment = nextSaaterToAssign;
             
@@ -2103,7 +2083,7 @@
             
             nextSaaterToAssign++; 
             
-            saveAllDataToLocalStorage();
+            saveCurrentHuntData(currentActiveHuntId); // Viktigt att spara den aktiva jakten
             renderShotLogList();
 
             if (newSaaterBtn) {
@@ -2118,130 +2098,402 @@
             } else {
                 saaterStates[saaterKey] = 'collapsed';
             }
-            saveAllDataToLocalStorage(); 
-            renderShotLogList(); 
+            // Om du sparar hela jaktens tillstånd efter varje interaktion:
+            saveCurrentHuntData(currentActiveHuntId); 
+            renderShotLogList(); // För att uppdatera UI med den nya ihopfällda/expanderade vyn
         }
 
+        // --- Viltrapporthantering ---
+        function handleSaveGameDetails() { 
+            if (!currentActiveHuntId) { 
+                 showCustomAlert("Ingen aktiv jakt. Starta en ny eller ladda en befintlig jakt först.", "Fel"); activateTab('adminTab'); return; 
+            }
+            if (!currentShotLogIdInput || !gameSpeciesInput || !gamePassLocationInput || !gameShooterInput || !gameMeatDistributionTextarea || !gameReportTimeInput) { 
+                console.error("Formulärelement saknas."); showCustomAlert("Internt fel (formulärfält saknas).", "Fel"); return; 
+            } 
+            if (!gameSpeciesInput.value) { 
+                showCustomAlert("Välj ett viltslag.", "Obligatoriskt fält"); gameSpeciesInput.focus(); return; 
+            } 
+            if (!gameReportTimeInput.value) { 
+                showCustomAlert("Ange tid för rapport/hantering.", "Obligatoriskt fält"); gameReportTimeInput.focus(); return; 
+            } 
+            const details = { species: gameSpeciesInput.value, passLocation: gamePassLocationInput.value.trim(), shooter: gameShooterInput.value.trim(), reportTime: gameReportTimeInput.value, meatDistribution: gameMeatDistributionTextarea.value.trim(), }; 
+            const gameReportIdValue = currentShotLogIdInput.value; 
+            const triggeringShotId = parseInt(document.getElementById('triggeringShotIdInput')?.value) || null; 
+            let savedGameReportId = null; 
+            if (gameReportIdValue.startsWith('new_')) { 
+                const newReportId = parseInt(gameReportIdValue.split('_')[1]) || Date.now(); 
+                const newReport = { id: newReportId, itemType: 'game', createdAt: new Date().toISOString(), felledGameDetails: { ...details, linkedShotIds: [] } }; 
+                allReports.unshift(newReport); 
+                savedGameReportId = newReport.id; 
+            } else { 
+                const gameReportId = parseInt(gameReportIdValue); 
+                const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
+                if (!report) { 
+                    showCustomAlert("Fel: Kunde inte hitta viltrapporten att spara till.", "Fel"); closeAddGameModal(); return; 
+                } 
+                report.felledGameDetails = { ...report.felledGameDetails, ...details }; 
+                savedGameReportId = report.id; 
+            } 
+            saveCurrentHuntData(currentActiveHuntId); 
+            if (triggeringShotId && savedGameReportId && gameReportIdValue.startsWith('new_')) { 
+                linkShotToGame(triggeringShotId, savedGameReportId, false); 
+            } 
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            renderSavedHuntsList(); 
+            closeAddGameModal(); 
+        }
+        function openAddGameModal(gameReportId, triggeringShotId = null) { 
+            if (!currentActiveHuntId) {
+                showCustomAlert("Starta eller ladda en jakt innan du lägger till vilt.", "Ingen Aktiv Jakt");
+                activateTab('adminTab');
+                return;
+            }
+            if (!addGameModal || !gameSpeciesInput || !deleteGameFromEditModalBtn) return; 
+            const hiddenTriggerInput = document.getElementById('triggeringShotIdInput'); 
+            if (hiddenTriggerInput) hiddenTriggerInput.value = ''; 
+            
+            const scrollableContent = addGameModal.querySelector('.overlay-scrollable-content');
+            if(scrollableContent) scrollableContent.scrollTop = 0;
 
-        function handleClearAllData() { 
-            showCustomConfirm(
-                "Är du säker på att du vill starta en ny jakt och rensa ALL data?<br>Detta kan inte ångras.", 
-                "Rensa All Data",
-                () => { // onConfirm
-                    allReports=[];
-                    nextSaaterToAssign = 1; 
-                    saaterStates = {}; 
-                    saveAllDataToLocalStorage(); 
-                    
-                    localStorage.removeItem(LAST_INTRO_VIDEO_SHOWN_KEY); 
-                    checkAndPlayIntroVideo(true); 
+            if (gameReportId !== null) { 
+                const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
+                if (!report) { 
+                    showCustomAlert("Fel: Hittade inte viltrapport för redigering.", "Fel"); return; 
+                } 
+                currentShotLogIdInput.value = gameReportId; 
+                gameModalTitle.textContent = "Redigera Fällt Vilt"; 
+                gameSpeciesInput.value = report.felledGameDetails.species || ''; 
+                gamePassLocationInput.value = report.felledGameDetails.passLocation || ''; 
+                gameShooterInput.value = report.felledGameDetails.shooter || ''; 
+                gameMeatDistributionTextarea.value = report.felledGameDetails.meatDistribution || ''; 
+                gameReportTimeInput.value = report.felledGameDetails.reportTime || ''; 
+                meatRecipientNameInput.value = ''; 
+                deleteGameFromEditModalBtn.style.display = 'inline-flex';
+                deleteGameFromEditModalBtn.onclick = () => {
+                    const idToDelete = parseInt(currentShotLogIdInput.value);
+                    if (idToDelete && !currentShotLogIdInput.value.startsWith('new_')) {
+                        closeAddGameModal(); 
+                        handleDeleteItem(idToDelete, 'game'); 
+                    }
+                };
+            } else { 
+                gameModalTitle.textContent = "Lägg till fällt vilt"; 
+                currentShotLogIdInput.value = 'new_' + Date.now(); 
+                const n = new Date(); 
+                const h = String(n.getHours()).padStart(2, '0'); 
+                const m = String(n.getMinutes()).padStart(2, '0'); 
+                gameReportTimeInput.value = `${h}:${m}`; 
+                gameSpeciesInput.value = ''; 
+                gamePassLocationInput.value = ''; 
+                gameShooterInput.value = ''; 
+                gameMeatDistributionTextarea.value = ''; 
+                meatRecipientNameInput.value = ''; 
+                if (triggeringShotId && hiddenTriggerInput) { 
+                    hiddenTriggerInput.value = triggeringShotId; 
+                } 
+                deleteGameFromEditModalBtn.style.display = 'none';
+                deleteGameFromEditModalBtn.onclick = null;
+            } 
+            closeAllOverlays(addGameModal); 
+            addGameModal.style.display = 'flex'; 
+            document.body.classList.add('overlay-open'); 
+            gameSpeciesInput.focus();
+        }
+        function closeAddGameModal() { if (addGameModal) addGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
+        
+        // --- Koppling Skott <-> Vilt (Link Modal) ---
+        function openLinkShotModal(shotId) { 
+             if (!currentActiveHuntId) {
+                showCustomAlert("Starta eller ladda en jakt innan du associerar skott.", "Ingen Aktiv Jakt");
+                activateTab('adminTab'); return;
+            }
+            if (!linkShotModal || !linkableGameList || !linkShotModalShotId || !unlinkShotBtn || !cancelLinkActionBtn || !createNewGameFromLinkBtn) return; 
+            
+            linkShotModalShotId.value = shotId; 
+            linkShotModalTitle.textContent = "Associera Skott till Fällt Vilt"; 
+            
+            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId);
+            if (!shot) {
+                showCustomAlert("Fel: Skottet kunde inte hittas.", "Fel");
+                closeLinkShotModal();
+                return;
+            }
 
+            if (shot.linkedGameReportId) { 
+                unlinkShotBtn.textContent = "Ta bort association";
+                unlinkShotBtn.style.display = 'inline-flex';
+                cancelLinkActionBtn.style.display = 'none';
+                createNewGameFromLinkBtn.style.display = 'inline-flex'; 
+            } else { 
+                unlinkShotBtn.style.display = 'none';
+                cancelLinkActionBtn.style.display = 'inline-flex';
+                createNewGameFromLinkBtn.style.display = 'inline-flex';
+            }
+
+            linkableGameList.innerHTML = ''; 
+            const gameReports = allReports.filter(r => r.itemType === 'game').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); 
+            if (gameReports.length === 0) { 
+                linkableGameList.innerHTML = '<li class="info-text">Inget fällt vilt att associera till ännu.</li>'; 
+            } else { 
+                gameReports.forEach(game => { 
+                    const li = document.createElement('li'); 
+                    li.className = 'linkable-game-item'; 
+                    li.dataset.gameId = game.id; 
+                    const species = game.felledGameDetails.species || 'Okänt Vilt'; 
+                    const shooter = game.felledGameDetails.shooter || '-'; 
+                    const location = game.felledGameDetails.passLocation || '-'; 
+                    li.innerHTML = `<span class="species">${species}</span><span class="details">Skytt: ${shooter}, Plats: ${location}</span>`; 
+                    li.onclick = () => { linkShotToGame(shotId, game.id); }; 
+                    linkableGameList.appendChild(li); 
+                }); 
+            } 
+            
+            const pInfo = linkShotModal.querySelector('.overlay-scrollable-content > p.info-text'); 
+            if(pInfo) pInfo.textContent = "Klicka på ett vilt i listan för att associera skottet."; 
+             
+            closeAllOverlays(linkShotModal); 
+            linkShotModal.style.display = 'flex'; 
+            document.body.classList.add('overlay-open'); 
+        }
+        function closeLinkShotModal() { if (linkShotModal) linkShotModal.style.display = 'none'; checkAndCloseBodyOverlay(); }
+
+	// --- Visa Detaljer (View Modal) --- (ÅTERINFÖRD)
+        function openViewGameModal(gameReportId) {
+            const report = allReports.find(r => r.itemType === 'game' && r.id === gameReportId);
+            if (!report || !viewGameModal) return;
+
+            const modalTitleIcon = viewGameModalTitle.querySelector('.modal-title-icon');
+            const modalTitleText = viewGameModalTitle.querySelector('.modal-title-text');
+            const speciesName = report.felledGameDetails.species || 'Okänt Vilt';
+            
+            modalTitleIcon.textContent = speciesName ? speciesName.substring(0,1).toUpperCase() : "V";
+
+            if (modalTitleText) modalTitleText.textContent = speciesName;
+
+            viewGameDetailsContent.querySelector('[data-field="species"]').textContent = report.felledGameDetails.species || '-';
+            viewGameDetailsContent.querySelector('[data-field="shooter"]').textContent = report.felledGameDetails.shooter || '-';
+            viewGameDetailsContent.querySelector('[data-field="passLocation"]').textContent = report.felledGameDetails.passLocation || '-';
+            viewGameDetailsContent.querySelector('[data-field="reportTime"]').textContent = report.felledGameDetails.reportTime || '-';
+
+            const meatStatusIconEl = viewGameDetailsContent.querySelector('#viewMeatStatusIcon');
+            const meatTextEl = viewGameDetailsContent.querySelector('#viewMeatDistributionText');
+            const meatSectionEl = viewGameDetailsContent.querySelector('#viewMeatDistributionSection');
+            const isDistributed = report.felledGameDetails.meatDistribution && report.felledGameDetails.meatDistribution.trim() !== '';
+
+            if (isDistributed) {
+                meatSectionEl.style.display = 'block';
+                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
+                meatTextEl.textContent = report.felledGameDetails.meatDistribution;
+                meatTextEl.style.color = 'var(--success-color)';
+                const iconSvg = meatStatusIconEl.querySelector('svg');
+                if (iconSvg) iconSvg.style.fill = 'var(--success-color)';
+            } else {
+                meatSectionEl.style.display = 'block';
+                meatStatusIconEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`;
+                meatTextEl.textContent = "Ej fördelat";
+                meatTextEl.style.color = 'var(--danger-color)';
+                const iconSvg = meatStatusIconEl.querySelector('svg');
+                if (iconSvg) iconSvg.style.fill = 'var(--danger-color)';
+            }
+
+            if (!viewLinkedShotsList) { console.error("Element #viewLinkedShotsList saknas i viewGameModal"); }
+            else {
+                viewLinkedShotsList.innerHTML = '';
+                const linkedShotIds = report.felledGameDetails.linkedShotIds || [];
+                if (linkedShotIds.length === 0) {
+                    viewLinkedShotsList.innerHTML = '<li class="info-text">Inga skott registrerade mot detta vilt.</li>';
+                } else {
+                    linkedShotIds.forEach(shotId => {
+                        const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
+                        const li = document.createElement('li');
+                        if (shot) {
+                            let saaterText = "";
+                            if (shot.saater > 0) saaterText = `, Såt ${shot.saater}`;
+                            li.textContent = `Skott kl. ${shot.shotTime}${saaterText}`; 
+                        } else {
+                            li.textContent = `Skott ID: ${shotId} (Data saknas?)`;
+                            li.style.color = 'var(--danger-color)';
+                        }
+                        viewLinkedShotsList.appendChild(li);
+                    });
+                }
+            }
+            viewGameEditBtn.dataset.reportId = gameReportId;
+            viewGameDeleteBtn.dataset.reportId = gameReportId;
+            closeAllOverlays(viewGameModal);
+            viewGameModal.style.display = 'flex';
+            document.body.classList.add('overlay-open');
+        }
+        function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); } 
+        function handleEditFromViewModal() { const gameReportId = parseInt(viewGameEditBtn.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); } 
+        function handleDeleteFromViewModal() { 
+            const gameReportId = parseInt(viewGameDeleteBtn.dataset.reportId); 
+            closeViewGameModal(); 
+            handleDeleteItem(gameReportId, 'game'); 
+        }
+
+        function handleCreateNewGameFromLinkModal() { 
+            const shotIdToLink = parseInt(linkShotModalShotId.value); 
+            if (!shotIdToLink) { 
+                showCustomAlert("Internt fel: Kunde inte hitta skott-ID för association.", "Fel"); 
+                return; 
+            } 
+            closeLinkShotModal(); 
+            openAddGameModal(null, shotIdToLink); 
+        }
+        function handleUnlinkShotFromLinkModal() { 
+            const shotIdToUnlink = parseInt(linkShotModalShotId.value); 
+            if (shotIdToUnlink) { 
+                unlinkShotFromGame(shotIdToUnlink); 
+            } else { 
+                showCustomAlert("Internt fel: Kunde inte hitta skott-ID för att ta bort association.", "Fel"); 
+            } 
+        }
+        function linkShotToGame(shotId, gameReportId, closeModal = true) { 
+            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); 
+            const game = allReports.find(r => r.itemType === 'game' && r.id === gameReportId); 
+            if (!shot || !game) { 
+                console.error(`Kunde inte hitta skott ${shotId} eller vilt ${gameReportId} för association.`); 
+                showCustomAlert("Kunde inte utföra associationen.", "Fel"); 
+                return; 
+            } 
+            if (shot.linkedGameReportId && shot.linkedGameReportId !== gameReportId) { 
+                const oldGame = allReports.find(r => r.itemType === 'game' && r.id === shot.linkedGameReportId); 
+                if (oldGame && oldGame.felledGameDetails.linkedShotIds) { 
+                    oldGame.felledGameDetails.linkedShotIds = oldGame.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
+                } 
+            } 
+            allReports.forEach(g => { 
+                if(g.itemType === 'game' && g.id !== gameReportId && g.felledGameDetails.linkedShotIds?.includes(shotId)) { 
+                    g.felledGameDetails.linkedShotIds = g.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
+                } 
+            }); 
+            shot.linkedGameReportId = gameReportId; 
+            if (!game.felledGameDetails.linkedShotIds) { 
+                game.felledGameDetails.linkedShotIds = []; 
+            } 
+            if (!game.felledGameDetails.linkedShotIds.includes(shotId)) { 
+                game.felledGameDetails.linkedShotIds.push(shotId); 
+            } 
+            saveCurrentHuntData(currentActiveHuntId); 
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            if (closeModal) closeLinkShotModal(); 
+        }
+        function unlinkShotFromGame(shotId, closeModal = true) { 
+            const shot = allReports.find(r => r.itemType === 'shot' && r.id === shotId); 
+            if (!shot) { 
+                console.error(`Kunde inte hitta skott ${shotId} för att ta bort association.`); 
+                return; 
+            } 
+            const linkedGameId = shot.linkedGameReportId; 
+            shot.linkedGameReportId = null; 
+            if (linkedGameId) { 
+                const game = allReports.find(r => r.itemType === 'game' && r.id === linkedGameId); 
+                if (game && game.felledGameDetails.linkedShotIds) { 
+                    game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== shotId); 
+                } 
+            } 
+            saveCurrentHuntData(currentActiveHuntId);
+            renderShotLogList(); 
+            renderFelledGameReportList(); 
+            if (closeModal) closeLinkShotModal(); 
+        }
+        
+        // --- Borttagning (Generell) ---
+        function handleDeleteItem(itemId, itemType) {
+            const itemIndex = allReports.findIndex(r => r.id === itemId && r.itemType === itemType);
+            if (itemIndex === -1) { 
+                showCustomAlert(`Kunde inte hitta ${itemType} med ID ${itemId} för borttagning.`, "Fel");
+                return; 
+            }
+            
+            const itemToDelete = allReports[itemIndex];
+            let confirmMsg = `Vill du verkligen ta bort detta ${itemType === 'shot' ? 'skott' : (itemType === 'saaterDivider' ? 'såt-avdelare' : 'fällda vilt')}?`;
+            let confirmTitle = `Bekräfta Borttagning`;
+
+            if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
+                confirmMsg = "Detta skott är associerat med ett fällt vilt.<br>Vill du ta bort skottet och dess association?";
+            } else if (itemType === 'game' && itemToDelete.felledGameDetails.linkedShotIds?.length > 0) {
+                confirmMsg = "Detta fällda vilt har associerade skott.<br>Vill du ta bort viltet och alla associationer till det?";
+            } else if (itemType === 'saaterDivider') {
+                confirmMsg = `Ta bort Såt ${itemToDelete.saaterNumber}? Alla skott som tillhör denna såt kommer inte längre att vara markerade med detta såtnummer (de får såt-nummer 0).<br>Detta kan inte enkelt ångras.`;
+            }
+
+            showCustomConfirm(confirmMsg, confirmTitle, 
+                () => { 
+                    if (itemType === 'saaterDivider') {
+                        const saaterNumToDelete = itemToDelete.saaterNumber;
+                        allReports.splice(itemIndex, 1); 
+                        allReports.forEach(r => {
+                            if (r.itemType === 'shot' && r.saater === saaterNumToDelete) {
+                                r.saater = 0;
+                            }
+                        });
+                        delete saaterStates[`saater_${saaterNumToDelete}`];
+                        const remainingSaaterDividers = allReports.filter(r => r.itemType === 'saaterDivider');
+                        if (remainingSaaterDividers.length > 0) {
+                            nextSaaterToAssign = Math.max(0, ...remainingSaaterDividers.map(d => d.saaterNumber)) + 1;
+                        } else {
+                            nextSaaterToAssign = 1; 
+                        }
+
+                    } else { 
+                        allReports.splice(itemIndex, 1);
+                        if (itemType === 'shot' && itemToDelete.linkedGameReportId) {
+                            const game = allReports.find(g => g.itemType === 'game' && g.id === itemToDelete.linkedGameReportId);
+                            if (game && game.felledGameDetails.linkedShotIds) {
+                                game.felledGameDetails.linkedShotIds = game.felledGameDetails.linkedShotIds.filter(id => id !== itemId);
+                            }
+                        } else if (itemType === 'game') {
+                            const linkedShotIds = itemToDelete.felledGameDetails.linkedShotIds || [];
+                            linkedShotIds.forEach(shotId => {
+                                const shot = allReports.find(s => s.itemType === 'shot' && s.id === shotId);
+                                if (shot) {
+                                    shot.linkedGameReportId = null;
+                                }
+                            });
+                        }
+                    }
+                    saveCurrentHuntData(currentActiveHuntId); 
                     renderShotLogList(); 
                     renderFelledGameReportList(); 
-                    activateTab('shotTab'); 
+                    renderSavedHuntsList(); 
+                    console.log(`Tog bort ${itemType} med ID ${itemId}`);
                 },
-                () => { // onCancel
-                    console.log("Rensning av data avbröts.");
+                () => { 
+                    console.log(`Borttagning av ${itemType} med ID ${itemId} avbröts.`);
                 }
             );
         }
-
+        
+        // --- Övriga funktioner ---
         function openHelpOverlay() { 
             if (!helpOverlay) return; 
             const helpContent = helpOverlay.querySelector('.overlay-scrollable-content'); 
             if (helpContent) { 
                 helpContent.innerHTML = `<h4>Välkommen till Björklunds Rapport!</h4>
-<p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare.</p>
-
+<p>Den här appen hjälper dig att enkelt hålla koll på skott och fällt vilt under jakten. All information du matar in sparas direkt i din telefon/webbläsare, organiserat per jakttillfälle.</p>
 <hr>
 <h5>Installera Appen på Din Hemskärm</h5>
 <p>För enklare åtkomst kan du lägga till Björklunds Rapport på din mobils hemskärm. Den kommer då att fungera mer som en vanlig app.</p>
-
-<p><strong>Android (t.ex. Chrome):</strong></p>
-<ol>
-    <li>Öppna appen i din Chrome-webbläsare.</li>
-    <li>Tryck på menyknappen (ofta tre prickar uppe till höger).</li>
-    <li>Välj "Installera appen" eller "Lägg till på startskärmen".</li>
-    <li>Följ instruktionerna.</li>
-</ol>
+<p><strong>Android (t.ex. Chrome):</strong></p><ol><li>Öppna appen i din Chrome-webbläsare.</li><li>Tryck på menyknappen (ofta tre prickar uppe till höger).</li><li>Välj "Installera appen" eller "Lägg till på startskärmen".</li><li>Följ instruktionerna.</li></ol>
 <p><em>Alternativt kan en "Installera App"-knapp (med en nedåtpil ikon) dyka upp automatiskt högst upp i appen när du använt sidan ett tag.</em></p>
-
-<p><strong>iOS (iPhone/iPad - Safari):</strong></p>
-<ol>
-    <li>Öppna appen i Safari-webbläsaren.</li>
-    <li>Tryck på Dela-ikonen (en ruta med en pil som pekar uppåt) längst ner (eller uppe) i webbläsaren.</li>
-    <li>Skrolla ner i delningsmenyn och välj "Lägg till på hemskärmen".</li>
-    <li>Bekräfta namnet och tryck "Lägg till".</li>
-</ol>
-
+<p><strong>iOS (iPhone/iPad - Safari):</strong></p><ol><li>Öppna appen i Safari-webbläsaren.</li><li>Tryck på Dela-ikonen (en ruta med en pil som pekar uppåt) längst ner (eller uppe) i webbläsaren.</li><li>Skrolla ner i delningsmenyn och välj "Lägg till på hemskärmen".</li><li>Bekräfta namnet och tryck "Lägg till".</li></ol>
 <hr>
 <h5>Så här fungerar appen</h5>
 <p>Appen är uppdelad i tre huvuddelar (flikar) som du hittar högst upp:</p>
-<ul>
-    <li><strong>Skott:</strong> För snabb registrering av avlossade skott.</li>
-    <li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts.</li>
-    <li><strong>Rapporter & Admin:</strong> För att se sammanställningar och hantera jaktdata.</li>
-</ul>
-
+<ul><li><strong>Skott:</strong> För snabb registrering av avlossade skott för den *aktiva* jakten.</li><li><strong>Fällt vilt:</strong> För att rapportera detaljer om det vilt som fällts under den *aktiva* jakten.</li><li><strong>Rapporter & Admin:</strong> För att se sammanställningar, hantera sparade jakter och allmän administration.</li></ul>
 <h6>Fliken "Skott" - Registrera dina skott</h6>
-<ol>
-    <li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas. Tiden för skottet sparas automatiskt.</li>
-    <li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten.
-        <ul>
-            <li>Du kan se vilken såt ett skott tillhör under skottinformationen.</li>
-            <li>Gamla såtar kan "fällas ihop" med pilen (►) för att spara plats, och expanderas igen med pilen (▼). När en ny såt skapas fälls alla såtar ihop automatiskt.</li>
-        </ul>
-    </li>
-    <li><strong>Loggade skott:</strong> Dina registrerade skott visas i en lista under knapparna.
-        <ul>
-            <li><strong>Verifierat:</strong> Bocka i rutan "Verifierat" för att markera att tiden för skottet stämmer med verkligheten.</li>
-            <li><strong>Associera skott:</strong> Klicka på ett skott i listan för att koppla det till ett fällt vilt. Du kan antingen välja ett redan rapporterat vilt eller skapa en ny viltrapport direkt. Detta är viktigt för att veta vilka skott som hör till vilket djur.</li>
-            <li><strong>Ta bort:</strong> Klicka på soptunnan för att ta bort ett felaktigt loggat skott.</li>
-        </ul>
-    </li>
-</ol>
-
+<ol><li><strong>Avlossat skott:</strong> Klicka på den stora knappen "Avlossat skott" varje gång ett skott avlossas under den pågående jakten. Tiden för skottet sparas automatiskt.</li><li><strong>Ny Såt:</strong> När en ny såt (drev) påbörjas, klicka på knappen "Ny såt". Alla skott som registrerats sedan föregående såt (eller jaktens början) kommer då att tillhöra den nya såten. Såtindelning är specifik för varje jakt.</li><li><strong>Loggade skott:</strong> Dina registrerade skott för den aktiva jakten visas i en lista. Du kan verifiera tiden, associera skottet till ett fällt vilt från samma jakt, eller ta bort skottet.</li></ol>
 <h6>Fliken "Fällt vilt" - Rapportera fällt vilt</h6>
-<ol>
-    <li><strong>Lägg till:</strong> Klicka på knappen "Lägg till" för att skapa en ny rapport för ett fällt vilt.</li>
-    <li><strong>Fyll i detaljer:</strong>
-        <ul>
-            <li><strong>Viltslag:</strong> Välj från listan.</li>
-            <li><strong>Skytt:</strong> Skriv namnet på skytten.</li>
-            <li><strong>Pass/Plats:</strong> Ange var viltet fälldes.</li>
-            <li><strong>Tid för rapport/hantering:</strong> Klockslaget när viltet hanteras/rapporteras (fylls oftast i automatiskt med nuvarande tid).</li>
-            <li><strong>Köttfördelning:</strong> Beskriv hur köttet ska fördelas. Du kan skriva fritt, ange ett namn eller använda "Snabbval" för vanliga alternativ. (Denna del av modalen har fått en tydligare rubrik och avgränsare.)</li>
-        </ul>
-    </li>
-    <li><strong>Spara:</strong> Klicka på "Spara" för att spara rapporten.</li>
-    <li><strong>Lista över fällt vilt:</strong> Alla rapporterade vilt visas i en lista.
-        <ul>
-            <li><strong>Status:</strong> Visar om köttfördelning är ifylld ("Fördelat") eller inte ("Ej fördelat").</li>
-            <li><strong>Klicka på ett vilt:</strong>
-                <ul>
-                    <li>Om status är <strong>"Ej fördelat"</strong> (röd varningstriangel) kommer du direkt till redigeringsläget för att fylla i köttfördelningen.</li>
-                    <li>Om status är <strong>"Fördelat"</strong> (grön bock) visas först detaljer om viltet. Härifrån kan du välja att "Redigera" eller "Ta bort" rapporten.</li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ol>
-
+<p>Här hanterar du vilt som fällts under den *aktiva* jakten. Funktionaliteten för att lägga till, redigera och visa detaljer är densamma som tidigare, men all data är kopplad till den jakt som just nu är laddad.</p>
 <h6>Fliken "Rapporter & Admin" - Sammanställningar och datahantering</h6>
-<ul>
-    <li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats. Du kan kopiera texten eller dela rapporten direkt från denna vy.</li>
-    <li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en fil till din enhet (oftast i "Hämtade filer") som kan öppnas i t.ex. Excel. Den innehåller all information om det fällda viltet.</li>
-    <li><strong>Påbörja ny jakt / Rensa all data:</strong> OBS! Denna knapp tar bort ALL sparad information om skott och fällt vilt. Används när en helt ny jakt ska startas och all gammal data ska raderas. Du får en extra fråga för att bekräfta.</li>
-</ul>
-
+<ul><li><strong>Visa köttfördelning:</strong> Visar en sammanställning av hur köttet från alla rapporterade vilt har fördelats för den *aktuellt laddade* jakten.</li><li><strong>Spara fullständig CSV-rapport:</strong> Sparar ner en CSV-fil med all information om det fällda viltet för den *aktuellt laddade* jakten. Filnamnet kommer att inkludera jaktens datum.</li><li><strong>Starta Ny Jakt:</strong><ul><li>Om du har en pågående jakt med osparade ändringar (t.ex. nya skott) kommer denna först att sparas automatiskt i listan nedan.</li><li>Därefter startas en helt ny, tom jakt. Datumet för denna nya jakt sätts till dagens datum.</li><li>Introvideo spelas upp.</li></ul></li><li><strong>Sparade Jakter (Lista):</strong><ul><li>Här listas alla dina tidigare sparade jakter, sorterade med den senaste överst. Varje jakt visas med sitt startdatum.</li><li><strong>Ladda Jakt:</strong> Klickar du här sparas den nuvarande aktiva jakten (om den har data) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den laddade jakten. Introvideo spelas upp.</li><li><strong>Ta bort (soptunna-ikon):</strong> Tar permanent bort den specifika jakten från listan och all dess lagrade data efter att du bekräftat åtgärden.</li></ul></li><li><strong>Rensa all data (ALLA Jakter):</strong> Denna röda knapp längst ner är för en total återställning.<ul><li>OBS! Denna knapp tar bort ALLA sparade jakter och all information om den nuvarande aktiva jakten. Detta kan inte ångras.</li><li>Du får en extra fråga för att bekräfta innan något raderas.</li></ul></li></ul>    
 <h5>Övriga funktioner:</h5>
-<ul>
-    <li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li>
-    <li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li>
-    <li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li>
-    <li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas högst upp. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li>
-</ul>
-
+<ul><li><strong>Mörkt/Ljust tema:</strong> Klicka på månen/solen högst upp till höger för att byta färgschema.</li><li><strong>Hjälp:</strong> Knappen med ett frågetecken (?) visar denna hjälpsida.</li><li><strong>Dela appen:</strong> Knappen med dela-symbolen visar en QR-kod och en länk så att andra kan komma åt appen.</li><li><strong>Installera appen:</strong> Om din webbläsare stödjer det kan en installationsknapp (ofta en pil ner) visas högst upp. Detta lägger till appen på din hemskärm för snabbare åtkomst, precis som en vanlig app.</li></ul>
 <p>Lycka till med jakten och rapporteringen!</p>`;
             } 
             closeAllOverlays(helpOverlay); helpOverlay.style.display = 'flex'; document.body.classList.add('overlay-open'); 
@@ -2251,6 +2503,15 @@
         function openShareOverlay() { if (!shareOverlay) return; closeAllOverlays(shareOverlay); generateQRCode(); shareOverlay.style.display = 'flex'; document.body.classList.add('overlay-open');}
         function closeShareOverlay() { if (shareOverlay) shareOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); }
         
+        function closeViewGameModal() { if(viewGameModal) viewGameModal.style.display = 'none'; checkAndCloseBodyOverlay(); } 
+        function handleEditFromViewModal() { const gameReportId = parseInt(viewGameEditBtn.dataset.reportId); closeViewGameModal(); openAddGameModal(gameReportId); } 
+        function handleDeleteFromViewModal() { 
+            const gameReportId = parseInt(viewGameDeleteBtn.dataset.reportId); 
+            closeViewGameModal(); 
+            handleDeleteItem(gameReportId, 'game'); 
+        }
+        function closeSaveReportOverlay() { if (saveReportOverlay) saveReportOverlay.style.display = 'none'; checkAndCloseBodyOverlay(); } 
+
         function closeAllOverlays(keepOpenOverlay = null) {
             [addGameModal, linkShotModal, viewGameModal, helpOverlay, shareOverlay, saveReportOverlay, customAlertModal, customConfirmModal, quickChoiceModal].forEach(o => { 
                 if (o && o !== keepOpenOverlay) {
@@ -2259,7 +2520,7 @@
             });
             if (keepOpenOverlay === null) { 
                 checkAndCloseBodyOverlay();
-            } else if (!document.body.classList.contains('overlay-open')) {
+            } else if (!document.body.classList.contains('overlay-open') && keepOpenOverlay !== introVideoOverlay) { 
                 document.body.classList.add('overlay-open');
             }
         }
