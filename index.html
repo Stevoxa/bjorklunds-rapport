@@ -832,14 +832,13 @@
                 <ul>
                     <li>Om du har en pågående jakt med osparade ändringar (t.ex. nya skott) kommer denna först att sparas automatiskt i listan nedan.</li>
                     <li>Därefter startas en helt ny, tom jakt. Datumet för denna nya jakt sätts till dagens datum.</li>
-                    <li>Introvideo spelas upp.</li>
                 </ul>
             </li>
             <li><strong>Sparade Jakter (Lista):</strong>
                 <ul>
                     <li>Här listas alla dina tidigare sparade jakter, sorterade med den senaste överst. Varje jakt visas med sitt startdatum.</li>
                     <li><strong>Aktiv Jakt:</strong> Den jakt som för närvarande är laddad i appen markeras tydligt i listan (med en ram och texten "Aktiv Jakt" på knappen, som då är inaktiverad).</li>
-                    <li><strong>Öppna Jakt:</strong> För övriga jakter i listan visas knappen "Öppna Jakt". Klickar du på denna, sparas den nuvarande aktiva jakten (om den har osparade ändringar) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den nyöppnade jakten. Introvideo spelas upp.</li>
+                    <li><strong>Öppna Jakt:</strong> För övriga jakter i listan visas knappen "Öppna Jakt". Klickar du på denna, sparas den nuvarande aktiva jakten (om den har osparade ändringar) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den nyöppnade jakten.</li>
                     <li><strong>Ta bort (soptunna-ikon):</strong> Tar permanent bort den specifika jakten från listan och all dess lagrade data efter att du bekräftat åtgärden.</li>
                 </ul>
             </li>
@@ -1458,8 +1457,7 @@
             renderSavedHuntsList();
             
             if (playVideo) {
-                localStorage.removeItem(LAST_INTRO_VIDEO_SHOWN_KEY); 
-                checkAndPlayIntroVideo(true);
+                checkAndPlayIntroVideo();
             }
             if(makeActive) activateTab('shotTab');
             console.log("Ny jakt initierad/rensad. Aktivt ID:", currentActiveHuntId);
@@ -1639,7 +1637,7 @@
                 renderShotLogList(); 
                 renderFelledGameReportList();
                 renderSavedHuntsList(); 
-                checkAndPlayIntroVideo(true);
+                checkAndPlayIntroVideo();
                 activateTab('shotTab'); 
             } else {
                  console.error(`Misslyckades med att ladda jaktdata för ${huntIdToLoad} i handleLoadSavedHunt.`);
@@ -1700,7 +1698,8 @@
         }
 
         // --- Videohantering ---
-        function checkAndPlayIntroVideo(forcePlay = false) {
+        // Introt visas högst en gång per dag, även om jakter startas eller öppnas flera gånger.
+        function checkAndPlayIntroVideo() {
             if (!introVideoOverlay || !introVideoPlayer) {
                 console.warn("Intro video elements not found.");
                 return;
@@ -1708,7 +1707,7 @@
             const today = new Date().toDateString(); 
             const lastShownDate = localStorage.getItem(LAST_INTRO_VIDEO_SHOWN_KEY);
 
-            if (forcePlay || lastShownDate !== today) {
+            if (lastShownDate !== today) {
                 closeAllOverlays(introVideoOverlay);
                 introVideoOverlay.style.display = 'flex';
                 document.body.classList.add('overlay-open'); 
@@ -1720,7 +1719,7 @@
                 });
                 const onVideoEnd = () => {
                     hideIntroVideo();
-                    if (forcePlay || lastShownDate !== today) localStorage.setItem(LAST_INTRO_VIDEO_SHOWN_KEY, today); 
+                    localStorage.setItem(LAST_INTRO_VIDEO_SHOWN_KEY, today); 
                     introVideoPlayer.removeEventListener('ended', onVideoEnd);
                     introVideoPlayer.removeEventListener('click', skipVideo); 
                 };
@@ -2496,13 +2495,12 @@
         <ul>
             <li>Om du har en pågående jakt med osparade ändringar (t.ex. nya skott) kommer denna först att sparas automatiskt i listan nedan.</li>
             <li>Därefter startas en helt ny, tom jakt. Datumet för denna nya jakt sätts till dagens datum.</li>
-            <li>Introvideo spelas upp.</li>
         </ul>
     </li>
     <li><strong>Sparade jakter:</strong> Här listas alla dina tidigare sparade jakter, sorterade med den senaste överst. Varje jakt visas med sitt startdatum.
         <ul>
             <li><strong>Aktiv jakt:</strong> Den jakt som för närvarande är laddad i appen markeras tydligt i listan (med en ram och texten "Aktiv Jakt" på knappen, som då är inaktiverad).</li>
-            <li><strong>Öppna jakt:</strong> För övriga jakter i listan visas knappen "Öppna Jakt". Klickar du på denna, sparas den nuvarande aktiva jakten (om den har osparade ändringar) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den nyöppnade jakten. Introvideo spelas upp.</li>
+            <li><strong>Öppna jakt:</strong> För övriga jakter i listan visas knappen "Öppna Jakt". Klickar du på denna, sparas den nuvarande aktiva jakten (om den har osparade ändringar) och den valda jakten från listan laddas in. All data i flikarna "Skott" och "Fällt vilt" kommer då att reflektera den nyöppnade jakten.</li>
             <li><strong>Ta bort (soptunna-ikon):</strong> Tar permanent bort den specifika jakten från listan och all dess lagrade data efter att du bekräftat åtgärden.</li>
         </ul>
     </li>

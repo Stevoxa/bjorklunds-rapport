@@ -49,7 +49,7 @@ Ingen byggprocess och inga beroenden att installera:
 | `index.html` | Hela appen: HTML, CSS och JavaScript |
 | `sw.js` | Service worker. Sidan hämtas från nätet i första hand och från cachen utan nät, övriga filer från cachen |
 | `manifest.json` | PWA-manifest: namn, ikoner, färger |
-| `videos/intro.mp4` | Introfilm som spelas en gång per dag och när en jakt startas eller öppnas. Den cachas inte och hoppas över utan nät |
+| `videos/intro.mp4` | Introfilm (4 s, 720×1280, utan ljud) som spelas högst en gång per dag. Den cachas inte och hoppas över utan nät |
 
 QR-koden genereras med [QRious](https://github.com/neocotic/qrious), som
 laddas från cdnjs och cachas för offlinebruk.
