@@ -39,6 +39,7 @@
     let lastIssuedId = 0;
     let viewedGameId = null;
     let confirmHandlers = { onConfirm: null, onCancel: null };
+    let alertCloseHandler = null;
     let deferredInstallPrompt = null;
     let saveFailureShown = false;
 
@@ -137,12 +138,21 @@
     }
 
     // Meddelanden läggs ovanpå öppna formulär så att inmatningen inte försvinner.
-    function showAlert(message, title) {
+    // onClose körs när OK trycks, t.ex. för att flytta fokus till fältet som behöver fyllas i.
+    function showAlert(message, title, onClose = null) {
         dom.customAlertHeader.hidden = !title;
         dom.customAlertTitle.textContent = title || '';
         dom.customAlertMessage.textContent = message;
+        alertCloseHandler = onClose;
         openOverlay(dom.customAlertModal, { stack: true });
         dom.customAlertOkBtn.focus();
+    }
+
+    function closeAlert() {
+        const handler = alertCloseHandler;
+        alertCloseHandler = null;
+        closeOverlay(dom.customAlertModal);
+        if (handler) handler();
     }
 
     function showConfirm(message, title, onConfirm, onCancel = null) {
@@ -240,6 +250,9 @@
     function playIntroIfNotShownToday() {
         const today = new Date().toDateString();
         if (HuntStore.getIntroShownDate() === today) return;
+        // Utan lagring skulle introt spelas vid varje start, och ett öppet felmeddelande
+        // (t.ex. att sparning misslyckades) får inte stängas av introt.
+        if (!HuntStore.isAvailable() || dom.customAlertModal.classList.contains('is-open')) return;
 
         const player = dom.introVideoPlayer;
         const finish = () => {
@@ -593,13 +606,13 @@
     function saveGameForm() {
         if (!requireActiveHunt()) return;
         if (!dom.gameSpeciesInput.value) {
-            showAlert('Välj ett viltslag.', 'Obligatoriskt fält');
-            dom.gameSpeciesInput.focus();
+            showAlert('Välj ett viltslag.', 'Obligatoriskt fält', () => dom.gameSpeciesInput.focus());
             return;
         }
         if (!dom.gameReportTimeInput.value) {
-            showAlert('Ange tid för rapport/hantering.', 'Obligatoriskt fält');
-            dom.gameReportTimeInput.focus();
+            showAlert('Ange tid för rapport/hantering.', 'Obligatoriskt fält', () =>
+                dom.gameReportTimeInput.focus(),
+            );
             return;
         }
 
@@ -902,12 +915,30 @@
     async function copyMeatReport() {
         const text = meatReportText();
         try {
-            await navigator.clipboard.writeText(text);
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                copyWithTextarea(text);
+            }
             showAlert('Rapporttext kopierad till urklipp!', 'Kopierat');
         } catch (error) {
             console.error('Kunde inte kopiera text', error);
             showAlert('Kopiering misslyckades. Prova manuellt eller dela direkt.', 'Fel vid kopiering');
         }
+    }
+
+    // Reserv för webbläsare utan Clipboard API (t.ex. äldre inbyggda webbläsare i andra appar).
+    function copyWithTextarea(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand('copy');
+        textarea.remove();
+        if (!copied) throw new Error('execCommand copy misslyckades');
     }
 
     async function shareMeatReport() {
@@ -1138,7 +1169,7 @@
 
         on(dom.helpOverlayCloseBtn, () => closeOverlay(dom.helpOverlay));
         on(dom.shareOverlayCloseBtn, () => closeOverlay(dom.shareOverlay));
-        on(dom.customAlertOkBtn, () => closeOverlay(dom.customAlertModal));
+        on(dom.customAlertOkBtn, closeAlert);
         on(dom.customConfirmOkBtn, () => finishConfirm(true));
         on(dom.customConfirmCancelBtn, () => finishConfirm(false));
     }

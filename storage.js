@@ -86,5 +86,16 @@ const HuntStore = (() => {
         setLastTab: (tabId) => write(KEYS.lastTab, tabId),
         getIntroShownDate: () => read(KEYS.introShownDate),
         setIntroShownDate: (dateString) => write(KEYS.introShownDate, dateString),
+
+        // false i t.ex. privat surfläge eller när webbplatsdata är blockerad.
+        isAvailable() {
+            try {
+                localStorage.setItem('bjorklundsRapportProbe', '1');
+                localStorage.removeItem('bjorklundsRapportProbe');
+                return true;
+            } catch {
+                return false;
+            }
+        },
     };
 })();
