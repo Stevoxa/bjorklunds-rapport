@@ -1,0 +1,17 @@
+{
+  "name": "bjorklunds-rapport",
+  "version": "1.0.1",
+  "private": true,
+  "description": "PWA för jaktrapportering. Ingen byggprocess: paketen här används bara för lint och formatering.",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^15.15.0",
+    "prettier": "^3.9.10"
+  }
+}

@@ -1,0 +1,1212 @@
+/* ---------- Färger och tema ---------- */
+
+/* Grundpalett. Mörkt tema byter ut värdena längre ned. */
+:root {
+    --primary-color: #344a34;
+    --primary-color-rgb: 52, 74, 52;
+    --primary-text-color: #ffffff;
+    --bg-color: #f8f9fa;
+    --surface-bg-color: #ffffff;
+    --text-color: #212529;
+    --secondary-text-color: #6c757d;
+    --border-color: #dee2e6;
+    --subtle-border-color: #e9ecef;
+
+    --secondary-button-bg-color: #e9ecef;
+    --danger-color: #dc3545;
+    --danger-secondary-bg: #f8d7da;
+    --danger-secondary-text-color: #721c24;
+    --danger-outline-color: #dc3545;
+    --success-color: #198754;
+    --icon-hover-fill-color: #000;
+
+    --tab-inactive-bg: #e9ecef;
+    --tab-inactive-hover-bg: #dee2e6;
+}
+
+/* Härledda färger ligger på body så att var() räknas om när temat byts.
+   På :root skulle de låsas till de ljusa värdena. */
+body {
+    --secondary-button-text-color: var(--primary-color);
+    --secondary-button-border-color: var(--primary-color);
+    --danger-border-color: var(--danger-color);
+    --icon-fill-color: var(--primary-color);
+
+    --overlay-content-bg: var(--surface-bg-color);
+    --overlay-bg-color: rgba(var(--primary-color-rgb), 0.85);
+    --overlay-header-text-color: var(--primary-color);
+    --overlay-text-color: var(--text-color);
+    --overlay-subtle-text-color: var(--secondary-text-color);
+    --overlay-link-color: var(--primary-color);
+
+    --tab-inactive-text: var(--secondary-text-color);
+    --tab-inactive-hover-text: var(--text-color);
+    --tab-active-bg: var(--surface-bg-color);
+    --tab-active-text: var(--primary-color);
+}
+
+body[data-theme='dark'] {
+    --primary-color: #6a994e;
+    --primary-color-rgb: 106, 153, 78;
+
+    --bg-color: #1a1a1a;
+    --surface-bg-color: #2c2c2c;
+    --text-color: #e0e0e0;
+    --secondary-text-color: #a0a0a0;
+    --border-color: #4a4a4a;
+    --subtle-border-color: #383838;
+
+    --secondary-button-bg-color: #383838;
+    --secondary-button-text-color: var(--text-color);
+    --secondary-button-border-color: #555;
+
+    --danger-color: #b71c1c;
+    --danger-secondary-bg: #5c2b2b;
+    --danger-secondary-text-color: #ffcdd2;
+    --danger-outline-color: #ff8a80;
+    --danger-border-color: #ff8a80;
+    --success-color: #66bb6a;
+
+    --icon-fill-color: var(--text-color);
+    --icon-hover-fill-color: #fff;
+
+    --overlay-bg-color: rgba(26, 26, 26, 0.9);
+
+    --tab-inactive-bg: #222222;
+    --tab-inactive-hover-bg: #4a4a4a;
+    --tab-active-text: var(--text-color);
+}
+
+/* ---------- Grund ---------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family:
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1.6;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.overlay-open {
+    overflow: hidden;
+}
+
+h2 {
+    color: var(--primary-color);
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 20px 0;
+}
+
+.info-text {
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ---------- Layout ---------- */
+
+#appRootContainer {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    background-color: var(--surface-bg-color);
+    overflow: hidden;
+    transition:
+        margin 0.3s ease,
+        border-radius 0.3s ease,
+        box-shadow 0.3s ease,
+        max-width 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    #appRootContainer {
+        max-width: 700px;
+        margin: 10px auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.app-title-bar {
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.app-title-bar h1 {
+    color: var(--primary-text-color);
+    margin: 0;
+    font-size: 1.4em;
+    flex-shrink: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.app-header-actions-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.app-header-actions-container .icon-button {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+}
+
+.app-header-actions-container .icon-button svg {
+    fill: var(--primary-text-color) !important;
+    width: 20px;
+    height: 20px;
+}
+
+.app-header-actions-container .icon-button:hover svg {
+    fill: color-mix(in srgb, var(--primary-text-color) 80%, black) !important;
+}
+
+.tabs-nav {
+    display: flex;
+    background-color: var(--tab-inactive-bg);
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    padding: 0 5px;
+    flex-shrink: 0;
+}
+
+.tab-button {
+    flex-grow: 1;
+    padding: 12px 8px;
+    border: none;
+    background-color: var(--tab-inactive-bg);
+    color: var(--tab-inactive-text);
+    font-size: 0.9em;
+    font-weight: 500;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 1px;
+}
+
+.tab-button:hover:not(.active) {
+    color: var(--tab-inactive-hover-text);
+    background-color: var(--tab-inactive-hover-bg);
+}
+
+.tab-button.active,
+.tab-button.active:hover {
+    background-color: var(--tab-active-bg) !important;
+    color: var(--tab-active-text) !important;
+    font-weight: bold;
+    border: 1px solid var(--border-color);
+    border-bottom-color: var(--tab-active-bg);
+    position: relative;
+    z-index: 2;
+    margin-bottom: -1px;
+    cursor: default;
+}
+
+.tab-content {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* ---------- Knappar ---------- */
+
+button {
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+button:hover:not(:disabled):not(.tab-button) {
+    background-color: color-mix(in srgb, var(--primary-color) 85%, black);
+}
+
+button:disabled {
+    background-color: var(--secondary-text-color);
+    color: color-mix(in srgb, var(--primary-text-color) 70%, transparent);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.button-large {
+    width: 100%;
+    font-size: 1.1em;
+    padding: 12px;
+}
+
+.button-secondary {
+    background-color: var(--secondary-button-bg-color);
+    color: var(--secondary-button-text-color);
+    border: 1px solid var(--secondary-button-border-color);
+}
+
+body:not([data-theme='dark']) .button-secondary:hover:not(:disabled),
+body:not([data-theme='dark']) .button-secondary:focus:not(:disabled) {
+    background-color: var(--tab-inactive-hover-bg);
+    color: var(--tab-inactive-hover-text);
+}
+
+body[data-theme='dark'] .button-secondary:hover:not(:disabled),
+body[data-theme='dark'] .button-secondary:focus:not(:disabled) {
+    background-color: color-mix(in srgb, var(--secondary-button-bg-color) 90%, black 10%);
+}
+
+.button-secondary:focus:not(:disabled) {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* !important behövs för att slå temats hover-regler ovan, som har högre specificitet. */
+.button-secondary.button-danger {
+    background-color: var(--danger-secondary-bg) !important;
+    color: var(--danger-secondary-text-color) !important;
+    border-color: var(--danger-border-color) !important;
+}
+
+.button-secondary.button-danger:hover:not(:disabled),
+.button-secondary.button-danger:focus:not(:disabled) {
+    background-color: color-mix(in srgb, var(--danger-secondary-bg) 80%, black 20%) !important;
+}
+
+.button-secondary.button-danger:focus:not(:disabled) {
+    outline: 2px solid var(--danger-outline-color);
+    outline-offset: 1px;
+}
+
+#startNewHuntBtn:focus:not(:disabled) {
+    outline: 2px solid color-mix(in srgb, var(--primary-color) 50%, black);
+    outline-offset: 1px;
+}
+
+.icon-button {
+    background: transparent;
+    border: none;
+    padding: 8px;
+    width: 30px;
+    height: 30px;
+}
+
+.icon-button svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--icon-fill-color);
+    transition: fill 0.2s ease;
+}
+
+.icon-button:hover:not(:disabled) svg {
+    fill: var(--icon-hover-fill-color);
+}
+
+.delete-btn svg {
+    fill: var(--danger-color) !important;
+}
+
+.delete-btn:hover:not(:disabled) svg {
+    fill: color-mix(in srgb, var(--danger-color) 80%, black) !important;
+}
+
+.bottom-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bottom-actions button {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-footer > button {
+    flex-grow: 1;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+}
+
+/* ---------- Formulär ---------- */
+
+input[type='text'],
+input[type='time'],
+select,
+textarea {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+    font-family: inherit;
+    background-color: var(--surface-bg-color);
+    color: var(--text-color);
+    min-width: 150px;
+}
+
+input[type='time'],
+select {
+    height: 40px;
+}
+
+textarea {
+    min-height: 60px;
+}
+
+input[type='text']::placeholder {
+    color: var(--secondary-text-color);
+    opacity: 1;
+}
+
+input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    flex-shrink: 0;
+    accent-color: var(--primary-color);
+}
+
+.input-group,
+.form-group {
+    display: flex;
+    margin-bottom: 15px;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 2px;
+    font-size: 0.9em;
+}
+
+#openQuickChoiceModalBtn {
+    background-color: var(--surface-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    text-align: left;
+    padding: 0 10px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#openQuickChoiceModalBtn svg {
+    fill: var(--text-color);
+    margin-left: 8px;
+}
+
+#openQuickChoiceModalBtn:hover,
+#openQuickChoiceModalBtn:focus {
+    border-color: var(--primary-color);
+    background-color: var(--surface-bg-color);
+    outline: 1px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+/* ---------- Fliken Skott ---------- */
+
+#logShotBtn {
+    margin-bottom: 10px;
+}
+
+#shotLogList {
+    list-style-type: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+}
+
+.shot-log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 5px;
+    border-bottom: 1px solid var(--subtle-border-color);
+    font-size: 0.95em;
+    gap: 10px;
+}
+
+.shot-log-item:last-child {
+    border-bottom: none;
+}
+
+.shot-log-item .shot-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 4px 0;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.shot-log-item .shot-info:hover {
+    background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--secondary-text-color) 5%);
+}
+
+.shot-log-item .shot-time {
+    font-weight: bold;
+}
+
+.shot-log-item .shot-link-status {
+    font-size: 0.85em;
+    color: var(--secondary-text-color);
+    font-style: italic;
+    line-height: 1.2;
+    min-width: 0;
+}
+
+.shot-log-item .shot-link-status span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.shot-log-item .shot-actions,
+.shot-log-item .time-verified-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.shot-log-item .time-verified-group label {
+    font-size: 0.85em;
+    color: var(--secondary-text-color);
+}
+
+.shot-log-item .delete-btn {
+    padding: 2px;
+}
+
+.saater-divider {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    font-weight: bold;
+    color: var(--secondary-text-color);
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.saater-divider hr {
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+.saater-divider .saater-text {
+    flex-shrink: 0;
+    padding: 0 5px;
+}
+
+.saater-toggle-icon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 0 10px;
+    border-style: solid;
+    transition:
+        transform 0.2s ease,
+        opacity 0.15s ease;
+}
+
+.saater-toggle-icon.expanded {
+    border-width: 7px 5px 0 5px;
+    border-color: var(--primary-color) transparent transparent transparent;
+}
+
+.saater-toggle-icon.collapsed {
+    border-width: 5px 0 5px 7px;
+    border-color: transparent transparent transparent var(--primary-color);
+}
+
+.saater-divider:hover .saater-toggle-icon {
+    opacity: 0.7;
+}
+
+/* ---------- Fliken Fällt vilt ---------- */
+
+#addFelledGameBtn {
+    margin-bottom: 15px;
+}
+
+#reportList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.report-item-stacked {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 8px;
+    border: 1px solid var(--subtle-border-color);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background-color: var(--surface-bg-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.report-item-stacked:last-child {
+    margin-bottom: 0;
+}
+
+.report-item-stacked:hover {
+    background-color: color-mix(in srgb, var(--surface-bg-color) 95%, var(--bg-color) 5%);
+}
+
+.item-image-placeholder,
+.modal-title-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.item-main-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.item-main-info .species {
+    font-size: 1.05em;
+    font-weight: bold;
+}
+
+.item-main-info .details {
+    font-size: 0.85em;
+    color: var(--secondary-text-color);
+    line-height: 1.3;
+}
+
+.item-main-info .details span {
+    font-style: italic;
+}
+
+.item-main-info .species,
+.item-main-info .details span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.item-status-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    align-self: flex-end;
+    padding-bottom: 2px;
+    flex-shrink: 0;
+}
+
+.item-status-actions .meat-status-text {
+    font-size: 0.8em;
+    font-weight: bold;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.item-status-actions .meat-status-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.item-status-actions .meat-status-icon svg {
+    width: 0.9em;
+    height: 0.9em;
+}
+
+.is-distributed {
+    color: var(--success-color);
+    fill: var(--success-color);
+}
+
+.is-undistributed {
+    color: var(--danger-color);
+    fill: var(--danger-color);
+}
+
+.is-distributed svg,
+.is-undistributed svg {
+    fill: inherit;
+}
+
+/* ---------- Fliken Rapporter & admin ---------- */
+
+#adminTab .bottom-actions {
+    flex-grow: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.admin-divider {
+    margin: 15px 0;
+}
+
+#startNewHuntBtn {
+    margin-bottom: 20px;
+}
+
+#savedHuntsSection {
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 100px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+#savedHuntsList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+#noSavedHuntsInfo {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.saved-hunt-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--subtle-border-color);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.saved-hunt-item.is-active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 3px var(--primary-color);
+}
+
+.saved-hunt-item .hunt-date {
+    font-weight: bold;
+}
+
+.saved-hunt-item .hunt-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.saved-hunt-item .load-hunt-btn,
+.saved-hunt-item .load-hunt-active-btn {
+    font-size: 0.9em;
+    padding: 6px 10px;
+    height: auto;
+}
+
+.saved-hunt-item .load-hunt-active-btn {
+    padding: 6px 16px;
+}
+
+.saved-hunt-item .delete-hunt-btn {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+}
+
+.saved-hunt-item .delete-hunt-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.danger-divider {
+    margin: 25px 0 15px 0;
+}
+
+#dangerZoneClearAllBtn {
+    width: 100%;
+}
+
+/* ---------- Overlays och dialoger ---------- */
+
+.content-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: var(--overlay-bg-color);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.content-overlay.is-open {
+    display: flex;
+}
+
+.overlay-content-box {
+    background-color: var(--overlay-content-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    max-width: 550px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.overlay-header h3 {
+    color: var(--overlay-header-text-color);
+    margin: 0;
+    font-size: 1.6em;
+    flex-grow: 1;
+}
+
+.overlay-header .icon-button {
+    padding: 5px;
+}
+
+.overlay-scrollable-content {
+    color: var(--overlay-text-color);
+    overflow-y: auto;
+    flex-grow: 1;
+    margin-bottom: 20px;
+    padding-right: 5px;
+}
+
+#introVideoOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-color);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#introVideoPlayer {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* Lägg till / redigera vilt */
+#addGameModal .overlay-scrollable-content hr {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+#addGameModal .overlay-scrollable-content hr + h4 {
+    font-size: 1.2em;
+    color: var(--overlay-header-text-color);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--subtle-border-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#addGameModal .modal-footer,
+#viewGameModal .modal-footer {
+    margin-top: 15px;
+}
+
+/* Koppla skott */
+#linkableGameList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+    max-height: 40vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.linkable-game-item {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--subtle-border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.linkable-game-item:last-child {
+    border-bottom: none;
+}
+
+.linkable-game-item:hover,
+#quickChoiceList li:hover {
+    background-color: color-mix(in srgb, var(--surface-bg-color) 90%, var(--secondary-text-color) 10%);
+}
+
+.linkable-game-item span {
+    display: block;
+}
+
+.linkable-game-item .species {
+    font-weight: bold;
+}
+
+.linkable-game-item .details {
+    font-size: 0.8em;
+    color: var(--secondary-text-color);
+}
+
+.link-hint {
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+#linkShotModal .modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#linkShotModal .modal-actions button {
+    width: 100%;
+}
+
+/* Visa vilt */
+#viewGameModal .overlay-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#viewGameModal .modal-title-icon {
+    display: inline-flex;
+}
+
+#viewGameDetailsContent .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--subtle-border-color);
+    align-items: baseline;
+}
+
+#viewGameDetailsContent .detail-row-last {
+    border-bottom: none;
+}
+
+#viewGameDetailsContent .detail-label {
+    font-weight: bold;
+    color: var(--overlay-subtle-text-color);
+    margin-right: 15px;
+    flex-shrink: 0;
+    min-width: 100px;
+}
+
+#viewGameDetailsContent .detail-value {
+    text-align: right;
+    word-break: break-word;
+}
+
+#viewGameDetailsContent h4 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.2em;
+    color: var(--overlay-header-text-color);
+}
+
+#viewMeatDistributionSection,
+#viewLinkedShotsSection {
+    border-top: 1px solid var(--border-color);
+    padding-top: 12px;
+    margin-top: 20px;
+}
+
+#viewGameModal .meat-status-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+#viewMeatStatusIcon svg {
+    width: 1.1em;
+    height: 1.1em;
+    display: block;
+}
+
+#viewLinkedShotsList {
+    font-size: 0.9em;
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 8px;
+}
+
+.linked-shot-missing {
+    color: var(--danger-color);
+}
+
+/* Hjälp */
+#helpOverlay .overlay-scrollable-content hr {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#helpOverlay .overlay-scrollable-content h4 {
+    font-size: 1.4em;
+    color: var(--overlay-header-text-color);
+    margin-top: 0;
+    margin-bottom: 0.75em;
+}
+
+#helpOverlay .overlay-scrollable-content h5 {
+    font-size: 1.2em;
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+}
+
+#helpOverlay .overlay-scrollable-content h6 {
+    font-size: 1.1em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+#helpOverlay .overlay-scrollable-content ul,
+#helpOverlay .overlay-scrollable-content ol {
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+
+#helpOverlay .overlay-scrollable-content li {
+    margin-bottom: 0.3em;
+}
+
+/* Dela appen */
+#shareOverlay .overlay-scrollable-content {
+    text-align: center;
+}
+
+#qrCodeContainer {
+    border: 1px solid var(--border-color);
+    background: white;
+    margin: 20px auto;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#qrCodeContainer canvas {
+    display: block;
+}
+
+#shareableLink {
+    color: var(--overlay-link-color);
+}
+
+/* Köttfördelning */
+#reportDateDisplay {
+    font-style: italic;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    color: var(--secondary-text-color);
+}
+
+#meatDistributionReportList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.meat-group-header {
+    font-weight: bold;
+    margin-top: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 5px;
+}
+
+.meat-group-header:first-child {
+    margin-top: 0;
+}
+
+.meat-item {
+    padding: 8px 0;
+    font-size: 0.9em;
+}
+
+.meat-item + .meat-item {
+    border-top: 1px solid var(--subtle-border-color);
+}
+
+.meat-item-species {
+    font-weight: bold;
+}
+
+.meat-item-text {
+    color: var(--secondary-text-color);
+    font-size: 0.95em;
+}
+
+#saveReportOverlay .bottom-actions {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Meddelanden och bekräftelser */
+#customAlertModal .overlay-content-box {
+    max-width: 400px;
+}
+
+#customConfirmModal .overlay-content-box {
+    max-width: 450px;
+}
+
+#customAlertModal .overlay-header,
+#customConfirmModal .overlay-header {
+    margin-bottom: 10px;
+}
+
+#customAlertTitle,
+#customConfirmTitle {
+    font-size: 1.3em;
+}
+
+#customAlertModal .overlay-scrollable-content,
+#customConfirmModal .overlay-scrollable-content {
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 0 10px;
+}
+
+#customAlertModal .overlay-scrollable-content {
+    margin-bottom: 15px;
+}
+
+#customAlertMessage,
+#customConfirmMessage {
+    margin: 5px 0;
+    line-height: 1.4;
+    white-space: pre-line;
+}
+
+#customAlertOkBtn {
+    min-width: 100px;
+}
+
+/* Snabbval */
+#quickChoiceModal .overlay-content-box {
+    max-width: 500px;
+}
+
+#quickChoiceList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#quickChoiceList li {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--subtle-border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#quickChoiceList li:last-child {
+    border-bottom: none;
+}
+
+#quickChoiceModal .dialog-actions {
+    justify-content: flex-end;
+    margin-top: 15px;
+}
