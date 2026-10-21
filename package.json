@@ -1,6 +1,6 @@
 {
   "name": "bjorklunds-rapport",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "description": "PWA för jaktrapportering. Ingen byggprocess: paketen här används bara för lint och formatering.",
   "license": "MIT",
