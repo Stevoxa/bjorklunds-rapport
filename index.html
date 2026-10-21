@@ -7,7 +7,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#344a34">
     <link rel="apple-touch-icon" href="icon-192x192.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js" crossorigin="anonymous"></script>
     <style>
         :root {
             --primary-color: #344a34; 
@@ -1124,8 +1124,17 @@
             if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.error('SW reg failed:', err)); }
         });
 
+        // Användarinmatad text får aldrig gå via innerHTML.
+        function appendSpan(parent, text, className) {
+            const span = document.createElement('span');
+            if (className) span.className = className;
+            span.textContent = text;
+            parent.appendChild(span);
+            return span;
+        }
+
         // --- Anpassade Meddelandefunktioner ---
-        function showCustomAlert(message, title) { 
+        function showCustomAlert(message, title) {
             if (!customAlertModal || !customAlertTitle || !customAlertMessage || !customAlertHeader || !customAlertModal.querySelector('#customAlertOkBtn')) {
                 console.error("Custom alert DOM elements missing. Falling back to native alert.");
                 alert((title ? title + "\n\n" : "") + message); 
@@ -1295,7 +1304,8 @@
                         if (linkedGame) { 
                             const species = linkedGame.felledGameDetails.species || 'Okänt Vilt'; 
                             const location = linkedGame.felledGameDetails.passLocation || ''; 
-                            linkStatusSpan.innerHTML = `<span class="shot-link-species">${species}</span>` + (location ? `<span class="shot-link-location">${location}</span>` : '');
+                            appendSpan(linkStatusSpan, species, 'shot-link-species');
+                            if (location) appendSpan(linkStatusSpan, location, 'shot-link-location');
                         } else { 
                             linkStatusSpan.textContent = "Associerad (vilt saknas?)"; 
                         } 
@@ -1361,7 +1371,7 @@
                     const speciesForIcon = report.felledGameDetails.species || 'Okänt vilt';
                     placeholder.textContent = speciesForIcon ? speciesForIcon.substring(0, 1).toUpperCase() : "V";
 
-                    const mainInfo = document.createElement('div'); mainInfo.classList.add('item-main-info'); const speciesDiv = document.createElement('div'); speciesDiv.classList.add('species'); speciesDiv.textContent = report.felledGameDetails.species || '-'; const detailsDiv = document.createElement('div'); detailsDiv.classList.add('details'); detailsDiv.innerHTML = `<span>${report.felledGameDetails.shooter || '-'}</span><span>${report.felledGameDetails.passLocation || '-'}</span>`; mainInfo.appendChild(speciesDiv); mainInfo.appendChild(detailsDiv);
+                    const mainInfo = document.createElement('div'); mainInfo.classList.add('item-main-info'); const speciesDiv = document.createElement('div'); speciesDiv.classList.add('species'); speciesDiv.textContent = report.felledGameDetails.species || '-'; const detailsDiv = document.createElement('div'); detailsDiv.classList.add('details'); appendSpan(detailsDiv, report.felledGameDetails.shooter || '-'); appendSpan(detailsDiv, report.felledGameDetails.passLocation || '-'); mainInfo.appendChild(speciesDiv); mainInfo.appendChild(detailsDiv);
 
                     const statusActions = document.createElement('div'); statusActions.classList.add('item-status-actions');
                     const statusIconDiv = document.createElement('div'); statusIconDiv.classList.add('meat-status-icon');
@@ -1934,11 +1944,13 @@
                 return;
             }
 
-            let csvContent="data:text/csv;charset=utf-8,";
+            // Semikolon och BOM så att svensk Excel delar upp kolumnerna och visar åäö rätt.
+            const CSV_SEPARATOR = ";";
+            const toCsvRow = fields => fields.map(field => `"${String(field).replace(/"/g, '""')}"`).join(CSV_SEPARATOR) + "\r\n";
             const headers=[
                 "Datum", "Tid", "Viltslag", "Skytt", "Pass/Plats", "Såt", "Köttfördelning", "Antal Skott"
             ];
-            csvContent += headers.join(",") + "\r\n";
+            let csvContent = toCsvRow(headers);
 
             const sortedGameReports = gameReports.slice().sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
             const activeHuntMeta = JSON.parse(localStorage.getItem(SAVED_HUNTS_INDEX_KEY) || '[]').find(h => h.id === currentActiveHuntId);
@@ -1978,17 +1990,19 @@
                     details.meatDistribution || "",
                     linkedShotIds.length 
                 ];
-                csvContent += row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(",") + "\r\n";
+                csvContent += toCsvRow(row);
             });
 
-            let encodedUri = encodeURI(csvContent);
+            // Blob i stället för data-URI: encodeURI lämnar "#" orört och klipper då filen.
+            const blobUrl = URL.createObjectURL(new Blob(["﻿" + csvContent], { type: "text/csv;charset=utf-8" }));
             let link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
+            link.setAttribute("href", blobUrl);
             const exportDateStr = `${baseExportDate.getFullYear()}${String(baseExportDate.getMonth() + 1).padStart(2, '0')}${String(baseExportDate.getDate()).padStart(2, '0')}`;
             link.setAttribute("download", `Vilt_Rapport_Jakt_${exportDateStr}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 0);
         }
 
         // --- Skotthantering ---
@@ -2227,7 +2241,8 @@
                     const species = game.felledGameDetails.species || 'Okänt Vilt'; 
                     const shooter = game.felledGameDetails.shooter || '-'; 
                     const location = game.felledGameDetails.passLocation || '-'; 
-                    li.innerHTML = `<span class="species">${species}</span><span class="details">Skytt: ${shooter}, Plats: ${location}</span>`; 
+                    appendSpan(li, species, 'species');
+                    appendSpan(li, `Skytt: ${shooter}, Plats: ${location}`, 'details');
                     li.onclick = () => { linkShotToGame(shotId, game.id); }; 
                     linkableGameList.appendChild(li); 
                 }); 
